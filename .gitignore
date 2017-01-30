@@ -1,0 +1,9 @@
+*.pyc
+.elasticbeanstalk
+.DS_Store
+myvenv
+bin/data
+*.zip
+bin/data/*.txt
+bin/cookbook_import_pages_current.xml
+pics/*
