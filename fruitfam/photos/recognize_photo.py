@@ -3,6 +3,7 @@ import cStringIO
 import json
 import io
 import os
+import numpy as np
 from PIL import Image
 from sklearn import preprocessing
 from sklearn.externals import joblib
