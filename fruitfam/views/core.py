@@ -54,8 +54,10 @@ def analyze_photo():
 @auth.login_required
 def get_streak():
   user = g.user
-  streak=user.streak
+  streak = user.streak
+  max_streak = user.max_streak
   return jsonify(
-    streak = streak
+    current = streak,
+    max = max_streak
   )
   
