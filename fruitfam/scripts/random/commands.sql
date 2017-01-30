@@ -23,3 +23,22 @@ CREATE TABLE components
   message varchar(255),
   PRIMARY KEY (ID)
 );
+
+CREATE TABLE food_items
+(
+  ID int NOT NULL AUTO_INCREMENT,
+  clarifai_tags blob,
+  client_timestamp int(11),
+  num_likes integer(11) DEFAULT 0,
+  not_food tinyint(1) DEFAULT 0,
+  created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  img_url_tiny varchar(255),
+  img_url_small varchar(255),
+  img_url_large varchar(255),
+  img_url_fullscreen varchar(255),
+  img_url_recognition varchar(255),
+  user_id integer(11),
+  PRIMARY KEY (ID)
+);
+
+alter table users add last_log DATETIME;

@@ -16,6 +16,7 @@ class User(db.Model):
   profile_photo = db.Column(db.String(255))
   utc_offset = db.Column(db.Integer)
   streak = db.Column(db.Integer)
+  last_log = db.Column(db.DateTime)
   fb_id = db.Column(db.String(255))
   
   # send_notifications = db.Column(db.Boolean, default = True)
@@ -44,7 +45,10 @@ class User(db.Model):
 
   def __repr__(self):
     return '<User %r>' % (self.real_name())
-
+  
+  def get_last_log_local(self):
+    return self.last_log + timedelta(hours=self.last_timezone())
+  
   def generate_auth_token(self):
     s = Serializer(app.config['SECRET_KEY'])
     token_data = {
