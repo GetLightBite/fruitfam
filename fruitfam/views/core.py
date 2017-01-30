@@ -18,7 +18,7 @@ def verify_password(token, password):
 def index():
   return 'Hello World!'
 
-@app.route('/analyze/photo')
+@app.route('/analyze/photo', methods=['POST'])
 @auth.login_required
 def analyze_photo():
   user = g.user
