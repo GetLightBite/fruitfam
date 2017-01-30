@@ -23,7 +23,7 @@ def index():
 def analyze_photo():
   user = g.user
   data = request.form
-  client_timestamp = data.get('created', None)
+  client_timestamp = data.get('created', -1)
   client_timestamp = int(client_timestamp)
   client_meal_id = data.get('randomizedId', None)
   
