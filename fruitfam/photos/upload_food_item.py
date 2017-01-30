@@ -18,6 +18,8 @@ def upload_food_item(user, image_data):
   elif curtime - last_upload > timedelta(days=1):
     user.streak = 1
     cur_streak = 1
+  if cur_streak > user.max_streak:
+    user.max_streak = cur_streak
   user.last_log = curtime
   db.session.add(user)
   return cur_streak

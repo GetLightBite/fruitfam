@@ -16,6 +16,7 @@ class User(db.Model):
   profile_photo = db.Column(db.String(255))
   utc_offset = db.Column(db.Integer)
   streak = db.Column(db.Integer)
+  max_streak = db.Column(db.Integer)
   last_log = db.Column(db.DateTime)
   fb_id = db.Column(db.String(255))
   

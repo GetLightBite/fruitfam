@@ -42,3 +42,4 @@ CREATE TABLE food_items
 );
 
 alter table users add last_log DATETIME;
+alter table users add max_streak int(11);

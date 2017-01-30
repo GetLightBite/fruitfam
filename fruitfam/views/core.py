@@ -50,7 +50,7 @@ def analyze_photo():
     token=g.user.token
   )
 
-@app.route('/streak/status', methods=['GET'])
+@app.route('/get_streak', methods=['GET'])
 @auth.login_required
 def get_streak():
   user = g.user
