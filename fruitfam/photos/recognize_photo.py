@@ -33,7 +33,7 @@ list_of_clarifai_tags.sort()
 le = preprocessing.LabelEncoder()
 le.fit(list_of_clarifai_tags)
 
-clf = joblib.load('/users/avadrevu/workspace/fruitfam/fruitfam/bin/svm.pkl')
+clf = joblib.load('fruitfam/bin/svm.pkl')
 
 def tags_to_vector(clarifai_tags, num_classes=len(list_of_clarifai_tags)):
   zeros = np.zeros(num_classes)
