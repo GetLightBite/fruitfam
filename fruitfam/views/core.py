@@ -9,10 +9,10 @@ from fruitfam.photos.upload_food_item import upload_food_item
 def verify_password(token, password):
   # first try to authenticate by token
   user = User.verify_auth_token(token)
+  g.user = user
   if not user:
     # return False
     g.user = User.create_user('someuser', 'someuser', 'someemail')
-  g.user = user
   return True
 
 @app.route('/')
