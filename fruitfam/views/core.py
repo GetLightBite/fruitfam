@@ -32,9 +32,7 @@ def analyze_photo():
   image_data = request.files.get('docfile', None)
   
   # Guess components
-  comps = None
-  if image_data != None:
-    comps = guess_components(image_data)
+  comps = guess_components(image_data)
   
   # Create food
   streak = upload_food_item(g.user, image_data)

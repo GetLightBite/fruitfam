@@ -109,7 +109,7 @@ class User(db.Model):
     except BadSignature as b:
       print b
       return None
-    user = User.query.get(data[kId])
+    user = User.query.get(data['id'])
     return user
   
   @staticmethod
