@@ -4,7 +4,7 @@ from fruitfam.models.food_item import FoodItem
 
 def upload_food_item(user, image_data):
   # TODO: offload updating image url data to celery
-  food_item = FoodItem(g.user)
+  food_item = FoodItem(user)
   db.session.add(food_item)
   
   cur_streak = user.streak
