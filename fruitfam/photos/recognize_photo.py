@@ -6,6 +6,7 @@ import os
 from PIL import Image
 from sklearn import preprocessing
 from sklearn.externals import joblib
+from fruitfam.models.component import Component
 
 os.environ["CLARIFAI_APP_ID"] = "dzsFD42XCHlRhIzIs6qz25TUGNFfKQYT3mnib6C7"
 os.environ["CLARIFAI_APP_SECRET"] = "XRG4Fo_p9zyFDNxmjg36EVEqQ3fqywkmyTvDLPLe"
