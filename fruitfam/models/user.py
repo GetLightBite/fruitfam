@@ -47,7 +47,12 @@ class User(db.Model):
     return '<User %r>' % (self.real_name())
   
   def get_last_log_local(self):
-    return self.last_log + timedelta(hours=self.last_timezone())
+    last_log = self.last_log
+    last_timezone = self.last_timezone()
+    if last_log == None:
+      last_log = datetime(2017, 1, 1)
+    print last_log
+    return last_log + timedelta(hours=last_timezone)
   
   def generate_auth_token(self):
     s = Serializer(app.config['SECRET_KEY'])

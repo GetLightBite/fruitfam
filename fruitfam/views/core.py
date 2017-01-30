@@ -12,7 +12,7 @@ def verify_password(token, password):
   g.user = user
   if not user:
     # return False
-    g.user = User.create_user('someuser', 'someuser', 'someemail')
+    g.user, token = User.create_user('someuser', 'someuser', 'someemail')
   return True
 
 @app.route('/')
@@ -29,10 +29,12 @@ def analyze_photo():
   client_timestamp = data.get('created', -1)
   client_timestamp = int(client_timestamp)
   client_meal_id = data.get('randomizedId', None)
-  image_data = request.files['docfile']
+  image_data = request.files.get('docfile', None)
   
   # Guess components
-  comps = guess_components(image_data)
+  comps = None
+  if image_data != None:
+    comps = guess_components(image_data)
   
   # Create food
   streak = upload_food_item(g.user, image_data)
