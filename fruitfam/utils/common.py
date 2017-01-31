@@ -20,16 +20,16 @@ def send_email(to_email, sbj, msg_html, fullname = None, bcc_email=None):
 
 def serialize_image(img):
   image = {
-    'pixels': im.tobytes(),
-    'size': im.size,
-    'mode': im.mode,
+    'pixels': img.tobytes(),
+    'size': img.size,
+    'mode': img.mode,
   }
   return image
 
-def deserialize_image(img):
-  im = Image.frombytes(
+def deserialize_image(image):
+  img = Image.frombytes(
     image['mode'],
     image['size'],
     image['pixels']
   )
-  return im
+  return img
