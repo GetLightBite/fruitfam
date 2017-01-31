@@ -55,9 +55,9 @@ if parsed_args.prod:
 
 if parsed_args.prod:
   run('heroku config:set ENV=prod --app fruitfam-prod')
-  run('heroku config:set APP_CONFIG_FILE="../config/prod.py" --app fruitfam-prod')
+  run('heroku config:set APP_CONFIG_FILE=../config/prod.py --app fruitfam-prod')
   run('git push prod master')
 else:
   run('heroku config:set ENV=devel --app fruitfam-devel')
-  run('heroku config:set APP_CONFIG_FILE="../config/devel.py" --app fruitfam-devel')
+  run('heroku config:set APP_CONFIG_FILE=../config/devel.py --app fruitfam-devel')
   run('git push -f devel HEAD:master')
