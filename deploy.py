@@ -54,10 +54,9 @@ if parsed_args.prod:
       print 'Didn\'t quite get that. Try typing \'y\' or \'n\''
 
 if parsed_args.prod:
-  # run('heroku config:set ENV=prod --app fruitfam-prod')
-  # run('heroku config:set RUN_TOOLS_AND_SERVER=true --app fruitfam-prod')
-  # run('git push prod master')
-  print 'PROD UNAVAILABLE'
+  run('heroku config:set ENV=prod --app fruitfam-prod')
+  run('heroku config:set APP_CONFIG_FILE="../config/prod.py" --app fruitfam-prod')
+  run('git push prod master')
 else:
   run('heroku config:set ENV=devel --app fruitfam-devel')
   run('heroku config:set APP_CONFIG_FILE="../config/devel.py" --app fruitfam-devel')
