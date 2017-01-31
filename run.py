@@ -16,4 +16,4 @@ if __name__ == '__main__':
     os.environ["APP_CONFIG_FILE"] = "../config/devel.py"
 
 from fruitfam import app
-app.run(host='0.0.0.0', port=5000, use_reloader=False)
+app.run(host='0.0.0.0', port=5000)

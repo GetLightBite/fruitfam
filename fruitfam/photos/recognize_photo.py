@@ -58,17 +58,20 @@ def clarifai_tags_to_components_list(clarifai_tags):
   components_in_order = map(lambda x: x[1], probs_with_tags)
   return components_in_order
 
-def guess_components(image_data):
+def img_data_to_img_object(image_data):
   stream_data = image_data.stream.read()
   img_data = cStringIO.StringIO(stream_data)
   img = Image.open(img_data)
+  return img
+
+def guess_components(img):
   img_byte_arr = io.BytesIO()
   img.save(img_byte_arr, format='JPEG')
   img_bytes = img_byte_arr.getvalue()
   
   clarifai_tags = get_clarifai_guess_from_bytes(img_bytes)
   components_guesses = clarifai_tags_to_components_list(clarifai_tags)
-  return components_guesses
+  return components_guesses, clarifai_tags
 
 def get_clarifai_guess_from_bytes(img_bytes):
   global food_model

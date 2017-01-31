@@ -1,11 +1,13 @@
 from datetime import datetime, timedelta
 from fruitfam import db
 from fruitfam.models.food_item import FoodItem
+from fruitfam.tasks.create_food_item import create_food_item
+from fruitfam.utils.common import serialize_image
 
-def upload_food_item(user, image_data):
+def upload_food_item(user, img, clarifai_tags):
   # TODO: offload updating image url data to celery
-  food_item = FoodItem(user)
-  db.session.add(food_item)
+  serialized_image = serialize_image(img)
+  create_food_item.delay(user.id, serialized_image, clarifai_tags)
   
   cur_streak = user.streak
   last_upload = user.get_last_log_local()

@@ -2,8 +2,9 @@ from flask import g, jsonify, request
 from fruitfam import app, auth, db
 from fruitfam.models.user import User
 from fruitfam.models.food_item import FoodItem
-from fruitfam.photos.recognize_photo import guess_components
+from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
 from fruitfam.photos.upload_food_item import upload_food_item
+from fruitfam.tasks.create_food_item import test_endpoint
 
 @auth.verify_password
 def verify_password(token, password):
@@ -18,6 +19,7 @@ def verify_password(token, password):
 @app.route('/')
 @auth.login_required
 def index():
+  test_endpoint.delay(4)
   return 'Hello World!'
 
 @app.route('/analyze/photo', methods=['POST'])
@@ -31,11 +33,14 @@ def analyze_photo():
   client_meal_id = data.get('randomizedId', None)
   image_data = request.files.get('docfile', None)
   
+  # Create image
+  img = img_data_to_img_object(image_data)
+  
   # Guess components
-  comps = guess_components(image_data)
+  comps, clarifai_tags = guess_components(img)
   
   # Create food
-  streak = upload_food_item(g.user, image_data)
+  streak = upload_food_item(g.user, img, clarifai_tags)
   
   # Update user data
   g.user.utc_offset = timezone
