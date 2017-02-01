@@ -1,5 +1,6 @@
 import os
 import sendgrid
+from PIL import Image
 
 def is_prod():
   env = os.environ.get('ENV', 'DEVEL')

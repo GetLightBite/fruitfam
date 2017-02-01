@@ -32,6 +32,11 @@ class FruitFamTask(Task):
     url = 'Celery Task ID %s' % task_id
     exception_str = '<div style="font-family: Courier New"><h3>%s</h3><p>%s</p></div>' % (exc, error_traceback)
     subject = "Exception detected in Celery prod app!"
+    jargs = ''
+    try:
+      jargs = json.dumps(args)
+    except Exception as e:
+      pass
     msg_html = '''There was an exception detected:
     <br /> {0}
     <br /> User ID causing the exception: {1}
@@ -41,7 +46,7 @@ class FruitFamTask(Task):
     <br /> <div style="font-family: Courier New">{4}</div>
     <br /> Best,
     <br /> The KaleKam team
-    '''.format(str(exception_str), 'Celery', 'Celery Dude', url, json.dumps(args))
+    '''.format(str(exception_str), 'Celery', 'Celery Dude', url, jargs)
     print 'Errors in devel not reported'
     send_email('abhinav@kalekam.com', subject, msg_html, fullname = None, bcc_email=None)
   

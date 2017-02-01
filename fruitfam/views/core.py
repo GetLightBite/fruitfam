@@ -4,7 +4,8 @@ from fruitfam.models.user import User
 from fruitfam.models.food_item import FoodItem
 from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
 from fruitfam.photos.upload_food_item import upload_food_item
-from fruitfam.tasks.create_food_item import test_endpoint
+from fruitfam.tasks.create_food_item import test_endpoint, set_shareable_photo
+from fruitfam.utils.common import serialize_image
 
 @auth.verify_password
 def verify_password(token, password):
@@ -35,16 +36,36 @@ def analyze_photo():
   
   # Create image
   img = img_data_to_img_object(image_data)
-  
   # Guess components
   comps, clarifai_tags = guess_components(img)
-  
   # Create food
-  streak = upload_food_item(g.user, img, clarifai_tags)
+  streak, food_item_id = upload_food_item(g.user, img, clarifai_tags, timezone)
   
-  # Update user data
-  g.user.utc_offset = timezone
+  serialized_image = serialize_image(img)
+  set_shareable_photo.delay(food_item_id, serialized_image)
+  
   db.session.commit()
+  return jsonify(
+    foodItemId=food_item_id,
+    isFruit=1,
+    title=comps[0].name,
+    healthInfo="\xe2\x98\x9d\xf0\x9f\x8f\xbe Potasium, Vitamin A, C \n \xf0\x9f\x98\x81 34cal per cup",
+    message="Way to go! Enjoy extra energy throughout the day from the rich antioxidants!",
+    streak=streak,
+    token=g.user.token
+  )
+
+@app.route('/upload/shareable_photo', methods=['POST'])
+@auth.login_required
+def upload_shareable_photo():
+  user = g.user
+  data = request.form
+  food_item_id = data['foodItemId']
+  image_data = request.files.get('docfile', None)
+  
+  img = img_data_to_img_object(image_data)
+  serialized_image = serialize_image(img)
+  set_shareable_photo.delay(food_item_id, serialized_image)
   
   return jsonify(
     isFruit=1,

@@ -55,6 +55,11 @@ class User(db.Model):
     print last_log
     return last_log + timedelta(hours=last_timezone)
   
+  def local_time(self):
+    now = datetime.utcnow()
+    last_timezone = self.last_timezone()
+    return now + timedelta(hours=last_timezone)
+  
   def generate_auth_token(self):
     s = Serializer(app.config['SECRET_KEY'])
     token_data = {
