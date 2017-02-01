@@ -4,7 +4,7 @@ from fruitfam.models.user import User
 from fruitfam.models.food_item import FoodItem
 from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
 from fruitfam.photos.upload_food_item import upload_food_item
-from fruitfam.tasks.create_food_item import test_endpoint, set_shareable_photo
+from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
 from fruitfam.utils.common import serialize_image
 
 @auth.verify_password
