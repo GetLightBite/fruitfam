@@ -38,4 +38,4 @@ def upload_food_item(user, img, clarifai_tags, timezone):
   serialized_image = serialize_image(img)
   set_food_item_recognition_img.delay(food_item.id, serialized_image, clarifai_tags)
   
-  return cur_streak
+  return cur_streak, food_item.id
