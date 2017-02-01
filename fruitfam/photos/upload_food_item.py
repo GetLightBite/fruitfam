@@ -6,8 +6,8 @@ from fruitfam.utils.common import serialize_image
 
 def upload_food_item(user, img, clarifai_tags):
   # TODO: offload updating image url data to celery
-  # serialized_image = serialize_image(img)
-  # create_food_item.delay(user.id, serialized_image, clarifai_tags)
+  serialized_image = serialize_image(img)
+  create_food_item.delay(user.id, serialized_image, clarifai_tags)
   
   cur_streak = user.streak
   last_upload = user.get_last_log_local()
