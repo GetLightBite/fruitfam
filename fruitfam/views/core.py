@@ -41,16 +41,17 @@ def analyze_photo():
   # Create food
   streak, food_item_id = upload_food_item(g.user, img, clarifai_tags, timezone)
   
-  serialized_image = serialize_image(img)
-  set_shareable_photo.delay(food_item_id, serialized_image)
+  # Get comp
+  component = comps[0]
+  message = component.get_message()
   
   db.session.commit()
   return jsonify(
     foodItemId=food_item_id,
     isFruit=1,
-    title=comps[0].name,
+    title=component.name,
     healthInfo="\xe2\x98\x9d\xf0\x9f\x8f\xbe Potasium, Vitamin A, C \n \xf0\x9f\x98\x81 34cal per cup",
-    message="Way to go! Enjoy extra energy throughout the day from the rich antioxidants!",
+    message=message,
     streak=streak,
     token=g.user.token
   )
@@ -58,7 +59,6 @@ def analyze_photo():
 @app.route('/upload/shareable_photo', methods=['POST'])
 @auth.login_required
 def upload_shareable_photo():
-  user = g.user
   data = request.form
   food_item_id = data['foodItemId']
   image_data = request.files.get('docfile', None)
@@ -67,14 +67,7 @@ def upload_shareable_photo():
   serialized_image = serialize_image(img)
   set_shareable_photo.delay(food_item_id, serialized_image)
   
-  return jsonify(
-    isFruit=1,
-    title=comps[0].name,
-    healthInfo="\xe2\x98\x9d\xf0\x9f\x8f\xbe Potasium, Vitamin A, C \n \xf0\x9f\x98\x81 34cal per cup",
-    message="Way to go! Enjoy extra energy throughout the day from the rich antioxidants!",
-    streak=streak,
-    token=g.user.token
-  )
+  return 200, 'cool'
 
 @app.route('/get_streak', methods=['GET'])
 @auth.login_required
