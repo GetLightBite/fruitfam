@@ -20,12 +20,13 @@ class User(db.Model):
   last_log = db.Column(db.DateTime)
   fb_id = db.Column(db.String(255))
   
+  booty = db.Column(db.Integer)
+  level = db.Column(db.Integer)
+  
   # send_notifications = db.Column(db.Boolean, default = True)
   # apns_token = db.Column(db.String(255))
   # phone_number = db.Column(db.String(127))
   # latest_version = db.Column(db.String(127))
-  # booty = db.Column(db.Integer)
-  # level = db.Column(db.Integer)
   # last_latitude = db.Column(db.Float)
   # last_longitude = db.Column(db.Float)
   # birthday = db.Column(db.DateTime)
@@ -46,6 +47,36 @@ class User(db.Model):
 
   def __repr__(self):
     return '<User %r>' % (self.real_name())
+  
+  def get_profile_photo(self):
+    if self.profile_photo == None:
+      return 'https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-1/c349.149.312.312/s160x160/11161343_10153393544189095_5097894419925828650_n.jpg?oh=c0d181176fb41051a0022ae20ba9034c&oe=5946493C'
+    return self.profile_photo
+  
+  def get_level(self):
+    if self.level == None:
+      return 1
+    return self.level
+  
+  def get_booty(self):
+    if self.booty == None:
+      return 0
+    return self.booty
+  
+  def get_streak(self):
+    if self.streak == None:
+      return 0
+    return self.streak
+  
+  def get_streak(self):
+    if self.streak == None:
+      return 0
+    return self.streak
+  
+  def get_max_streak(self):
+    if self.max_streak == None:
+      return 0
+    return self.max_streak
   
   def get_last_log_local(self):
     last_log = self.last_log

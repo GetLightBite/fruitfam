@@ -48,3 +48,12 @@ alter table components add vitamins varchar(255);
 alter table components add cals varchar(255);
 alter table components add benefits varchar(255);
 alter table components add glycemic_load integer(11);
+
+alter table users add booty int(11) default 0;
+alter table users add level int(11) default 1;
+
+alter table food_items change img_url_fullscreen img_url_original varchar(255);
+alter table food_items change img_url_large img_url_fullscreen varchar(255);
+alter table food_items change img_url_small img_url_diary varchar(255);
+alter table food_items change img_url_tiny img_url_icon varchar(255);
+

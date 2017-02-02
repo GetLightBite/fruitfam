@@ -84,16 +84,16 @@ def get_streak():
 @auth.login_required
 def load_diary():
   user = g.user
-  profilePhotoUrl = 'https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-1/c349.149.312.312/s160x160/11161343_10153393544189095_5097894419925828650_n.jpg?oh=c0d181176fb41051a0022ae20ba9034c&oe=5946493C'
+  # diary = 
   return jsonify(
     playerName="Neil Meyers",
-    profilePhotoUrl=profilePhotoUrl,
+    profilePhotoUrl=user.get_profile_photo(),
     missionDescription="Eat 2 red fruits in a 24 hour period \xf0\x9f\x8d\x92\xf0\x9f\x8d\x93",
-    playerLevel=3,
+    playerLevel=user.get_level(),
     recipeCount=52,
     bootyNumerator=240,
     bootyDenominatorator=400,
-    streakLength=5,
+    maxStreak=user.get_max_streak(),
     totalPhotos=14,
     photos=[
       {
