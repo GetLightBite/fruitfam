@@ -92,7 +92,7 @@ def load_diary():
     playerLevel=user.get_level(),
     recipeCount=52,
     bootyNumerator=240,
-    bootyDenominatorator=400,
+    bootyDenominator=400,
     maxStreak=user.get_max_streak(),
     totalPhotos=14,
     photos=[
