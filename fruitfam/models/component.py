@@ -12,6 +12,10 @@ class Component(db.Model):
   
   health_info = db.Column(db.String(255))
   message = db.Column(db.String(255))
+  
+  vitamins = db.Column(db.String(255))
+  cals = db.Column(db.String(255))
+  benefits = db.Column(db.String(255))
 
   def __init__(self, name):
     self.name = name
