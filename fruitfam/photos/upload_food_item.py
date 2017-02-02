@@ -20,10 +20,10 @@ def upload_food_item(user, img, clarifai_tags, timezone):
   last_upload_date = last_upload.date()
   curdate = curtime.date()
   cur_user_date = cur_user_time.date()
-  if cur_user_time - last_upload == timedelta(days=1):
+  if cur_user_date - last_upload_date == timedelta(days=1):
     cur_streak += 1
     user.streak = cur_streak
-  elif curtime - last_upload > timedelta(days=1):
+  elif cur_user_date - last_upload_date > timedelta(days=1):
     user.streak = 1
     cur_streak = 1
   if cur_streak > user.max_streak:

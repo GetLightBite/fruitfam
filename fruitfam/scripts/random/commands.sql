@@ -47,3 +47,4 @@ alter table users add max_streak int(11);
 alter table components add vitamins varchar(255);
 alter table components add cals varchar(255);
 alter table components add benefits varchar(255);
+alter table components add glycemic_load integer(11);
