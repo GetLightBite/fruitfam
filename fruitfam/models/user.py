@@ -111,7 +111,7 @@ class User(db.Model):
   
   def get_firstname(self):
     if self.firstname == None:
-      return ''
+      return 'AbhinavTest'
     return self.firstname
   
   def get_lastname(self):

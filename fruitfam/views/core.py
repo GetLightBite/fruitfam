@@ -35,15 +35,20 @@ def analyze_photo():
   image_data = request.files.get('docfile', None)
   
   # Create image
+  print 'creating image...'
   img = img_data_to_img_object(image_data)
   # Guess components
+  print 'guessing components...'
   comps, clarifai_tags = guess_components(img)
   # Create food
+  print 'uploading food item...'
   streak, food_item_id = upload_food_item(g.user, img, clarifai_tags, timezone)
   
+  print 'serializing image...'
   serialized_image = serialize_image(img)
   set_shareable_photo.delay(food_item_id, serialized_image)
   
+  print 'returning comp data...'
   # Get comp
   component = comps[0]
   message = component.get_message()
@@ -86,27 +91,20 @@ def get_streak():
 @app.route('/load/diary', methods=['GET', 'POST'])
 @auth.login_required
 def load_diary():
-  user = g.user
-  # diary = 
+  requesting_user = g.user
+  diary_user_id = request.json('user_id', requesting_user.id)
+  diary_user = User.query.filter_by(id=diary_user_id).one()
+  diary = get_diary(diary_user, requesting_user)
   return jsonify(
-    playerName="Neil Meyers",
-    profilePhotoUrl=user.get_profile_photo(),
+    playerName=diary_user.name(),
+    profilePhotoUrl=diary_user.get_profile_photo(),
     missionDescription="Eat 2 red fruits in a 24 hour period \xf0\x9f\x8d\x92\xf0\x9f\x8d\x93",
-    playerLevel=user.get_level(),
+    playerLevel=diary_user.get_level(),
     recipeCount=52,
     bootyNumerator=240,
     bootyDenominator=400,
-    maxStreak=user.get_max_streak(),
-    totalPhotos=14,
-    photos=[
-      {
-        'foodItemId': 235,
-        'thumbnailUrl': "https://s3.amazonaws.com/fruitfam/P9poZjEnqV3NLAobxwXUhuQ8jZJBc3ghySs3YXKbSeavb2cdTo"
-      },
-      {
-        'foodItemId': 236,
-        'thumbnailUrl': "https://s3.amazonaws.com/fruitfam/8Z7ghbkD0Q8nCT3lzzAmGdxvdaPKqjCqYvPxCiarBI65BqrPTJ"
-      }
-    ]
+    maxStreak=diary_user.get_max_streak(),
+    totalPhotos=len(diary),
+    photos=diary
   )
   
