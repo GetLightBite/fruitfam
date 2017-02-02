@@ -41,6 +41,9 @@ def analyze_photo():
   # Create food
   streak, food_item_id = upload_food_item(g.user, img, clarifai_tags, timezone)
   
+  serialized_image = serialize_image(img)
+  set_shareable_photo.delay(food_item_id, serialized_image)
+  
   # Get comp
   component = comps[0]
   message = component.get_message()

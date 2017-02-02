@@ -35,21 +35,22 @@ def set_shareable_photo(food_item_id, serialized_image):
   
   # upload image to S3
   img = deserialize_image(serialized_image)
-  fullscreen_url = upload_image_from_object(img)
+  original_url = upload_image_from_object(img)
   
-  large_img = resize_image(img, 720)
-  large_url = upload_image_from_object(large_img)
+  fullscreen_img = resize_image(img, 720)
+  fullscreen_url = upload_image_from_object(fullscreen_img)
   
-  square_img = crop_img_to_square(large_img)
-  small_square_img = resize_image(square_img, 150)
-  small_square_url = upload_image_from_object(small_square_img)
+  diary_img = crop_img_to_diary_dims(fullscreen_img)
+  diary_img = resize_image(diary_img, 414)
+  diary_img_url = upload_image_from_object(diary_img)
   
-  tiny_square_img = resize_image(square_img, 50)
-  tiny_square_url = upload_image_from_object(tiny_square_img)
+  icon_square_img = crop_img_to_square(fullscreen_img)
+  icon_square_img = resize_image(icon_square_img, 50)
+  icon_square_url = upload_image_from_object(icon_square_img)
   
+  food_item.img_url_original = original_url
   food_item.img_url_fullscreen = fullscreen_url
-  food_item.img_url_large = large_url
-  food_item.img_url_small = small_square_url
-  food_item.img_url_tiny = tiny_square_url
+  food_item.img_url_diary = diary_img_url
+  food_item.img_url_icon = icon_square_url
   db.session.add(food_item)
   db.session.commit()

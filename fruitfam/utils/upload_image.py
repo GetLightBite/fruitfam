@@ -76,10 +76,26 @@ def resize_image(img, newwidth):
   return img
 
 def crop_img_to_square(img):
-  img = img.crop(get_crop_dims(img))
+  img = img.crop(get_square_crop_dims(img))
   return img
 
-def get_crop_dims(img):
+def crop_img_to_diary_dims(img):
+  img = img.crop(get_diary_dims(img))
+  return img
+
+def get_diary_dims(img):
+  width, height = img.size
+  new_width = width
+  new_height = height
+  if height*0.7 > width: # constrained by width, bring height down
+    new_height = int(new_width / 0.7)
+  else: # constrainged by height, bring width down
+    new_width = int(new_height * 0.7)
+  wstart = (width - new_width)/2
+  hstart = (height - new_height)/2
+  return (wstart, hstart, wstart + new_width, hstart + new_height)
+
+def get_square_crop_dims(img):
   width, height = img.size
   min_dim = min(width, height)
   wstart = (width - min_dim)/2
