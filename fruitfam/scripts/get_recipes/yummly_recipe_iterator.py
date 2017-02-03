@@ -38,11 +38,12 @@ class Recipe(object):
 
 class RecipeIterator(object):
   """Gives a bunch of recipes"""
-  def __init__(self, searchterm):
+  def __init__(self, searchterm, exclude_recipe_ids=[]):
     self.searchterm = searchterm
     self.base_url = 'http://api.yummly.com/v1/api/'
     self.app_id = '0d309a2b'
     self.app_key = '48abd826feb48c74649ad4ac063f8647'
+    self.exclude_recipe_ids = exclude_recipe_ids
   
   def make_request(self, url):
     url = self.base_url + url
@@ -78,7 +79,7 @@ class RecipeIterator(object):
     yield_amount = recipe_data['yield']
     number_of_servings = recipe_data['numberOfServings']
     img_1080 = best_image.replace('=s360', '=s1080')
-    prep_time_seconds = recipe_data['prepTimeInSeconds']
+    prep_time_seconds = recipe_data.get('prepTimeInSeconds', -1)
     ingredient_lines = recipe_data['ingredientLines']
     calories = recipe_data['nutritionEstimates'][9]['value']
     source_url = recipe_data['source']['sourceRecipeUrl']
@@ -93,12 +94,13 @@ class RecipeIterator(object):
     while offset <= max_results:
       cur_results_per_page = min(results_per_page, max_results - offset)
       num_matches, recipe_ids = self._get_recipe_ids(cur_results_per_page, offset)
+      recipe_ids = filter(lambda x: x not in self.exclude_recipe_ids, recipe_ids)
       max_results = num_matches
       for recipe_id in recipe_ids:
         try:
           recipe = self._get_recipe_from_id(recipe_id)
           yield recipe
         except Exception as e:
-          # print 'passing due to %s' % e
+          print 'passing due to %s' % e
           continue
       

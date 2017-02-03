@@ -36,10 +36,21 @@ def is_result(recipe_source_url):
       return True
   return False
 
+def all_recipe_ids():
+  k = open('recipe_list.json', 'r')
+  recipe_list_text = k.read()
+  k.close()
+  recipe_list = json.loads(recipe_list_text)
+  recipe_ids = []
+  for recipe in recipe_list:
+    recipe_ids.append(recipe['recipe_id'])
+  return recipe_ids
+
 def save_recipes(ingredient, search_term, num_results):
   if num_results <= 0:
     return
-  ri = RecipeIterator(search_term)
+  cur_ids = all_recipe_ids()
+  ri = RecipeIterator(search_term, cur_ids)
   i=0
   for recipe in ri.run():
     if i == num_results:

@@ -57,3 +57,12 @@ alter table food_items change img_url_large img_url_fullscreen varchar(255);
 alter table food_items change img_url_small img_url_diary varchar(255);
 alter table food_items change img_url_tiny img_url_icon varchar(255);
 
+CREATE TABLE likes
+(
+  ID int NOT NULL AUTO_INCREMENT,
+  user_id integer(11),
+  food_item_id integer(11),
+  created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (user_id, food_item_id),
+  PRIMARY KEY (ID)
+);

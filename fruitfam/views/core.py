@@ -1,6 +1,7 @@
 from flask import g, jsonify, request
 from fruitfam import app, auth, db
-from fruitfam.me.feed import get_feed_cards
+from fruitfam.me.feed import get_feed_cards, get_single_food
+from fruitfam.me.actions import like_food_item, unlike_food_item
 from fruitfam.models.user import User
 from fruitfam.models.food_item import FoodItem
 from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
@@ -76,7 +77,7 @@ def upload_shareable_photo():
   serialized_image = serialize_image(img)
   set_shareable_photo.delay(food_item_id, serialized_image)
   
-  return 200, 'cool'
+  return 'cool'
 
 @app.route('/get_streak', methods=['GET'])
 @auth.login_required
@@ -110,11 +111,32 @@ def load_diary():
   )
 
 
-@app.route('/load/feed', methods=['GET', 'POST'])
+@app.route('/load/feed', methods=['GET'])
 @auth.login_required
 def load_feed():
   requesting_user = g.user
   return jsonify(
     feed=get_feed_cards(requesting_user)
   )
-  
+
+@app.route('/like', methods=['POST'])
+@auth.login_required
+def like():
+  requesting_user = g.user
+  food_item_id = request.json['foodItemId']
+  is_unlike = request.json['isUnlike']
+  if is_unlike:
+    unlike_food_item(requesting_user.id, food_item_id)
+  else:
+    like_food_item(requesting_user.id, food_item_id)
+  return 'cool'
+
+@app.route('/load/food', methods=['GET'])
+@auth.login_required
+def load_food():
+  requesting_user = g.user
+  food_item_id = request.args['foodItemId']
+  food_card = get_single_food(food_item_id)
+  return jsonify(
+    card=food_card
+  )
