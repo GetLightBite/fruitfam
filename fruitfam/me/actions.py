@@ -1,10 +1,8 @@
-from datetime import timedelta
-from fruitfam import app, auth, db
-from fruitfam.models.food_item import FoodItem
+from fruitfam import db
+from fruitfam.models.comment import Comment
+# from fruitfam.models.food_item import FoodItem
 from fruitfam.models.like import Like
-from fruitfam.models.user import User
-from sqlalchemy import desc
-from sqlalchemy.orm import load_only, Load
+# from fruitfam.models.user import User
 from sqlalchemy.exc import IntegrityError
 
 def like_food_item(user_id, food_item_id):
@@ -25,3 +23,9 @@ def unlike_food_item(user_id, food_item_id):
   if l != None:
     db.session.delete(l)
     db.session.commit()
+
+def add_comment(user_id, food_item_id, message):
+  c = Comment(user_id, food_item_id, message)
+  db.session.add(c)
+  # TODO: send notification(s)
+  db.session.commit()

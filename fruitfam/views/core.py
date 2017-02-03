@@ -1,13 +1,13 @@
-from flask import g, jsonify, request
+from flask import g, jsonify, request, send_from_directory
 from fruitfam import app, auth, db
 from fruitfam.me.feed import get_feed_cards, get_single_food
-from fruitfam.me.actions import like_food_item, unlike_food_item
+from fruitfam.me.actions import like_food_item, unlike_food_item, add_comment
 from fruitfam.models.user import User
-from fruitfam.models.food_item import FoodItem
 from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
 from fruitfam.photos.upload_food_item import upload_food_item
 from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
 from fruitfam.utils.common import serialize_image
+import os
 
 @auth.verify_password
 def verify_password(token, password):
@@ -24,6 +24,15 @@ def verify_password(token, password):
 def index():
   test_endpoint.delay(4)
   return 'Hello World!'
+
+@app.route('/favicon.ico')
+def favicon():
+  return send_from_directory(os.path.join(app.root_path, 'bin'),
+    'peach.ico', mimetype='image/vnd.microsoft.icon')
+
+##############
+# Core Views #
+##############
 
 @app.route('/analyze/photo', methods=['POST'])
 @auth.login_required
@@ -76,7 +85,6 @@ def upload_shareable_photo():
   img = img_data_to_img_object(image_data)
   serialized_image = serialize_image(img)
   set_shareable_photo.delay(food_item_id, serialized_image)
-  
   return 'cool'
 
 @app.route('/get_streak', methods=['GET'])
@@ -94,7 +102,7 @@ def get_streak():
 @auth.login_required
 def load_diary():
   requesting_user = g.user
-  diary_user_id = request.json('user_id', requesting_user.id)
+  diary_user_id = request.json.get('user_id', requesting_user.id)
   diary_user = User.query.filter_by(id=diary_user_id).one()
   diary = get_diary(diary_user, requesting_user)
   return jsonify(
@@ -109,7 +117,6 @@ def load_diary():
     totalPhotos=len(diary),
     photos=diary
   )
-
 
 @app.route('/load/feed', methods=['GET'])
 @auth.login_required
@@ -140,3 +147,12 @@ def load_food():
   return jsonify(
     card=food_card
   )
+
+@app.route('/comment', methods=['POST'])
+@auth.login_required
+def comment():
+  commenting_user = g.user
+  food_item_id = request.json['foodItemId']
+  message = request.json['message']
+  add_comment(commenting_user.id, food_item_id, message)
+  return 'cool'

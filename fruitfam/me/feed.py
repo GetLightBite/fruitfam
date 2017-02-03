@@ -1,8 +1,9 @@
 from datetime import timedelta
 from fruitfam import app, auth, db
+from fruitfam.models.comment import Comment
 from fruitfam.models.user import User
 from fruitfam.models.food_item import FoodItem
-from sqlalchemy import desc
+from sqlalchemy import desc, and_
 from sqlalchemy.orm import load_only, Load
 
 def construct_card(food_item, user):
@@ -46,7 +47,7 @@ def get_feed_cards(user):
     FoodItem.img_url_recognition != None
   ).order_by(
     desc(FoodItem.created)
-  ).limit(50).all()
+  ).limit(10).all()
   
   cards = []
   for food_item, user in db_data:

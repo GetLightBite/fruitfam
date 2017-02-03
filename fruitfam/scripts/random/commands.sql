@@ -66,3 +66,13 @@ CREATE TABLE likes
   UNIQUE (user_id, food_item_id),
   PRIMARY KEY (ID)
 );
+
+CREATE TABLE comments
+(
+  ID int NOT NULL AUTO_INCREMENT,
+  user_id integer(11),
+  food_item_id integer(11),
+  message blob,
+  created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (ID)
+);

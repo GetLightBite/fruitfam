@@ -21,10 +21,3 @@ class Like(db.Model):
 
   def __repr__(self):
     return '<Like %r : %r>' % (self.user_id, self.food_item_id)
-
-  # @staticmethod
-  # def already_liked(user_id, food_item_id):
-  #   like = Like.query.filter_by(user_id = user_id).filter_by(food_item_id = food_item_id).first()
-  #   if like is not None:
-  #     return True
-  #   return False
