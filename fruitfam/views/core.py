@@ -117,7 +117,7 @@ def load_feed():
   comment_object = {
     'message' : "whoa that looks amazing",
     'playerName' : "Abhinav Vadrevu",
-    'playerProfileUrl' : 'https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-1/c349.149.312.312/s160x160/11161343_10153393544189095_5097894419925828650_n.jpg?oh=c0d181176fb41051a0022ae20ba9034c&oe=5946493C'
+    'profilePhotoUrl' : 'https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-1/c349.149.312.312/s160x160/11161343_10153393544189095_5097894419925828650_n.jpg?oh=c0d181176fb41051a0022ae20ba9034c&oe=5946493C'
   }
   
   card = {
