@@ -32,6 +32,7 @@ def upload_food_item(user, img, clarifai_tags, timezone):
   db.session.add(user)
   
   # Commit here to get the food_item id
+  print 'committing to get food item id...'
   db.session.commit()
   
   # Offload updating image url data to celery
