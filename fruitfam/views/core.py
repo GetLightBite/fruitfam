@@ -144,7 +144,7 @@ def like():
 def load_food():
   requesting_user = g.user
   food_item_id = request.args['foodItemId']
-  food_card = get_single_food(food_item_id)
+  food_card = get_single_food(requesting_user, food_item_id)
   return jsonify(
     card=food_card
   )

@@ -6,10 +6,10 @@ class Like(db.Model):
   id = db.Column(db.Integer, primary_key = True)
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
   user = db.relationship('User',
-    backref=db.backref('likes', lazy='dynamic'))
+    backref=db.backref('likes'))
   food_item_id = db.Column(db.Integer, db.ForeignKey('food_items.id'))
   food_item = db.relationship('FoodItem',
-      backref=db.backref('likes', lazy='dynamic'))
+      backref=db.backref('likes'))
   created = db.Column(db.DateTime)
 
   def __init__(self, user_id, food_item_id, created=None):
