@@ -123,6 +123,7 @@ def load_feed():
   card = {
     'fullscreenUrl': "https://s3.amazonaws.com/fruitfam/a5yqtLZLi225dnt9O2EvzJph5UIB3W0kHWnkMJqEgxyBSzTlvI",
     'playerName' : "Abhinav Vadrevu",
+    'playerLevel' : 6,
     'photoTimeDescription' : "Saturday 9:13am",
     'profilePhotoUrl' : "https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-1/c349.149.312.312/s160x160/11161343_10153393544189095_5097894419925828650_n.jpg?oh=c0d181176fb41051a0022ae20ba9034c&oe=5946493C",
     'likesCount' : 235,
