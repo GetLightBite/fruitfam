@@ -2,6 +2,7 @@ from flask import g, jsonify, request, send_from_directory
 from fruitfam import app, auth, db
 from fruitfam.me.feed import get_feed_cards, get_single_food
 from fruitfam.me.actions import like_food_item, unlike_food_item, add_comment
+from fruitfam.me.diary import get_diary
 from fruitfam.models.user import User
 from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
 from fruitfam.photos.upload_food_item import upload_food_item

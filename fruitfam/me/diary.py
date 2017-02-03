@@ -9,6 +9,8 @@ def get_diary(user, requesting_user):
     load_only('img_url_recognition'),
   ).filter_by(
     user_id=user.id
+  ).filter(
+    FoodItem.img_url_diary != None
   ).order_by(
     desc(FoodItem.created)
   ).all()
