@@ -115,20 +115,20 @@ def load_feed():
   requesting_user = g.user
   
   comment_object = {
-    message : "whoa that looks amazing",
-    playerName : "Milena Saucedo",
-    playerProfileUrl : "www.profile.com/a.jpeg"
+    'message' : "whoa that looks amazing",
+    'playerName' : "Milena Saucedo",
+    'playerProfileUrl' : "www.profile.com/a.jpeg"
   }
   
   card = {
-    fullscreenUrl: "www.fullscreen.com/a.jpeg",
-    playerName : "Samantha Rodriguez",
-    photoTimeDescription : "Saturday 9:13am",
-    profilePhotoUrl : "www.profile.com/a.jpeg",
-    likesCount : 235,
-    likedByRequester: 1, # 1 or 0 if this user liked this already,
-    comments: [comment_object]*3,
-    playerId: 235 # userId of user that created this photo
+    'fullscreenUrl': "www.fullscreen.com/a.jpeg",
+    'playerName' : "Samantha Rodriguez",
+    'photoTimeDescription' : "Saturday 9:13am",
+    'profilePhotoUrl' : "www.profile.com/a.jpeg",
+    'likesCount' : 235,
+    'likedByRequester': 1, # 1 or 0 if this user liked this already,
+    'comments': [comment_object]*3,
+    'playerId': 235 # userId of user that created this photo
   }
   
   return jsonify(
