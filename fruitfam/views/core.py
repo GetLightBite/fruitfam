@@ -98,11 +98,11 @@ def get_streak():
     max = max_streak
   )
 
-@app.route('/load/diary', methods=['GET', 'POST'])
+@app.route('/load/diary', methods=['GET'])
 @auth.login_required
 def load_diary():
   requesting_user = g.user
-  diary_user_id = request.json.get('user_id', requesting_user.id)
+  diary_user_id = request.args.get('user_id', requesting_user.id)
   diary_user = User.query.filter_by(id=diary_user_id).one()
   diary = get_diary(diary_user, requesting_user)
   return jsonify(
