@@ -29,22 +29,22 @@ class FoodItem(db.Model):
   
   def icon_img(self):
     if self.img_url_icon != None:
-      return img_url_icon
+      return self.img_url_icon
     return ''
   
   def diary_img(self):
     if self.img_url_diary != None:
-      return img_url_diary
+      return self.img_url_diary
     return ''
   
   def recognition_img(self):
     if self.img_url_recognition != None:
-      return img_url_recognition
+      return self.img_url_recognition
     return ''
   
   def fullscreen_img(self):
     if self.img_url_fullscreen != None:
-      return img_url_fullscreen
+      return self.img_url_fullscreen
     return self.recognition_img()
 
   def __repr__(self):

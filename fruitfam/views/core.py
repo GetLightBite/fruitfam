@@ -1,5 +1,6 @@
 from flask import g, jsonify, request
 from fruitfam import app, auth, db
+from fruitfam.me.feed import get_feed_cards
 from fruitfam.models.user import User
 from fruitfam.models.food_item import FoodItem
 from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
@@ -113,26 +114,7 @@ def load_diary():
 @auth.login_required
 def load_feed():
   requesting_user = g.user
-  
-  comment_object = {
-    'message' : "whoa that looks amazing",
-    'playerName' : "Abhinav Vadrevu",
-    'profilePhotoUrl' : 'https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-1/c349.149.312.312/s160x160/11161343_10153393544189095_5097894419925828650_n.jpg?oh=c0d181176fb41051a0022ae20ba9034c&oe=5946493C'
-  }
-  
-  card = {
-    'fullscreenUrl': "https://s3.amazonaws.com/fruitfam/a5yqtLZLi225dnt9O2EvzJph5UIB3W0kHWnkMJqEgxyBSzTlvI",
-    'playerName' : "Abhinav Vadrevu",
-    'playerLevel' : 6,
-    'photoTimeDescription' : "Saturday 9:13am",
-    'profilePhotoUrl' : "https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-1/c349.149.312.312/s160x160/11161343_10153393544189095_5097894419925828650_n.jpg?oh=c0d181176fb41051a0022ae20ba9034c&oe=5946493C",
-    'likesCount' : 235,
-    'likedByRequester': 1, # 1 or 0 if this user liked this already,
-    'comments': [comment_object]*3,
-    'playerId': 235 # userId of user that created this photo
-  }
-  
   return jsonify(
-    feed=[card]*10
+    feed=get_feed_cards(requesting_user)
   )
   
