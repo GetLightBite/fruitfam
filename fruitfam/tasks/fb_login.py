@@ -30,6 +30,6 @@ def fb_login(user_id):
   user.lastname = lastname
   user.email = email
   user.gender = gender
-  user.profile_picture = profile_url
+  user.profile_photo = profile_url
   db.session.add(user)
   db.session.commit()

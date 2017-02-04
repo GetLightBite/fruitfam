@@ -107,8 +107,8 @@ def upload_shareable_photo():
 @auth.login_required
 def get_streak():
   user = g.user
-  streak = user.streak
-  max_streak = user.max_streak
+  streak = user.get_streak()
+  max_streak = user.get_max_streak()
   return jsonify(
     current = streak,
     max = max_streak
