@@ -12,6 +12,10 @@ def login_user(fb_token):
   user_fb_id = profile_data['id']
   existing_user = User.query.filter_by(fb_id=user_fb_id).first()
   if existing_user != None:
+    if fb_token != user.fb_token:
+      user.fb_token = fb_token
+      db.session.add(user)
+      db.session.commit()
     return existing_user
   
   random_fruit_name = Component.query.order_by(func.rand()).first().name

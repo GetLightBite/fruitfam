@@ -33,6 +33,26 @@ class Recipe(object):
       'yummly_query' : self.yummly_query
     }
   
+  @staticmethod
+  def from_dict(self, rdict):
+    name = rdict['name']
+    recipe_id = rdict['recipe_id']
+    yield_amount = rdict['yield_amount']
+    number_of_servings = rdict['number_of_servings']
+    img_url_1080 = rdict['img_url_1080']
+    prep_time_seconds = rdict['prep_time_seconds']
+    ingredient_lines = rdict['ingredient_lines']
+    calories = rdict['calories']
+    recipe_source_url = rdict['recipe_source_url']
+    directions_list = rdict['directions_list']
+    key_ingredient = rdict['key_ingredient']
+    yummly_query = rdict['yummly_query']
+    r = Recipe(name, recipe_id, yield_amount, number_of_servings, img_url_1080, prep_time_seconds, ingredient_lines, calories, recipe_source_url)
+    r.directions_list = directions_list
+    r.key_ingredient = key_ingredient
+    r.yummly_query = yummly_query
+    return r
+  
   def __repr__(self):
     return '<Recipe %s>' % self.name.encode('utf-8')
 
