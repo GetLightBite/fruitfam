@@ -23,7 +23,7 @@ def fb_login(user_id):
   lastname = profile_data['last_name']
   email = profile_data.get('email', None)
   gender = profile_data.get('gender', None)
-  profile_url = profile_data.get('url', None)
+  profile_url = picture_data.get('url', None)
   if profile_url != None:
     profile_url = upload_image(profile_url, width=200, is_square=True)
   user.firstname = firstname
