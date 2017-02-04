@@ -3,7 +3,7 @@ from fruitfam import app, auth, db
 from fruitfam.me.feed import get_feed_cards, get_single_food
 from fruitfam.me.actions import like_food_item, unlike_food_item, add_comment
 from fruitfam.me.diary import get_diary
-from fruitfam.models.component import Component
+from fruitfam.me.login import login_user
 from fruitfam.models.user import User
 from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
 from fruitfam.photos.upload_food_item import upload_food_item
@@ -41,13 +41,11 @@ def favicon():
 @app.route('/login/fb', methods=['POST'])
 def login():
   fb_token = request.json['fbToken']
-  random_fruit_name = Component.query.order_by(func.rand()).first().name
-  g.user, token = User.create_user('Anonymous',
-    random_fruit_name, 'someemail', fb_token=fb_token)
-  fb_login.delay(g.user.id)
+  user = login_user(fb_token)
+  g.user = user
   return jsonify(
-    playerId=g.user.id,
-    token=token
+    playerId=user.id,
+    token=user.token
   )
 
 @app.route('/analyze/photo', methods=['POST'])
