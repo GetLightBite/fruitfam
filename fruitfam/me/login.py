@@ -16,6 +16,6 @@ def login_user(fb_token):
   
   random_fruit_name = Component.query.order_by(func.rand()).first().name
   new_user, token = User.create_user('Anonymous',
-    random_fruit_name, 'someemail', fb_token=fb_token)
+    random_fruit_name, 'someemail', fb_token=fb_token, fb_id=user_fb_id)
   fb_login.delay(new_user.id)
   return new_user

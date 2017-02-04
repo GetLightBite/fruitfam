@@ -152,9 +152,10 @@ class User(db.Model):
     return user
   
   @staticmethod
-  def create_user(firstname, lastname, email, fb_token=None):
+  def create_user(firstname, lastname, email, fb_token=None, fb_id=None):
     user = User(firstname, lastname, email)
     user.fb_token = fb_token
+    user.fb_id = fb_id
     db.session.add(user)
     db.session.commit()
     token = user.generate_auth_token()
