@@ -21,7 +21,7 @@ def construct_card(requester, food_item, user, comments, likers):
   food_item_time_str = food_item_local_time.strftime("%A %-I:%M%p")
   like_user_names = [x.real_name() for x in likers]
   like_user_ids = [x.id for x in likers]
-  liked_by_requester = 0#requester.id in like_user_ids
+  liked_by_requester = int(requester.id in like_user_ids)
   comment_cards = []
   for comment in comments:
     comment_user = comment.user
