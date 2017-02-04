@@ -2,6 +2,7 @@ import facebook
 from fruitfam.models.component import Component
 from fruitfam.models.user import User
 from fruitfam.tasks.fb_login import fb_login
+from sqlalchemy import func
 
 def login_user(fb_token):
   # Get fb ID:

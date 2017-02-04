@@ -11,7 +11,6 @@ from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
 from fruitfam.tasks.fb_login import fb_login
 from fruitfam.utils.common import serialize_image
 import os
-from sqlalchemy import func
 
 @auth.verify_password
 def verify_password(token, password):
