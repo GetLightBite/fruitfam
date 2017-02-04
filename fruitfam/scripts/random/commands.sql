@@ -76,3 +76,7 @@ CREATE TABLE comments
   created DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (ID)
 );
+
+alter table users change fb_id fb_token varchar(255);
+alter table users add fb_id varchar(255);
+alter table users add gender varchar(80);

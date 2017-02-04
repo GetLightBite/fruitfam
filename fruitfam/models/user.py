@@ -10,6 +10,7 @@ class User(db.Model):
   id = db.Column(db.Integer, primary_key = True)
   firstname = db.Column(db.String(80), index = True)
   lastname = db.Column(db.String(80), index = True)
+  gender = db.Column(db.String(80), index = True)
   email = db.Column(db.String(120), unique=True)
   token = db.Column(db.String(255))
   joined = db.Column(db.DateTime)
@@ -18,6 +19,7 @@ class User(db.Model):
   streak = db.Column(db.Integer)
   max_streak = db.Column(db.Integer)
   last_log = db.Column(db.DateTime)
+  fb_token = db.Column(db.String(255))
   fb_id = db.Column(db.String(255))
   
   booty = db.Column(db.Integer)
@@ -150,8 +152,9 @@ class User(db.Model):
     return user
   
   @staticmethod
-  def create_user(firstname, lastname, email):
+  def create_user(firstname, lastname, email, fb_token=None):
     user = User(firstname, lastname, email)
+    user.fb_token = fb_token
     db.session.add(user)
     db.session.commit()
     token = user.generate_auth_token()

@@ -5,6 +5,7 @@ brew==0.1.2
 bs4==0.0.1
 celery==4.0.2
 clarifai==2.0.14
+facebook-sdk==2.0.0
 Flask==0.10.1
 Flask-HTTPAuth==2.7.0
 Flask-SQLAlchemy==2.1

@@ -58,7 +58,9 @@ def save_recipes(ingredient, search_term, num_results):
     if is_result(recipe.recipe_source_url):
       continue
     directions = get_directions_from_url(recipe.recipe_source_url)
+    print directions
     if directions != None:
+      print 'saving recipe'
       recipe.directions_list = directions
       recipe.key_ingredient = ingredient
       recipe.yummly_query = search_term

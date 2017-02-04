@@ -53,7 +53,6 @@ class RecipeIterator(object):
       url += '?'
     url += '_app_id=%s' % self.app_id
     url += '&_app_key=%s' % self.app_key
-    # print url
     resp = requests.get(url)
     return resp.json()
   
@@ -81,7 +80,11 @@ class RecipeIterator(object):
     img_1080 = best_image.replace('=s360', '=s1080')
     prep_time_seconds = recipe_data.get('prepTimeInSeconds', -1)
     ingredient_lines = recipe_data['ingredientLines']
-    calories = recipe_data['nutritionEstimates'][9]['value']
+    calories = -1
+    try:
+      calories = recipe_data['nutritionEstimates'][9]['value']
+    except Exception as e:
+      pass
     source_url = recipe_data['source']['sourceRecipeUrl']
     
     recipe = Recipe(name, recipe_id, yield_amount, number_of_servings, img_1080, prep_time_seconds, ingredient_lines, calories, source_url)
@@ -103,4 +106,5 @@ class RecipeIterator(object):
         except Exception as e:
           print 'passing due to %s' % e
           continue
+      offset += results_per_page
       

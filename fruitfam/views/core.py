@@ -3,12 +3,15 @@ from fruitfam import app, auth, db
 from fruitfam.me.feed import get_feed_cards, get_single_food
 from fruitfam.me.actions import like_food_item, unlike_food_item, add_comment
 from fruitfam.me.diary import get_diary
+from fruitfam.models.component import Component
 from fruitfam.models.user import User
 from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
 from fruitfam.photos.upload_food_item import upload_food_item
 from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
+from fruitfam.tasks.fb_login import fb_login
 from fruitfam.utils.common import serialize_image
 import os
+from sqlalchemy import func
 
 @auth.verify_password
 def verify_password(token, password):
@@ -16,8 +19,8 @@ def verify_password(token, password):
   user = User.verify_auth_token(token)
   g.user = user
   if not user:
-    # return False
-    g.user, token = User.create_user('someuser', 'someuser', 'someemail')
+    # g.user, token = User.create_user('someuser', 'someuser', 'someemail')
+    return False
   return True
 
 @app.route('/')
@@ -34,6 +37,18 @@ def favicon():
 ##############
 # Core Views #
 ##############
+
+@app.route('/login', methods=['POST'])
+def login():
+  fb_token = request.json['fbToken']
+  random_fruit_name = Component.query.order_by(func.rand()).first().name
+  g.user, token = User.create_user('Anonymous',
+    random_fruit_name, 'someemail', fb_token=fb_token)
+  fb_login.delay(g.user.id)
+  return jsonify(
+    playerId=g.user.id,
+    token=token
+  )
 
 @app.route('/analyze/photo', methods=['POST'])
 @auth.login_required
