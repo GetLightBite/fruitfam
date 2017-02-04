@@ -38,7 +38,7 @@ def favicon():
 # Core Views #
 ##############
 
-@app.route('/login', methods=['POST'])
+@app.route('/login/fb', methods=['POST'])
 def login():
   fb_token = request.json['fbToken']
   random_fruit_name = Component.query.order_by(func.rand()).first().name
