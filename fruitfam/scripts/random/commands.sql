@@ -80,3 +80,23 @@ CREATE TABLE comments
 alter table users change fb_id fb_token varchar(255);
 alter table users add fb_id varchar(255);
 alter table users add gender varchar(80);
+
+CREATE TABLE recipes
+(
+  ID int NOT NULL AUTO_INCREMENT,
+  component_id integer(11),
+  name varchar(255),
+  yummly_recipe_id varchar(255),
+  yield_amount varchar(127),
+  number_of_servings varchar(127),
+  img_url varchar(127),
+  prep_time_seconds integer(11),
+  ingredient_lines_json blob,
+  calories integer(11),
+  recipe_source_url varchar(255),
+  directions_list blob,
+  yummly_query varchar(127),
+  created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (yummly_recipe_id),
+  PRIMARY KEY (ID)
+);

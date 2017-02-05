@@ -34,7 +34,7 @@ class Recipe(object):
     }
   
   @staticmethod
-  def from_dict(self, rdict):
+  def from_dict(rdict):
     name = rdict['name']
     recipe_id = rdict['recipe_id']
     yield_amount = rdict['yield_amount']
