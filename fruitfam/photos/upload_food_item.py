@@ -38,6 +38,8 @@ def upload_food_item(user, img, clarifai_tags, timezone):
   # Offload updating image url data to celery
   print 'offloading image upload to celery...'
   serialized_image = serialize_image(img)
+  print 'serialized image...'
   set_food_item_recognition_img.delay(food_item.id, serialized_image, clarifai_tags)
+  print 'upload offloaded to celery'
   
   return cur_streak, food_item.id

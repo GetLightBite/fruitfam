@@ -2,7 +2,10 @@ from fruitfam import db
 from fruitfam.models.comment import Comment
 # from fruitfam.models.food_item import FoodItem
 from fruitfam.models.like import Like
+from fruitfam.models.recipe import Recipe
+from fruitfam.models.recipe_unlock import RecipeUnlock
 # from fruitfam.models.user import User
+from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 
 def like_food_item(user_id, food_item_id):
@@ -29,3 +32,12 @@ def add_comment(user_id, food_item_id, message):
   db.session.add(c)
   # TODO: send notification(s)
   db.session.commit()
+
+# def unlock_recipe(user):
+#   engine = session.bind
+#   sql = text(sql)
+#   result = engine.execute(sql)
+  
+#   recipe_to_unlock = Recipe.query.filter(
+    
+#   )

@@ -100,3 +100,13 @@ CREATE TABLE recipes
   UNIQUE (yummly_recipe_id),
   PRIMARY KEY (ID)
 );
+
+CREATE TABLE recipe_unlocks
+(
+  ID int NOT NULL AUTO_INCREMENT,
+  user_id integer(11),
+  recipe_id integer(11),
+  unlock_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (user_id, recipe_id),
+  PRIMARY KEY (ID)
+);
