@@ -88,6 +88,51 @@ def analyze_photo():
     token=g.user.token
   )
 
+@app.route('/2/analyze/photo', methods=['POST'])
+@auth.login_required
+def analyze_photo_2():
+  
+  return jsonify(
+    recognition={
+      currentStreak: 3,
+      maxStreak: 6,
+      fruitName: "Pomegrante Seeds",
+      healthInfo0:"Potasium, Vitamin A, C",
+      healthInfo1:"34cal per cup",
+      healthInfo2:"Great for smooth skin, silky hair"
+    },
+    bootyPrize={
+      breakdown: [
+        {title: "Mission 1",
+         booty: 120},
+        {title: "New Fruit",
+         booty: 30},
+      ],
+      total: 150
+    },
+    newMission={
+      missionTitle: "Mission 2",
+      missionDescription: "Eat another fruit tomorrow - reach a 2 day streak of eating fruit daily",
+      numerator: 1,
+      denominator: 300
+    },
+    currentMission={
+      missionTitle: "Mission",
+      missionDescription: "You have 120 seconds to find a fruit and take a picture of it",
+      numerator: 23,
+      nenominator: 142,
+      leveldUp: 0
+    },
+    # Some old stuff
+    foodItemId=132425,
+    isFruit=1,
+    title="Mango",
+    healthInfo="\xe2\x98\x9d\xf0\x9f\x8f\xbe Potasium, Vitamin A, C \n \xf0\x9f\x98\x81 34cal per cup",
+    message="message!",
+    streak=4,
+    token=g.user.token
+  )
+
 @app.route('/upload/shareable_photo', methods=['POST'])
 @auth.login_required
 def upload_shareable_photo():
