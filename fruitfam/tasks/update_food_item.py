@@ -20,14 +20,21 @@ def test_endpoint(newstreak):
 
 @celery.task(base=FruitFamTask)
 def set_food_item_recognition_img(food_item_id, serialized_image, clarifai_tags):
+  print 'Getting food item'
   food_item = db.session.query(FoodItem).filter_by(id=food_item_id).one()
+  print 'Setting clarifai tags'
   food_item.clarifai_tags = json.dumps(clarifai_tags)
   
   # upload image to S3
+  print 'deserializing image...'
   img = deserialize_image(serialized_image)
+  print 'Uploading image to S3'
   url = upload_image_from_object(img)
+  print 'setting image url'
   food_item.img_url_recognition = url
+  print 'committing'
   db.session.commit()
+  print 'done!'
 
 @celery.task(base=FruitFamTask)
 def set_shareable_photo(food_item_id, serialized_image):
