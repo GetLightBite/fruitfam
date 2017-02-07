@@ -206,6 +206,16 @@ def load_food():
     card=food_card
   )
 
+@app.route('/delete/user', methods=['GET'])
+def delete_user():
+  user_id = request.args['foodItemId']
+  u = User.query.filter_by(id=user_id).one()
+  db.session.delete(u)
+  db.session.commit()
+  return jsonify(
+    ok='cool'
+  )
+
 @app.route('/comment', methods=['POST'])
 @auth.login_required
 def comment():
