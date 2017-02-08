@@ -224,11 +224,17 @@ def load_diary():
   requesting_user = g.user
   diary_user_id = request.args.get('player_id', requesting_user.id)
   diary_user = User.query.filter_by(id=diary_user_id).one()
+  user_mission = UserMission.query.filter(
+    UserMission.user_id == diary_user_id
+  ).filter(
+    UserMission.is_over == False
+  ).one()
+  rules = user_mission.get_rules()
   diary = get_diary(diary_user, requesting_user)
   return jsonify(
     playerName=diary_user.name(),
     profilePhotoUrl=diary_user.get_profile_photo(),
-    missionDescription="Eat 2 red fruits in a 24 hour period \xf0\x9f\x8d\x92\xf0\x9f\x8d\x93",
+    missionDescription=rules.mission_description(),
     playerLevel=diary_user.get_level(),
     recipeCount=52,
     bootyNumerator=240,
