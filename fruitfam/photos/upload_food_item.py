@@ -75,6 +75,7 @@ def upload_food_item2(user, img, clarifai_tags, components, timezone, image_type
         'isFruit':0
       }
       json_response['recognition'] = recognition_json
+      db.session.commit() # Add in the food item
       return json_response
   
   # Get the right UserMission and get the appropriate json response.
