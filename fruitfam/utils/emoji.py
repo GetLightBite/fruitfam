@@ -29,5 +29,11 @@ class EmojiEscaper(object):
   
   def running_woman(self):
     return '\xf0\x9f\x8f\x83\xf0\x9f\x8f\xbe\xe2\x80\x8d\xe2\x99\x80\xef\xb8\x8f'
+  
+  def fire(self):
+    return '\xf0\x9f\x94\xa5'
+  
+  def hand(self):
+    return '\xe2\x9c\x8b'
 
 Emoji = EmojiEscaper()

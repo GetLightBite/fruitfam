@@ -102,9 +102,9 @@ def analyze_photo_2():
   # Create image
   img = img_data_to_img_object(image_data)
   # Guess components
-  comps, clarifai_tags = guess_components(img)
+  image_type, comps, clarifai_tags = guess_components(img)
   # Create food
-  json_resp = upload_food_item2(g.user, img, clarifai_tags, comps, timezone)
+  json_resp = upload_food_item2(g.user, img, clarifai_tags, comps, timezone, image_type)
   
   food_item_id = json_resp['recognition']['foodItemId']
   db.session.commit()

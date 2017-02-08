@@ -16,11 +16,12 @@ os.environ["CLARIFAI_APP_SECRET"] = "w0tRU0zEat5rwuX91GRP4ugXIpxqvZB-q-guqgnL"
 # Set up reusable data in global scope #
 ########################################
 
-clarifai_app, food_model = None, None
+clarifai_app, food_model, general_model = None, None, None
 try:
   print 'starting clarifai app...'
   clarifai_app = ClarifaiApp()
   food_model = clarifai_app.models.get('food-items-v1.0')
+  general_model = clarifai_app.models.get('general-v1.3')
   print 'clarifai set up complete!'
 except Exception as e:
   print "Had an issue with launching Clarifai!!!"
@@ -65,19 +66,30 @@ def img_data_to_img_object(image_data):
   return img
 
 def guess_components(img):
+  global food_model
+  global general_model
   if img == None:
     return [Component.query.first()], []
   img_byte_arr = io.BytesIO()
   img.save(img_byte_arr, format='JPEG')
   img_bytes = img_byte_arr.getvalue()
   
-  clarifai_tags = get_clarifai_guess_from_bytes(img_bytes)
-  components_guesses = clarifai_tags_to_components_list(clarifai_tags)
-  return components_guesses, clarifai_tags
+  food_clarifai_tags = get_clarifai_guess_from_bytes(img_bytes, food_model)
+  general_clarifai_tags = get_clarifai_guess_from_bytes(img_bytes, general_model)
+  image_type = infer_image_type(general_clarifai_tags)
+  components_guesses = clarifai_tags_to_components_list(food_clarifai_tags)
+  return image_type, components_guesses, food_clarifai_tags
 
-def get_clarifai_guess_from_bytes(img_bytes):
-  global food_model
-  resp = food_model.predict_by_bytes(img_bytes)
+def infer_image_type(general_clarifai_tags):
+  human_tags = ['person', 'man', 'woman', 'face', 'nose', 'ear', 'glasses', 'pretty', 'smile', 'sexy', 'girl', 'boy', 'child', 'baby', 'human', 'people', 'men', 'women', 'children', 'faces']
+  for classification, prob in general_clarifai_tags:
+    if prob > 0.9:
+      if classification in human_tags:
+        return 'person'
+  return 'food'
+
+def get_clarifai_guess_from_bytes(img_bytes, model):
+  resp = model.predict_by_bytes(img_bytes)
   out = []
   try:
     results = resp['outputs'][0]['data']['concepts']

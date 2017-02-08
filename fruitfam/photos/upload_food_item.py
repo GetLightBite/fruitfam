@@ -50,13 +50,32 @@ def upload_food_item(user, img, clarifai_tags, timezone):
   
   return cur_streak, food_item.id
 
-def upload_food_item2(user, img, clarifai_tags, components, timezone):
+def upload_food_item2(user, img, clarifai_tags, components, timezone, image_type='food'):
   # Update user data
   user.utc_offset = timezone
   
   # Create an empty food_item
   food_item = FoodItem(user)
+  if image_type != 'food':
+    food_item.not_food = True
   db.session.add(food_item)
+  
+  # Deal with non food images
+  if image_type != 'food':
+    if image_type == 'person':
+      json_response = {}
+      recognition_json = {
+        'currentStreak': user.streak,
+        'maxStreak': user.max_streak,
+        'fruitName': 'Hello, beautiful!',
+        'healthInfo0':"Well, hello there! You look tasty, but we hear humans are pretty high in calories %s. Maybe go for a fruit instead!" % Emoji.wink(),
+        'healthInfo1':""
+        'healthInfo2':"",
+        'foodItemId': food_item.id,
+        'isFruit':0
+      }
+      json_response['recognition'] = recognition_json
+      return json_response
   
   # Get the right UserMission and get the appropriate json response.
   # Also, call the callback
@@ -122,6 +141,7 @@ def upload_recognition_image_parallel(img, food_item_id):
   food_item.img_url_recognition = url
   session.add(food_item)
   session.commit()
+  session.close()
 
 def upload_food_item_image(img, food_item_id):
   food_item = db.session.query(FoodItem).filter_by(id=food_item_id).one()

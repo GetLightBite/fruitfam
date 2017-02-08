@@ -10,9 +10,15 @@ class Level2(StreakMission):
     return 'Mission 2' + Emoji.running_woman()
   
   def rules_text(self):
-    return [
-      "Congrats, you have a streak going! increase your streak to 2 by logging tomorrow " + Emoji.calendar()
-    ]
+    streak = self.get_user_mission().user.get_streak()
+    if streak == 1:
+      return [
+        "Congrats, you have a streak going! increase your streak to 2 by logging tomorrow " + Emoji.calendar()
+      ]
+    else:
+      return [
+        "Log fruits for two days in a row to complete this mission! " + Emoji.calendar()
+      ]
   
   def mission_id(self):
     return 2
