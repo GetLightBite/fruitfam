@@ -107,7 +107,7 @@ def analyze_photo_2():
   json_resp = upload_food_item2(g.user, img, clarifai_tags, comps, timezone)
   
   serialized_image = serialize_image(img)
-  food_item_id = json_resp['foodItemId']
+  food_item_id = json_resp['recognition']['foodItemId']
   set_shareable_photo.delay(food_item_id, serialized_image)
   
   # # Get comp
