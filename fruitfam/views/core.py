@@ -236,9 +236,9 @@ def load_diary():
     profilePhotoUrl=diary_user.get_profile_photo(),
     missionDescription=rules.mission_description(),
     playerLevel=diary_user.get_level(),
-    recipeCount=52,
-    bootyNumerator=240,
-    bootyDenominator=400,
+    recipeCount=0,
+    bootyNumerator=user_mission.get_booty(),
+    bootyDenominator=rules.target_booty(),
     maxStreak=diary_user.get_max_streak(),
     totalPhotos=len(diary),
     photos=diary
