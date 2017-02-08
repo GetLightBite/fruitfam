@@ -103,6 +103,17 @@ def upload_food_item2(user, img, clarifai_tags, components, timezone):
   
   return json_response
 
+def upload_recognition_image(img, food_item_id):
+  manager = Manager()
+  upload_image_process = Process(
+    target=upload_recognition_image_parallel,
+    args=(
+      img,
+      food_item_id
+    )
+  )
+  upload_image_process.start()
+
 def upload_food_item_image(img, food_item_id):
   manager = Manager()
   upload_image_process = Process(
@@ -114,6 +125,16 @@ def upload_food_item_image(img, food_item_id):
   )
   upload_image_process.start()
 
+def upload_recognition_image_parallel(img, food_item_id):
+  engine = db.engine
+  Session = sessionmaker(bind=engine)
+  session = Session()
+  food_item = session.query(FoodItem).filter_by(id=food_item_id).one()
+  # upload image to S3
+  url = upload_image_from_object(img)
+  food_item.img_url_recognition = url
+  session.add(food_item)
+  session.commit()
 
 def upload_and_set_image_parallel(img, food_item_id):
   engine = db.engine
@@ -134,7 +155,6 @@ def upload_and_set_image_parallel(img, food_item_id):
   icon_square_img = resize_image(icon_square_img, 50)
   icon_square_url = upload_image_from_object(icon_square_img)
   
-  food_item.img_url_recognition = original_url
   food_item.img_url_original = original_url
   food_item.img_url_fullscreen = fullscreen_url
   food_item.img_url_diary = diary_img_url

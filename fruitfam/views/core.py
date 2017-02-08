@@ -7,7 +7,7 @@ from fruitfam.me.login import login_user
 from fruitfam.models.user import User
 from fruitfam.models.user_mission import UserMission
 from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
-from fruitfam.photos.upload_food_item import upload_food_item_image, upload_food_item, upload_food_item2
+from fruitfam.photos.upload_food_item import upload_food_item_image, upload_recognition_image, upload_food_item, upload_food_item2
 from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
 from fruitfam.tasks.fb_login import fb_login
 from fruitfam.utils.common import serialize_image
@@ -108,14 +108,28 @@ def analyze_photo_2():
   
   food_item_id = json_resp['recognition']['foodItemId']
   db.session.commit()
-  upload_food_item_image(img, food_item_id)
+  upload_recognition_image(img, food_item_id)
   return jsonify(**json_resp)
+
+@app.route('/upload/shareable_photo', methods=['POST'])
+@auth.login_required
+def upload_shareable_photo():
+  user = g.user
+  data = request.form
+  food_item_id = data['foodItemId']
+  image_data = request.files.get('docfile', None)
+  
+  # Create image
+  img = img_data_to_img_object(image_data)
+  upload_food_item_image(img, food_item_id)
+  
+  return 'cool'
 
 @app.route('/report/mission_timeout', methods=['POST'])
 @auth.login_required
 def timout_mission():
   user_mission = UserMission.query.filter(
-    UserMission.user_id == user.id
+    UserMission.user_id == g.user.id
   ).filter(
     UserMission.is_over == False
   ).one()
