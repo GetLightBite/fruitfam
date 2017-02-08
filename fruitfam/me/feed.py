@@ -92,8 +92,6 @@ def get_single_food(requester, food_item_id):
       Like.user
     )#.load_only('id', 'firstname', 'lastname')
   ).filter(
-    FoodItem.img_url_recognition != None
-  ).filter(
     FoodItem.id == food_item_id
   ).one()
   user = food_item.user
