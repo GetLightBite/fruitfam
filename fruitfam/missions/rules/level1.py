@@ -28,9 +28,6 @@ class Level1(TimeoutMission):
   def target_booty(self):
     return 20
   
-  def mission_type(self):
-    return 'timed'
-  
   def timeout(self):
     if self.get_timeouts_reached() == 0:
       return 120

@@ -222,7 +222,7 @@ def get_streak():
 @auth.login_required
 def load_diary():
   requesting_user = g.user
-  diary_user_id = request.args.get('user_id', requesting_user.id)
+  diary_user_id = request.args.get('player_id', requesting_user.id)
   diary_user = User.query.filter_by(id=diary_user_id).one()
   diary = get_diary(diary_user, requesting_user)
   return jsonify(

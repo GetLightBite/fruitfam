@@ -69,11 +69,11 @@ class Rule(object):
     current_mission_json = self.get_mission_json()
     booty_prize_json = self.booty_prize_json(food_item)
     animation_json = self.get_animation_json(food_item)
-    response_json = {
-      'bootyPrize' : booty_prize_json,
-      'currentMission' : current_mission_json,
-      'animation' : animation_json
-    }
+    response_json = { 'currentMission' : current_mission_json }
+    if booty_prize_json != None:
+      response_json['bootyPrize'] = booty_prize_json
+    if animation_json != None:
+      response_json['animation'] = animation_json
     # Call the food log callback
     self.on_food_log(food_item)
     # Get new mission json if player levelled up
@@ -111,30 +111,32 @@ class Rule(object):
   
   def booty_prize_json(self, food_item):
     booty_earned = self.booty_earned(food_item)
-    return {
-      'breakdown': [
-        {
-          'title': self.mission_name(),
-          'booty': booty_earned
-        },
-      ],
-      'total': booty_earned
-    }
+    if booty_earned > 0:
+      return {
+        'breakdown': [
+          {
+            'title': self.mission_name(),
+            'booty': booty_earned
+          },
+        ],
+        'total': booty_earned
+      }
   
   def get_animation_json(self, food_item):
     """What is the animation that logging this food item should have?"""
     current_booty = self.get_booty()
     target_booty = self.target_booty()
     booty_earned = self.booty_earned(food_item)
-    return {
-      'diaryAnimation' : {
-        'leveledUp': 0,
-        'startBootyNumerator': current_booty,
-        'endBootyNumerator': booty_earned,
-        'bootyDenominator': target_booty,
-        'missionDescription': self.mission_description()
+    if booty_earned > 0:
+      return {
+        'diaryAnimation' : {
+          'leveledUp': 0,
+          'startBootyNumerator': current_booty,
+          'endBootyNumerator': booty_earned,
+          'bootyDenominator': target_booty,
+          'missionDescription': self.mission_description()
+        }
       }
-    }
   
   def get_levelup_animation_json(self, food_item, old_animation_json):
     """What is the animation that logging this food item should have?"""

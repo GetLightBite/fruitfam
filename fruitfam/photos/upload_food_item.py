@@ -69,12 +69,11 @@ def upload_food_item2(user, img, clarifai_tags, components, timezone):
   json_response = rules.log_food(food_item)
   
   # Update the streak
-  cur_streak = user.streak
+  cur_streak = user.get_streak()
   last_upload = user.get_last_log_local()
   curtime = datetime.utcnow()
   cur_user_time = user.local_time()
   last_upload_date = last_upload.date()
-  curdate = curtime.date()
   cur_user_date = cur_user_time.date()
   if cur_user_date - last_upload_date == timedelta(days=1):
     cur_streak += 1

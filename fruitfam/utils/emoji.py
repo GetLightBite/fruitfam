@@ -23,5 +23,11 @@ class EmojiEscaper(object):
   
   def silhouette(self):
     return '\xf0\x9f\x91\xa4'
+  
+  def calendar(self):
+    return '\xf0\x9f\x93\x86'
+  
+  def running_woman(self):
+    return '\xf0\x9f\x8f\x83\xf0\x9f\x8f\xbe\xe2\x80\x8d\xe2\x99\x80\xef\xb8\x8f'
 
 Emoji = EmojiEscaper()
