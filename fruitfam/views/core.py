@@ -107,6 +107,7 @@ def analyze_photo_2():
   json_resp = upload_food_item2(g.user, img, clarifai_tags, comps, timezone)
   
   serialized_image = serialize_image(img)
+  food_item_id = json_resp['foodItemId']
   set_shareable_photo.delay(food_item_id, serialized_image)
   
   # # Get comp
@@ -116,9 +117,16 @@ def analyze_photo_2():
   db.session.commit()
   return jsonify(**json_resp)
 
-# @app.route('timeout/mission', methods=['POST'])
-# @auth.login_required
-# def timout_mission():
+@app.route('report/mission_timeout', methods=['POST'])
+@auth.login_required
+def timout_mission():
+  user_mission = UserMission.query.filter(
+    UserMission.user_id == user.id
+  ).filter(
+    UserMission.is_over == False
+  ).one()
+  user_mission.increment_timeouts_reached()
+  return 'cool'
 
 @app.route('/3/analyze/photo', methods=['POST'])
 @auth.login_required
