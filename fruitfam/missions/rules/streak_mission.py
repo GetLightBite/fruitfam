@@ -1,3 +1,4 @@
+from datetime import timedelta
 from fruitfam.missions.rules.rule import Rule
 
 class StreakMission(Rule):
