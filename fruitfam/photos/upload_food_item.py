@@ -6,7 +6,7 @@ from fruitfam.tasks.update_food_item import set_food_item_recognition_img
 from fruitfam.utils.common import serialize_image
 from fruitfam.utils.emoji import Emoji
 from fruitfam.utils.upload_image import compress_image, crop_img_to_square, crop_img_to_diary_dims, resize_image, upload_image_from_object
-from multiprocessing import Manager, Process
+from multiprocessing import Process
 from sqlalchemy.orm import sessionmaker
 
 def upload_food_item(user, img, clarifai_tags, timezone):
@@ -104,20 +104,8 @@ def upload_food_item2(user, img, clarifai_tags, components, timezone):
   return json_response
 
 def upload_recognition_image(img, food_item_id):
-  manager = Manager()
   upload_image_process = Process(
     target=upload_recognition_image_parallel,
-    args=(
-      img,
-      food_item_id
-    )
-  )
-  upload_image_process.start()
-
-def upload_food_item_image(img, food_item_id):
-  manager = Manager()
-  upload_image_process = Process(
-    target=upload_and_set_image_parallel,
     args=(
       img,
       food_item_id
@@ -136,11 +124,8 @@ def upload_recognition_image_parallel(img, food_item_id):
   session.add(food_item)
   session.commit()
 
-def upload_and_set_image_parallel(img, food_item_id):
-  engine = db.engine
-  Session = sessionmaker(bind=engine)
-  session = Session()
-  food_item = session.query(FoodItem).filter_by(id=food_item_id).one()
+def upload_food_item_image(img, food_item_id):
+  food_item = db.session.query(FoodItem).filter_by(id=food_item_id).one()
   # upload image to S3
   original_url = upload_image_from_object(img)
   
@@ -159,5 +144,5 @@ def upload_and_set_image_parallel(img, food_item_id):
   food_item.img_url_fullscreen = fullscreen_url
   food_item.img_url_diary = diary_img_url
   food_item.img_url_icon = icon_square_url
-  session.add(food_item)
-  session.commit()
+  db.session.add(food_item)
+  db.session.commit()
