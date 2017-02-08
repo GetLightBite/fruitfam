@@ -69,7 +69,7 @@ def upload_food_item2(user, img, clarifai_tags, components, timezone, image_type
         'maxStreak': user.max_streak,
         'fruitName': 'Hello, beautiful!',
         'healthInfo0':"Well, hello there! You look tasty, but we hear humans are pretty high in calories %s. Maybe go for a fruit instead!" % Emoji.wink(),
-        'healthInfo1':""
+        'healthInfo1':"",
         'healthInfo2':"",
         'foodItemId': food_item.id,
         'isFruit':0
