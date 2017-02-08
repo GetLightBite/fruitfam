@@ -2,6 +2,7 @@ import facebook
 from fruitfam import db
 from fruitfam.models.component import Component
 from fruitfam.models.user import User
+from fruitfam.models.user_mission import UserMission
 from fruitfam.tasks.fb_login import fb_login
 from sqlalchemy import func
 

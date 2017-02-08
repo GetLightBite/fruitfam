@@ -116,6 +116,10 @@ def analyze_photo_2():
   db.session.commit()
   return jsonify(**json_resp)
 
+# @app.route('timeout/mission', methods=['POST'])
+# @auth.login_required
+# def timout_mission():
+
 @app.route('/3/analyze/photo', methods=['POST'])
 @auth.login_required
 def analyze_photo_3():
