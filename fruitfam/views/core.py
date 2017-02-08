@@ -5,6 +5,7 @@ from fruitfam.me.actions import like_food_item, unlike_food_item, add_comment
 from fruitfam.me.diary import get_diary
 from fruitfam.me.login import login_user
 from fruitfam.models.user import User
+from fruitfam.models.user_mission import UserMission
 from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
 from fruitfam.photos.upload_food_item import upload_food_item, upload_food_item2
 from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
