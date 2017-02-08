@@ -5,7 +5,9 @@ from fruitfam.models.user_mission import UserMission
 from fruitfam.tasks.update_food_item import set_food_item_recognition_img
 from fruitfam.utils.common import serialize_image
 from fruitfam.utils.emoji import Emoji
-from fruitfam.utils.upload_image import compress_image
+from fruitfam.utils.upload_image import compress_image, crop_img_to_square, crop_img_to_diary_dims, resize_image, upload_image_from_object
+from multiprocessing import Manager, Process
+from sqlalchemy.orm import sessionmaker
 
 def upload_food_item(user, img, clarifai_tags, timezone):
   # Update user data
@@ -87,13 +89,6 @@ def upload_food_item2(user, img, clarifai_tags, components, timezone):
   
   # Commit here to get the food_item id
   db.session.commit()
-  
-  # Offload updating image url data to celery
-  # compressed_image = compress_image(img)
-  # serialized_image = serialize_image(compressed_image)
-  # print 'serialized image...'
-  # set_food_item_recognition_img.delay(food_item.id, serialized_image, clarifai_tags)
-  # print 'upload offloaded to celery'
   recognition_json = {
     'currentStreak': user.streak,
     'maxStreak': user.max_streak,
@@ -107,3 +102,42 @@ def upload_food_item2(user, img, clarifai_tags, components, timezone):
   json_response['recognition'] = recognition_json
   
   return json_response
+
+def upload_food_item_image(img, food_item_id):
+  manager = Manager()
+  upload_image_process = Process(
+    target=upload_and_set_image_parallel,
+    args=(
+      img,
+      food_item_id
+    )
+  )
+  upload_image_process.start()
+
+
+def upload_and_set_image_parallel(img, food_item_id):
+  engine = db.engine
+  Session = sessionmaker(bind=engine)
+  session = Session()
+  food_item = session.query(FoodItem).filter_by(id=food_item_id).one()
+  # upload image to S3
+  original_url = upload_image_from_object(img)
+  
+  fullscreen_img = resize_image(img, 720)
+  fullscreen_url = upload_image_from_object(fullscreen_img)
+  
+  diary_img = crop_img_to_diary_dims(fullscreen_img)
+  diary_img = resize_image(diary_img, 414)
+  diary_img_url = upload_image_from_object(diary_img)
+  
+  icon_square_img = crop_img_to_square(fullscreen_img)
+  icon_square_img = resize_image(icon_square_img, 50)
+  icon_square_url = upload_image_from_object(icon_square_img)
+  
+  food_item.img_url_recognition = original_url
+  food_item.img_url_original = original_url
+  food_item.img_url_fullscreen = fullscreen_url
+  food_item.img_url_diary = diary_img_url
+  food_item.img_url_icon = icon_square_url
+  session.add(food_item)
+  session.commit()

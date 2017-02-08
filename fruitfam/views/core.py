@@ -7,7 +7,7 @@ from fruitfam.me.login import login_user
 from fruitfam.models.user import User
 from fruitfam.models.user_mission import UserMission
 from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
-from fruitfam.photos.upload_food_item import upload_food_item, upload_food_item2
+from fruitfam.photos.upload_food_item import upload_food_item_image, upload_food_item, upload_food_item2
 from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
 from fruitfam.tasks.fb_login import fb_login
 from fruitfam.utils.common import serialize_image
@@ -100,22 +100,16 @@ def analyze_photo_2():
   image_data = request.files.get('docfile', None)
   
   # Create image
-  img = img_data_to_img_object(image_data)
-  # img = None
+  # img = img_data_to_img_object(image_data)
+  img = None
   # Guess components
   comps, clarifai_tags = guess_components(img)
   # Create food
   json_resp = upload_food_item2(g.user, img, clarifai_tags, comps, timezone)
   
-  serialized_image = serialize_image(img)
   food_item_id = json_resp['recognition']['foodItemId']
-  set_shareable_photo.delay(food_item_id, serialized_image)
-  
-  # # Get comp
-  # component = comps[0]
-  # message = component.get_message()
-  
   db.session.commit()
+  upload_food_item_image(img, food_item_id)
   return jsonify(**json_resp)
 
 @app.route('/report/mission_timeout', methods=['POST'])
