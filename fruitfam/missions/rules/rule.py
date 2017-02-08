@@ -81,7 +81,7 @@ class Rule(object):
       new_mission = self.on_mission_end(food_item)
       new_rules = new_mission.get_rules()
       new_mission_json = new_rules.get_mission_json()
-      levelup_animation_json = new_mission.get_levelup_animation_json(food_item, animation_json)
+      levelup_animation_json = new_rules.get_levelup_animation_json(food_item, animation_json)
       response_json['newMission'] = new_mission_json
       response_json['animation'] = levelup_animation_json
     return response_json
@@ -136,8 +136,8 @@ class Rule(object):
   
   def get_levelup_animation_json(self, food_item, old_animation_json):
     """What is the animation that logging this food item should have?"""
-    old_booty = old_animation_json['current_booty']
-    old_target_booty = old_animation_json['bootyDenominator']
+    old_booty = old_animation_json['startBootyNumerator']
+    old_target_booty = old_animation_json['endBootyNumerator']
     old_mission_description = old_animation_json['missionDescription']
     
     target_booty = self.target_booty()

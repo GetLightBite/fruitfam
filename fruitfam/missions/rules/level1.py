@@ -4,7 +4,7 @@ from fruitfam.utils.emoji import Emoji
 class Level1(TimeoutMission):
   """Log a fruit in two minutes!"""
   def __init__(self, user_mission):
-    super(Level1, self).__init__()
+    super(Level1, self).__init__(user_mission)
   
   def mission_name(self):
     return 'Mission 1' + Emoji.lightning()
