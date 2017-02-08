@@ -117,7 +117,7 @@ def analyze_photo_2():
   db.session.commit()
   return jsonify(**json_resp)
 
-@app.route('report/mission_timeout', methods=['POST'])
+@app.route('/report/mission_timeout', methods=['POST'])
 @auth.login_required
 def timout_mission():
   user_mission = UserMission.query.filter(
