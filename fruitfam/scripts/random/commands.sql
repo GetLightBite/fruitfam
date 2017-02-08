@@ -110,3 +110,16 @@ CREATE TABLE recipe_unlocks
   UNIQUE (user_id, recipe_id),
   PRIMARY KEY (ID)
 );
+
+CREATE TABLE user_missions
+(
+  ID int NOT NULL AUTO_INCREMENT,
+  created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  user_id integer(11),
+  is_over tinyint(1) default 0,
+  mission_id integer(11),
+  booty integer(11),
+  timeouts_reached integer(11) default 0,
+  UNIQUE (user_id, mission_id),
+  PRIMARY KEY (ID)
+);

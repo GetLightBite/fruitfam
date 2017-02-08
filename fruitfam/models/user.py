@@ -22,7 +22,7 @@ class User(db.Model):
   fb_token = db.Column(db.String(255))
   fb_id = db.Column(db.String(255))
   
-  booty = db.Column(db.Integer)
+  # booty = db.Column(db.Integer)
   level = db.Column(db.Integer)
   
   # send_notifications = db.Column(db.Boolean, default = True)
@@ -60,10 +60,10 @@ class User(db.Model):
       return 1
     return self.level
   
-  def get_booty(self):
-    if self.booty == None:
-      return 0
-    return self.booty
+  # def get_booty(self):
+  #   if self.booty == None:
+  #     return 0
+  #   return self.booty
   
   def get_streak(self):
     if self.streak == None:

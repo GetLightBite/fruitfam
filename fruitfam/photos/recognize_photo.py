@@ -65,6 +65,8 @@ def img_data_to_img_object(image_data):
   return img
 
 def guess_components(img):
+  if img == None:
+    return Component.query.first(), []
   img_byte_arr = io.BytesIO()
   img.save(img_byte_arr, format='JPEG')
   img_bytes = img_byte_arr.getvalue()

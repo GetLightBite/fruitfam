@@ -108,4 +108,10 @@ def return_img_bytes(img):
   imgByteArr = imgByteArr.getvalue()
   return imgByteArr
 
+def compress_image(img, quality=60):
+  str_buffer = cStringIO.StringIO()
+  img.save(str_buffer, "JPEG", optimize=True, quality=quality, progressive=True)
+  new_img = Image.open(str_buffer)
+  return new_img
+
 # upload_image('https://scontent-sea1-1.cdninstagram.com/t51.2885-15/e35/14701110_541980752676255_2355483330687795200_n.jpg', 50)

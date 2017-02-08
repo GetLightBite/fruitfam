@@ -6,7 +6,7 @@ from fruitfam.me.diary import get_diary
 from fruitfam.me.login import login_user
 from fruitfam.models.user import User
 from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
-from fruitfam.photos.upload_food_item import upload_food_item
+from fruitfam.photos.upload_food_item import upload_food_item, upload_food_item2
 from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
 from fruitfam.tasks.fb_login import fb_login
 from fruitfam.utils.common import serialize_image
@@ -72,7 +72,6 @@ def analyze_photo():
   serialized_image = serialize_image(img)
   set_shareable_photo.delay(food_item_id, serialized_image)
   
-  print 'returning comp data...'
   # Get comp
   component = comps[0]
   message = component.get_message()
@@ -91,47 +90,90 @@ def analyze_photo():
 @app.route('/2/analyze/photo', methods=['POST'])
 @auth.login_required
 def analyze_photo_2():
+  user = g.user
+  data = request.form
+  timezone = data.get('timezone', -8)
+  client_timestamp = data.get('created', -1)
+  client_timestamp = int(client_timestamp)
+  client_meal_id = data.get('randomizedId', None)
+  image_data = request.files.get('docfile', None)
   
-  return jsonify(
-    recognition={
-      currentStreak: 3,
-      maxStreak: 6,
-      fruitName: "Pomegrante Seeds",
-      healthInfo0:"Potasium, Vitamin A, C",
-      healthInfo1:"34cal per cup",
-      healthInfo2:"Great for smooth skin, silky hair"
+  # Create image
+  # img = img_data_to_img_object(image_data)
+  img = None
+  # Guess components
+  comps, clarifai_tags = guess_components(img)
+  # Create food
+  json_resp = upload_food_item2(g.user, img, clarifai_tags, comps, timezone)
+  
+  # serialized_image = serialize_image(img)
+  # set_shareable_photo.delay(food_item_id, serialized_image)
+  
+  # # Get comp
+  # component = comps[0]
+  # message = component.get_message()
+  
+  db.session.commit()
+  return jsonify(**json_resp)
+
+@app.route('/3/analyze/photo', methods=['POST'])
+@auth.login_required
+def analyze_photo_3():
+  out = {
+    'recognition': {
+        'currentStreak': 3,
+        'maxStreak': 6,
+        'fruitName': "Pomegrante Seeds",
+        'healthInfo0':"Potasium, Vitamin A, C",
+        'healthInfo1':"34cal per cup",
+        'healthInfo2':"Great for smooth skin, silky hair",
+        'foodItemId': 15234,
+        'isFruit':1
     },
-    bootyPrize={
-      breakdown: [
-        {title: "Mission 1",
-         booty: 120},
-        {title: "New Fruit",
-         booty: 30},
-      ],
-      total: 150
+    'bootyPrize': {
+        'breakdown': [
+            {'title': "Mission 1",
+             'booty': 120},
+            {'title': "New Fruit",
+             'booty': 30},
+        ],
+        'total': 150
     },
-    newMission={
-      missionTitle: "Mission 2",
-      missionDescription: "Eat another fruit tomorrow - reach a 2 day streak of eating fruit daily",
-      numerator: 1,
-      denominator: 300
+
+    'newMission': { #// OPTIONAL - IF PLAYER LEVELLED UP
+      'missionTitle': "Mission 2",
+      'missionDescription': "Eat another fruit tomorrow - reach a 2 day streak of eating fruit daily",
+      'currentBooty': 0,
+      'missionDetails': {
+        'missionType': "timeout",
+        'timerSeconds': 8182,
+        'onExpiry': "Oh no! Looks like you ran out of 'time':( But since it's your second mission, we'll give you a little longer :)"
+      }
     },
-    currentMission={
-      missionTitle: "Mission",
-      missionDescription: "You have 120 seconds to find a fruit and take a picture of it",
-      numerator: 23,
-      nenominator: 142,
-      leveldUp: 0
+    'currentMission': {
+      'missionTitle': "Mission 1",
+      'missionDescription': "You have 120 seconds to log take a picture of a fruit and eat it!",
+      'currentBooty': 32,
+      'targetBooty': 300,
+      'missionDetails': {
+        'missionType': "timeout",
+        'timerSeconds': 120,
+        'onExpiry': "Oh no! Looks like you ran out of time :( But since it's your first mission, we'll give you a little longer :)"
+      }
     },
-    # Some old stuff
-    foodItemId=132425,
-    isFruit=1,
-    title="Mango",
-    healthInfo="\xe2\x98\x9d\xf0\x9f\x8f\xbe Potasium, Vitamin A, C \n \xf0\x9f\x98\x81 34cal per cup",
-    message="message!",
-    streak=4,
-    token=g.user.token
-  )
+    'animation': {
+        'leveledUp': 1,
+        'startBootyNumerator': 23,
+        'startBootyDenominator': 200,
+        'endBootyNumerator': 1,
+        'endBootyDenominator': 400,
+        'startMissionDescription': "Eat 2 red fruits in a 24 hour period",
+        'endMissionDescription': "Reach a 3 day streak",
+        'startPlayerLevel': 1,
+        'endPlayerLevel': 2,
+    }
+  }
+  return jsonify(** out)
 
 @app.route('/upload/shareable_photo', methods=['POST'])
 @auth.login_required
