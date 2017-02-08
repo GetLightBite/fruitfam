@@ -100,8 +100,7 @@ def analyze_photo_2():
   image_data = request.files.get('docfile', None)
   
   # Create image
-  # img = img_data_to_img_object(image_data)
-  img = None
+  img = img_data_to_img_object(image_data)
   # Guess components
   comps, clarifai_tags = guess_components(img)
   # Create food
