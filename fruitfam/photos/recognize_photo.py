@@ -9,8 +9,8 @@ from sklearn import preprocessing
 from sklearn.externals import joblib
 from fruitfam.models.component import Component
 
-os.environ["CLARIFAI_APP_ID"] = "dzsFD42XCHlRhIzIs6qz25TUGNFfKQYT3mnib6C7"
-os.environ["CLARIFAI_APP_SECRET"] = "XRG4Fo_p9zyFDNxmjg36EVEqQ3fqywkmyTvDLPLe"
+os.environ["CLARIFAI_APP_ID"] = "kjYQw3CwWsbSbQ_jz8hKQdKjQyEU-xp7-2l0Sf4H"
+os.environ["CLARIFAI_APP_SECRET"] = "w0tRU0zEat5rwuX91GRP4ugXIpxqvZB-q-guqgnL"
 
 ########################################
 # Set up reusable data in global scope #

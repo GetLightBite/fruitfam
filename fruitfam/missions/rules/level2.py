@@ -11,7 +11,7 @@ class Level2(TimeoutMission):
   
   def rules_text(self):
     return [
-      'You have 2 hours to log two fruits and eat them!' + Emoji.hourglass()
+      "Congrats, you have a streak going! increase your streak to 2 by logging tomorrow " + Emoji.hourglass()
     ]
   
   def mission_id(self):
