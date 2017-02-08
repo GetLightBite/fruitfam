@@ -23,4 +23,9 @@ def login_user(fb_token):
   new_user, token = User.create_user('Anonymous',
     random_fruit_name, 'someemail', fb_token=fb_token, fb_id=user_fb_id)
   fb_login.delay(new_user.id)
+  
+  # Now create the users first mission!
+  user_mission = UserMission(new_user, 1)
+  db.session.add(user_mission)
+  db.session.commit()
   return new_user
