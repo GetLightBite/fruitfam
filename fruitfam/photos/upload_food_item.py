@@ -64,7 +64,6 @@ def upload_food_item2(user, img, clarifai_tags, components, timezone):
     UserMission.is_over == False
   ).one()
   rules = user_mission.get_rules()
-  print rules
   json_response = rules.log_food(food_item)
   
   # Update the streak

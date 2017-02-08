@@ -41,3 +41,28 @@ class TimeoutMission(Rule):
     }
     normal['missionDetails'] = timeout_mission
     return normal
+  
+  def get_animation_json(self, food_item):
+    """
+    Tells the client to stop showing the countdown timer if the mission has
+    been completed
+    """
+    current_json = super(TimeoutMission, self).get_animation_json(food_item)
+    current_booty = self.get_booty()
+    target_booty = self.target_booty()
+    booty_earned = self.booty_earned(food_item)
+    if current_booty + booty_earned >= target_booty:
+      current_json['cameraAnimation'] = {
+        'hideTimer':1
+      }
+    return current_json
+  
+  def get_levelup_animation_json(self, food_item, old_json):
+    """
+    Tells the client to stop showing the countdown timer
+    """
+    current_json = super(TimeoutMission, self).get_levelup_animation_json(food_item, old_json)
+    current_json['cameraAnimation'] = {
+      'hideTimer':1
+    }
+    return current_json

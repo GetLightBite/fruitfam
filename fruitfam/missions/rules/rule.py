@@ -127,29 +127,34 @@ class Rule(object):
     target_booty = self.target_booty()
     booty_earned = self.booty_earned(food_item)
     return {
-      'leveledUp': 0,
-      'startBootyNumerator': current_booty,
-      'endBootyNumerator': booty_earned,
-      'bootyDenominator': target_booty,
-      'missionDescription': self.mission_description()
+      'diaryAnimation' : {
+        'leveledUp': 0,
+        'startBootyNumerator': current_booty,
+        'endBootyNumerator': booty_earned,
+        'bootyDenominator': target_booty,
+        'missionDescription': self.mission_description()
+      }
     }
   
   def get_levelup_animation_json(self, food_item, old_animation_json):
     """What is the animation that logging this food item should have?"""
-    old_booty = old_animation_json['startBootyNumerator']
-    old_target_booty = old_animation_json['endBootyNumerator']
-    old_mission_description = old_animation_json['missionDescription']
+    diary_animation = old_animation_json['diaryAnimation']
+    old_booty = diary_animation['startBootyNumerator']
+    old_target_booty = diary_animation['endBootyNumerator']
+    old_mission_description = diary_animation['missionDescription']
     
     target_booty = self.target_booty()
     user_level = self.get_user_mission().user.level
     return {
-      'leveledUp' : 1,
-      'startBootyNumerator' : old_booty,
-      'startBootyDenominator' : old_target_booty,
-      'endBootyNumerator': 0,
-      'endBootyDenominator': target_booty,
-      'startMissionDescription': old_mission_description,
-      'endMissionDescription': self.mission_description(),
-      'startPlayerLevel' : user_level-1,
-      'endPlayerLevel' : user_level,
+      'diaryAnimation' : {
+        'leveledUp' : 1,
+        'startBootyNumerator' : old_booty,
+        'startBootyDenominator' : old_target_booty,
+        'endBootyNumerator': 0,
+        'endBootyDenominator': target_booty,
+        'startMissionDescription': old_mission_description,
+        'endMissionDescription': self.mission_description(),
+        'startPlayerLevel' : user_level-1,
+        'endPlayerLevel' : user_level,
+      }
     }
