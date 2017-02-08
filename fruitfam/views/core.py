@@ -195,17 +195,17 @@ def analyze_photo_3():
   }
   return jsonify(** out)
 
-@app.route('/upload/shareable_photo', methods=['POST'])
-@auth.login_required
-def upload_shareable_photo():
-  data = request.form
-  food_item_id = data['foodItemId']
-  image_data = request.files.get('docfile', None)
+# @app.route('/upload/shareable_photo', methods=['POST'])
+# @auth.login_required
+# def upload_shareable_photo():
+#   data = request.form
+#   food_item_id = data['foodItemId']
+#   image_data = request.files.get('docfile', None)
   
-  img = img_data_to_img_object(image_data)
-  serialized_image = serialize_image(img)
-  set_shareable_photo.delay(food_item_id, serialized_image)
-  return 'cool'
+#   img = img_data_to_img_object(image_data)
+#   serialized_image = serialize_image(img)
+#   set_shareable_photo.delay(food_item_id, serialized_image)
+#   return 'cool'
 
 @app.route('/get_streak', methods=['GET'])
 @auth.login_required
