@@ -123,7 +123,7 @@ def upload_shareable_photo():
   img = img_data_to_img_object(image_data)
   upload_food_item_image(img, food_item_id)
   
-  return 'cool'
+  return ('', 204)
 
 @app.route('/report/mission_timeout', methods=['POST'])
 @auth.login_required
@@ -134,7 +134,7 @@ def timout_mission():
     UserMission.is_over == False
   ).one()
   user_mission.increment_timeouts_reached()
-  return 'cool'
+  return ('', 204)
 
 @app.route('/3/analyze/photo', methods=['POST'])
 @auth.login_required
