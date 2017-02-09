@@ -9,8 +9,8 @@ def send_notification(message, user_id, badge_increment, params, title):
   user = db.session.query(User).filter(User.id == user_id).one()
   cert_location = './fruitfam/bin/fruitfam_prod.pem'
   apns = APNs(use_sandbox=False, cert_file=cert_location, key_file=cert_location)
-  env = os.environ.get('ENV', 'devel')
-  if env == 'prod' or (env == 'devel' and user.is_founder()):
+  env = os.environ.get('ENV', 'DEVEL')
+  if env == 'prod' or (env == 'DEVEL' and user.is_founder()):
     token_hex = user.apns_token
     if token_hex and user.send_notifications:
       print token_hex
