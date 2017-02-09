@@ -61,6 +61,8 @@ def get_feed_cards(requester):
     )#.load_only('id', 'firstname', 'lastname')
   ).filter(
     FoodItem.img_url_recognition != None
+  ).filter(
+    FoodItem.not_food == False
   ).order_by(
     desc(FoodItem.created)
   ).limit(50).all()

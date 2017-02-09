@@ -35,5 +35,20 @@ class EmojiEscaper(object):
   
   def hand(self):
     return '\xe2\x9c\x8b'
+  
+  def tangerine(self):
+    return '\xf0\x9f\x8d\x8a'
+  
+  def laughing(self):
+    return '\xf0\x9f\x98\x84'
+  
+  def stopwatch(self):
+    return '\xe2\x8f\xb1\xef\xb8\x8f'
+  
+  def thinking(self):
+    return '\xf0\x9f\xa4\x94'
+  
+  def man(self):
+    return '\xf0\x9f\x91\xa8'
 
 Emoji = EmojiEscaper()

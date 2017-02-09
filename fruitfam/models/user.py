@@ -52,7 +52,7 @@ class User(db.Model):
   
   def get_profile_photo(self):
     if self.profile_photo == None:
-      return 'https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-1/c349.149.312.312/s160x160/11161343_10153393544189095_5097894419925828650_n.jpg?oh=c0d181176fb41051a0022ae20ba9034c&oe=5946493C'
+      return 'https://s3.amazonaws.com/fruitfam/sH4fUEMSETTj6qHlS5wuWFIb8X02iRPIZlgzlrOV5m4fUJyYnI'
     return self.profile_photo
   
   def is_founder(self):

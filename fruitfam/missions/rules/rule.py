@@ -60,6 +60,12 @@ class Rule(object):
     """
     pass
   
+  def schedule_notifs(self):
+    """
+    Gets called when the mission is created or when celery starts
+    """
+    pass
+  
   #####################################
   # Helper methods for defining rules #
   #####################################

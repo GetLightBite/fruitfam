@@ -77,8 +77,9 @@ def guess_components(img):
   food_clarifai_tags = get_clarifai_guess_from_bytes(img_bytes, food_model)
   general_clarifai_tags = get_clarifai_guess_from_bytes(img_bytes, general_model)
   image_type = infer_image_type(general_clarifai_tags)
+  tags_to_return = food_clarifai_tags if image_type == 'food' else general_clarifai_tags
   components_guesses = clarifai_tags_to_components_list(food_clarifai_tags)
-  return image_type, components_guesses, food_clarifai_tags
+  return image_type, components_guesses, tags_to_return
 
 def infer_image_type(general_clarifai_tags):
   human_tags = ['person', 'man', 'woman', 'face', 'nose', 'ear', 'glasses', 'pretty', 'smile', 'sexy', 'girl', 'boy', 'child', 'baby', 'human', 'people', 'men', 'women', 'children', 'faces']

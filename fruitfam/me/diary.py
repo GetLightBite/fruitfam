@@ -11,6 +11,8 @@ def get_diary(user, requesting_user):
     user_id=user.id
   ).filter(
     FoodItem.img_url_diary != None
+  ).filter(
+    FoodItem.not_food == False
   ).order_by(
     desc(FoodItem.created)
   ).all()

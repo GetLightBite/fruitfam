@@ -1,5 +1,4 @@
 from celery import Task
-from celery.task.control import discard_all
 from datetime import datetime
 from fruitfam import app, celery, db
 import json
@@ -9,10 +8,6 @@ from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy import func
 import time
 import traceback
-
-# Clear the redis queue
-print 'Clearing queue'
-discard_all()
 
 class FruitFamTask(Task):
   """

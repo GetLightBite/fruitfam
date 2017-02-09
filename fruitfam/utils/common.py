@@ -1,3 +1,4 @@
+from datetime import datetime
 from fruitfam.tasks.notifications import send_notification as send_notification_celery
 import os
 import sendgrid
@@ -38,3 +39,6 @@ def deserialize_image(image):
 
 def send_notification(message, user_id, badge_increment=0, params={}, title=None):
   send_notification_celery.delay(message, user_id, badge_increment, params, title)
+
+def date_to_datetime(date):
+  return datetime.combine(date, datetime.min.time())

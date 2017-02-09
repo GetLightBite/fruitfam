@@ -25,7 +25,7 @@ class StreakMission(Rule):
     cur_user_date = cur_user_time.date()
     if cur_user_date - last_upload_date == timedelta(days=1):
       # Increased the streak! Award some booty.
-      booty_left_to_earn = self.target_booty() - user_mission.get_booty
+      booty_left_to_earn = self.target_booty() - user_mission.get_booty()
       streak_left_to_reach = self.streak_length() - cur_streak
       booty_to_award = int(booty_left_to_earn / float(streak_left_to_reach))
       return booty_to_award
