@@ -12,7 +12,7 @@ class Level3(StreakMission):
   def rules_text(self):
     streak = self.get_user_mission().user.get_streak()
     return [
-      "Log fruits for five %s days in a row to complete this mission! %s %d/5 complete!" (Emoji.hand(), Emoji.calendar(), streak)
+      "Log fruits for five %s days in a row to complete this mission! %s %d/5 complete!" % (Emoji.hand(), Emoji.calendar(), streak)
     ]
   
   def mission_id(self):
