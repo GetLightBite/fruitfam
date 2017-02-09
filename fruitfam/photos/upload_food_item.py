@@ -69,7 +69,7 @@ def upload_food_item2(user, img, clarifai_tags, components, timezone, image_type
       json_response = {}
       recognition_json = {
         'title': 'Hello, beautiful!',
-        'message':"Well, hello there! You look tasty, but we hear humans are pretty high in calories %s. Maybe go for a fruit instead!" % Emoji.wink(),
+        'message':"You look tasty, but we hear humans are pretty high in calories %s. Maybe go for a fruit instead!" % Emoji.wink(),
         'foodItemId': food_item.id,
         'isFruit':0
       }
