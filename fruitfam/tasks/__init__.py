@@ -6,8 +6,8 @@ discard_all()
 
 # Reschedule notifs for all current missions
 def reschedule_notifs():
-  from fruitfam.models import user_mission
-  current_user_missions = user_mission.UserMission.query.filter_by(
+  from fruitfam.models.user_mission import UserMission
+  current_user_missions = UserMission.query.filter_by(
     is_over=False
   ).all()
   for mission in current_user_missions:
