@@ -55,16 +55,16 @@ class Level1(TimeoutMission):
     
     # First notif is 20 mins after log to remind user there's an extension
     twenty_mins_after_mission = mission_start + timedelta(minutes=20)
-    if twenty_mins_after_mission > now
-      twenty_min_reminder.apply_async(args=[user_id], twenty_mins_after_mission)
+    if twenty_mins_after_mission > now:
+      twenty_min_reminder.apply_async(args=[user_id], eta=twenty_mins_after_mission)
     
     # Schedule notif about 4 hours before timeout if possible
     seconds_to_timeout = self.timeout()
     if seconds_to_timeout > 4*60*60+40:
       seconds_to_eight_pm = seconds_to_timeout - 4*60*60
       eight_pm_local = now + timedelta(seconds=seconds_to_eight_pm)
-      eight_pm_reminder.apply_async(args=[user_id], eight_pm_local)
+      eight_pm_reminder.apply_async(args=[user_id], eta=eight_pm_local)
     elif seconds_to_timeout > 2*60*60:
       seconds_to_ten_pm = seconds_to_timeout - 2*60*60
       ten_pm_local = now + timedelta(seconds=seconds_to_ten_pm)
-      eight_pm_reminder.apply_async(args=[user_id], ten_pm_local)
+      eight_pm_reminder.apply_async(args=[user_id], eta=ten_pm_local)
