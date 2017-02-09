@@ -57,6 +57,8 @@ def clarifai_tags_to_components_list(clarifai_tags):
   probs_with_tags = zip(probs, all_components)
   probs_with_tags.sort(reverse=True)
   components_in_order = map(lambda x: x[1], probs_with_tags)
+  # Remove plantain
+  components_in_order = filter(lambda x: x.id not in [45, 49], components_in_order)
   return components_in_order
 
 def img_data_to_img_object(image_data):
