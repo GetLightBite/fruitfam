@@ -84,7 +84,7 @@ def guess_components(img):
 def infer_image_type(general_clarifai_tags):
   human_tags = ['person', 'man', 'woman', 'face', 'nose', 'ear', 'glasses', 'pretty', 'smile', 'sexy', 'girl', 'boy', 'child', 'baby', 'human', 'people', 'men', 'women', 'children', 'faces']
   for classification, prob in general_clarifai_tags:
-    if prob > 0.9:
+    if prob > 0.95:
       if classification in human_tags:
         return 'person'
   return 'food'

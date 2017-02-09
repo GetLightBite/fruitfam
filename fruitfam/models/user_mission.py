@@ -24,6 +24,10 @@ class UserMission(db.Model):
     if created is None:
       created = datetime.utcnow()
     self.created = created
+    
+    # Schedule notifications
+    rules = self.get_rules()
+    rules.schedule_notifs()
   
   def get_booty(self):
     if self.booty == None:
