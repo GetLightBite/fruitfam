@@ -2,7 +2,6 @@ from celery import Task
 from celery.task.control import discard_all
 from datetime import datetime
 from fruitfam import app, celery, db
-from fruitfam.utils.common import send_email
 import json
 import os
 import re
@@ -48,6 +47,7 @@ class FruitFamTask(Task):
     <br /> The KaleKam team
     '''.format(str(exception_str), 'Celery', 'Celery Dude', url, jargs)
     print 'Errors in devel not reported'
+    from fruitfam.utils.common import send_email
     send_email('abhinav@kalekam.com', subject, msg_html, fullname = None, bcc_email=None)
   
   def after_return(self, status, retval, task_id, args, kwargs, einfo):

@@ -2,8 +2,6 @@ from apns import APNs, Payload
 from fruitfam import celery, db
 from fruitfam.models.user import User
 from fruitfam.tasks.utils import FruitFamTask
-# import json
-# import time
 
 @celery.task(base=FruitFamTask)
 def send_notification(message, user_id, badge_increment, params, title):
