@@ -1,12 +1,8 @@
 import facebook
 from fruitfam import celery, db
 from fruitfam.models.user import User
-# from fruitfam.models.food_item import FoodItem
 from fruitfam.tasks.utils import FruitFamTask
 from fruitfam.utils.upload_image import upload_image
-# from fruitfam.utils.common import deserialize_image
-# import json
-# import time
 
 @celery.task(base=FruitFamTask)
 def fb_login(user_id):

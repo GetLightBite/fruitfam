@@ -6,6 +6,7 @@ from fruitfam.tasks.update_food_item import set_food_item_recognition_img
 from fruitfam.utils.common import serialize_image
 from fruitfam.utils.emoji import Emoji
 from fruitfam.utils.upload_image import compress_image, crop_img_to_square, crop_img_to_diary_dims, resize_image, upload_image_from_object
+import json
 from multiprocessing import Process
 from sqlalchemy.orm import sessionmaker
 
@@ -58,24 +59,21 @@ def upload_food_item2(user, img, clarifai_tags, components, timezone, image_type
   food_item = FoodItem(user)
   if image_type != 'food':
     food_item.not_food = True
+  food_item.clarifai_tags = json.dumps(clarifai_tags)
   db.session.add(food_item)
   
   # Deal with non food images
   if image_type != 'food':
+    db.session.commit() # Add in the food item
     if image_type == 'person':
       json_response = {}
       recognition_json = {
-        'currentStreak': user.streak,
-        'maxStreak': user.max_streak,
-        'fruitName': 'Hello, beautiful!',
-        'healthInfo0':"Well, hello there! You look tasty, but we hear humans are pretty high in calories %s. Maybe go for a fruit instead!" % Emoji.wink(),
-        'healthInfo1':"",
-        'healthInfo2':"",
+        'title': 'Hello, beautiful!',
+        'message':"Well, hello there! You look tasty, but we hear humans are pretty high in calories %s. Maybe go for a fruit instead!" % Emoji.wink(),
         'foodItemId': food_item.id,
         'isFruit':0
       }
       json_response['recognition'] = recognition_json
-      db.session.commit() # Add in the food item
       return json_response
   
   # Get the right UserMission and get the appropriate json response.

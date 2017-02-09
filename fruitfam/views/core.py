@@ -48,6 +48,15 @@ def login():
     token=user.token
   )
 
+@app.route("/upload/apns_token", methods=['POST'])
+@auth.login_required
+def upload_apns_token():
+  apns_token = request.json['token']
+  g.user.apns_token = apns_token
+  db.session.add(g.user)
+  db.session.commit()
+  return '', 204
+
 @app.route('/analyze/photo', methods=['POST'])
 @auth.login_required
 def analyze_photo():

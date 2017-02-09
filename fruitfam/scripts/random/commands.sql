@@ -123,3 +123,5 @@ CREATE TABLE user_missions
   UNIQUE (user_id, mission_id),
   PRIMARY KEY (ID)
 );
+alter table users add apns_token varchar(255);
+alter table users add send_notifications tinyint(1) default 1;

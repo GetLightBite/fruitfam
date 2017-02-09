@@ -21,12 +21,12 @@ class User(db.Model):
   last_log = db.Column(db.DateTime)
   fb_token = db.Column(db.String(255))
   fb_id = db.Column(db.String(255))
+  apns_token = db.Column(db.String(255))
+  send_notifications = db.Column(db.Boolean, default = True)
   
   # booty = db.Column(db.Integer)
   level = db.Column(db.Integer)
   
-  # send_notifications = db.Column(db.Boolean, default = True)
-  # apns_token = db.Column(db.String(255))
   # phone_number = db.Column(db.String(127))
   # latest_version = db.Column(db.String(127))
   # last_latitude = db.Column(db.Float)
@@ -54,6 +54,12 @@ class User(db.Model):
     if self.profile_photo == None:
       return 'https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-1/c349.149.312.312/s160x160/11161343_10153393544189095_5097894419925828650_n.jpg?oh=c0d181176fb41051a0022ae20ba9034c&oe=5946493C'
     return self.profile_photo
+  
+  def is_founder(self):
+    if self.fb_id != None:
+      return self.fb_id in ['10155199004034095', '10211735004991165']
+      return True
+    return False
   
   def get_level(self):
     if self.level == None:
