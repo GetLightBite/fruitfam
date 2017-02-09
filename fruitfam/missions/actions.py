@@ -12,6 +12,6 @@ def get_rules(mission_id):
 def level_progression():
   return [
     rules.level1.Level1,
-    rules.level1.Level2,
-    rules.level1.Level3
+    rules.level2.Level2,
+    rules.level3.Level3
   ]*20
