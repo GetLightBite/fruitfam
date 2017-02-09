@@ -1,6 +1,4 @@
-from fruitfam.missions.rules.level1 import Level1
-from fruitfam.missions.rules.level2 import Level2
-from fruitfam.missions.rules.level3 import Level3
+from fruitfam.missions import rules
 
 def get_users_rules(user_mission):
   cur_rules = get_rules(user_mission.mission_id)
@@ -13,7 +11,7 @@ def get_rules(mission_id):
 
 def level_progression():
   return [
-    Level1,
-    Level2,
-    Level3
+    rules.level1.Level1,
+    rules.level1.Level2,
+    rules.level1.Level3
   ]*20

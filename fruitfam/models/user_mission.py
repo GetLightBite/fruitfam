@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from fruitfam import db
-from fruitfam.missions.actions import get_users_rules
+from fruitfam.missions import actions
 
 class UserMission(db.Model):
   __tablename__ = 'user_missions'
@@ -46,7 +46,7 @@ class UserMission(db.Model):
     self.timeouts_reached = self.get_timeouts_reached() + 1
   
   def get_rules(self):
-    return get_users_rules(self)
+    return actions.get_users_rules(self)
   
   def end_mission(self):
     self.is_over = True
