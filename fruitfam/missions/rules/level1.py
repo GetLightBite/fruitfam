@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 from fruitfam.missions.rules.timeout_mission import TimeoutMission
 from fruitfam.utils.emoji import Emoji
 from fruitfam.utils.common import date_to_datetime
-from fruitfam.tasks.level1_reminders import twenty_min_reminder, eight_pm_reminder
 
 class Level1(TimeoutMission):
   """Log a fruit in two minutes!"""
@@ -49,6 +48,7 @@ class Level1(TimeoutMission):
     return 1
   
   def schedule_notifs(self):
+    from fruitfam.tasks.level1_reminders import twenty_min_reminder, eight_pm_reminder
     user_mission = self.get_user_mission()
     user_id = user_mission.user_id
     mission_start = user_mission.created
