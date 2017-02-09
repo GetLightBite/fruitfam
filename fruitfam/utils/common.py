@@ -1,4 +1,4 @@
-from fruitfam.tasks.notification import send_notification as send_notification_celery
+from fruitfam.tasks.notifications import send_notification as send_notification_celery
 import os
 import sendgrid
 from PIL import Image
