@@ -15,6 +15,9 @@ class StreakMission(Rule):
     """
     pass
   
+  def mission_type(self):
+    return 'streak'
+  
   def booty_earned(self, food_item):
     user_mission = self.get_user_mission()
     user = user_mission.user

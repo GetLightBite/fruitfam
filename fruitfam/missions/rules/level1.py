@@ -19,9 +19,6 @@ class Level1(TimeoutMission):
   def mission_id(self):
     return 1
   
-  def mission_type(self):
-    return 'timeout'
-  
   def on_food_log(self, food_item):
     booty_earned = self.booty_earned(food_item)
     self.increment_booty(booty_earned)
