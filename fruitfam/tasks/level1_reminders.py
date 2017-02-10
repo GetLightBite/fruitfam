@@ -8,6 +8,7 @@ from sqlalchemy import func
 
 @celery.task(base=FruitFamTask)
 def twenty_min_reminder(user_id):
+  print 'user_id', user_id
   user = db.session.query(User).filter_by(id=user_id).one()
   num_logs = db.session.query(func.count(FoodItem.id)).filter_by(user_id=user_id).all()[0][0]
   if num_logs == 0:
