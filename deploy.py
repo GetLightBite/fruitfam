@@ -61,3 +61,5 @@ else:
   run('heroku config:set ENV=devel --app fruitfam-devel')
   run('heroku config:set APP_CONFIG_FILE=../config/devel.py --app fruitfam-devel')
   run('git push -f devel HEAD:master')
+  run('heroku ps:scale celery=0 --app fruitfam-devel')
+  run('heroku ps:scale celery=1 --app fruitfam-devel')
