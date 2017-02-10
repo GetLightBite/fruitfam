@@ -16,9 +16,6 @@ def reschedule_notifs():
 
 reschedule_notifs()
 
+from fb_login import fb_login
+from level1_reminders import twenty_min_reminder, eight_pm_reminder
 from fruitfam import celery
-from fb_login import *
-from level1_reminders import *
-from notifications import *
-from update_food_item import *
-from utils import *
