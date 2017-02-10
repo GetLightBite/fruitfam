@@ -23,7 +23,7 @@ def login_user(fb_token):
         existing_user.fb_token = fb_token
         db.session.add(existing_user)
         db.session.commit()
-      return existing_user
+      return existing_user, 0
   
   random_fruit_name = Component.query.order_by(func.rand()).first().name
   new_user, token = User.create_user('Anonymous',
@@ -34,4 +34,4 @@ def login_user(fb_token):
   user_mission = UserMission(new_user, 1)
   db.session.add(user_mission)
   db.session.commit()
-  return new_user
+  return new_user, 1

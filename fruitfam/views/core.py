@@ -41,7 +41,7 @@ def favicon():
 @app.route('/login/fb', methods=['POST'])
 def login():
   fb_token = request.json['fbToken']
-  user = login_user(fb_token)
+  user, is_new_user = login_user(fb_token)
   g.user = user
   # Get the first mission!
   user_mission = UserMission.query.filter(
@@ -54,7 +54,8 @@ def login():
   return jsonify(
     playerId=user.id,
     token=user.token,
-    mission=mission
+    mission=mission,
+    isNewUser=is_new_user
   )
 
 @app.route("/upload/apns_token", methods=['POST'])
