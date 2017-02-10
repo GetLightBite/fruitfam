@@ -1,5 +1,6 @@
 from fruitfam import celery, db
 from fruitfam.models.user import User
+from fruitfam.models.food_item import FoodItem
 from fruitfam.tasks.utils import FruitFamTask
 from fruitfam.utils.common import send_notification
 from fruitfam.utils.emoji import Emoji

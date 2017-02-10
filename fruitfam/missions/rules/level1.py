@@ -55,7 +55,7 @@ class Level1(TimeoutMission):
     now = datetime.utcnow()
     
     # First notif is 20 mins after log to remind user there's an extension
-    twenty_mins_after_mission = mission_start + timedelta(minutes=20)
+    twenty_mins_after_mission = mission_start + timedelta(minutes=1)
     if twenty_mins_after_mission > now:
       twenty_min_reminder.apply_async(args=[user_id], eta=twenty_mins_after_mission)
     

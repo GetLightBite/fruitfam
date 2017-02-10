@@ -154,77 +154,6 @@ def timout_mission():
   user_mission.increment_timeouts_reached()
   return ('', 204)
 
-@app.route('/3/analyze/photo', methods=['POST'])
-@auth.login_required
-def analyze_photo_3():
-  out = {
-    'recognition': {
-        'currentStreak': 3,
-        'maxStreak': 6,
-        'fruitName': "Pomegrante Seeds",
-        'healthInfo0':"Potasium, Vitamin A, C",
-        'healthInfo1':"34cal per cup",
-        'healthInfo2':"Great for smooth skin, silky hair",
-        'foodItemId': 15234,
-        'isFruit':1
-    },
-    'bootyPrize': {
-        'breakdown': [
-            {'title': "Mission 1",
-             'booty': 120},
-            {'title': "New Fruit",
-             'booty': 30},
-        ],
-        'total': 150
-    },
-
-    'newMission': { #// OPTIONAL - IF PLAYER LEVELLED UP
-      'missionTitle': "Mission 2",
-      'missionDescription': "Eat another fruit tomorrow - reach a 2 day streak of eating fruit daily",
-      'currentBooty': 0,
-      'missionDetails': {
-        'missionType': "timeout",
-        'timerSeconds': 8182,
-        'onExpiry': "Oh no! Looks like you ran out of 'time':( But since it's your second mission, we'll give you a little longer :)"
-      }
-    },
-    'currentMission': {
-      'missionTitle': "Mission 1",
-      'missionDescription': "You have 120 seconds to log take a picture of a fruit and eat it!",
-      'currentBooty': 32,
-      'targetBooty': 300,
-      'missionDetails': {
-        'missionType': "timeout",
-        'timerSeconds': 120,
-        'onExpiry': "Oh no! Looks like you ran out of time :( But since it's your first mission, we'll give you a little longer :)"
-      }
-    },
-    'animation': {
-        'leveledUp': 1,
-        'startBootyNumerator': 23,
-        'startBootyDenominator': 200,
-        'endBootyNumerator': 1,
-        'endBootyDenominator': 400,
-        'startMissionDescription': "Eat 2 red fruits in a 24 hour period",
-        'endMissionDescription': "Reach a 3 day streak",
-        'startPlayerLevel': 1,
-        'endPlayerLevel': 2,
-    }
-  }
-  return jsonify(** out)
-
-# @app.route('/upload/shareable_photo', methods=['POST'])
-# @auth.login_required
-# def upload_shareable_photo():
-#   data = request.form
-#   food_item_id = data['foodItemId']
-#   image_data = request.files.get('docfile', None)
-  
-#   img = img_data_to_img_object(image_data)
-#   serialized_image = serialize_image(img)
-#   set_shareable_photo.delay(food_item_id, serialized_image)
-#   return 'cool'
-
 @app.route('/get_streak', methods=['GET'])
 @auth.login_required
 def get_streak():
@@ -252,11 +181,11 @@ def load_diary():
   return jsonify(
     playerName=diary_user.name(),
     profilePhotoUrl=diary_user.get_profile_photo(),
-    missionDescription=rules.mission_description(),
     playerLevel=diary_user.get_level(),
     recipeCount=0,
     bootyNumerator=user_mission.get_booty(),
     bootyDenominator=rules.target_booty(),
+    missionDescription=rules.mission_description(),
     maxStreak=diary_user.get_max_streak(),
     totalPhotos=len(diary),
     photos=diary

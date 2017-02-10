@@ -111,8 +111,8 @@ class Rule(object):
     return {
       'missionTitle' : self.mission_name(),
       'missionDescription' : self.mission_description(),
-      'currentBooty' : self.get_booty(),
-      'targetBooty': self.target_booty(),
+      # 'currentBooty' : self.get_booty(),
+      # 'targetBooty': self.target_booty(),
       'missionType' : self.mission_type()
     }
   
