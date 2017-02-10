@@ -30,12 +30,3 @@ class StreakMission(Rule):
       booty_to_award = int(booty_left_to_earn / float(streak_left_to_reach))
       return booty_to_award
     return 0
-  
-  def get_mission_json(self):
-    # Get normal json
-    normal = super(StreakMission, self).get_mission_json()
-    streak_mission = {
-      'missionType' : 'streak'
-    }
-    normal['missionDetails'] = streak_mission
-    return normal
