@@ -32,13 +32,12 @@ class TimeoutMission(Rule):
     return self.get_user_mission().get_timeouts_reached()
   
   def mission_type(self):
-    return 'timed'
+    return 'timeout'
   
   def get_mission_json(self):
     # Get normal json
     normal = super(TimeoutMission, self).get_mission_json()
     timeout_mission = {
-      'missionType' : 'timeout',
       'timerSeconds': self.timeout(),
       'onExpiry' : self.on_timeout_popup()
     }

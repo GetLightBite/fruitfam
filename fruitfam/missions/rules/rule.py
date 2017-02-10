@@ -113,6 +113,7 @@ class Rule(object):
       'missionDescription' : self.mission_description(),
       'currentBooty' : self.get_booty(),
       'targetBooty': self.target_booty(),
+      'missionType' : self.mission_type()
     }
   
   def booty_prize_json(self, food_item):
