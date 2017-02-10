@@ -48,7 +48,7 @@ class Level1(TimeoutMission):
     return 1
   
   def schedule_notifs(self):
-    from fruitfam.tasks.level1_reminders import twenty_min_reminder, eight_pm_reminder
+    from fruitfam.taskslevel1_reminders import twenty_min_reminder, eight_pm_reminder
     user_mission = self.get_user_mission()
     user_id = user_mission.user_id
     mission_start = user_mission.created

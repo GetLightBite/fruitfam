@@ -54,6 +54,7 @@ def upload_food_item(user, img, clarifai_tags, timezone):
 def upload_food_item2(user, img, clarifai_tags, components, timezone, image_type='food'):
   # Update user data
   user.utc_offset = timezone
+  db.session.add(user)
   
   # Create an empty food_item
   food_item = FoodItem(user)
