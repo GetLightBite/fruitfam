@@ -3,6 +3,7 @@ from fruitfam.models.user import User
 from fruitfam.tasks.utils import FruitFamTask
 from fruitfam.utils.common import send_notification
 from fruitfam.utils.emoji import Emoji
+from sqlalchemy import func
 
 @celery.task(base=FruitFamTask)
 def twenty_min_reminder(user_id):

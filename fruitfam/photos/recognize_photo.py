@@ -41,7 +41,7 @@ clf = joblib.load('fruitfam/bin/svm.pkl')
 def tags_to_vector(clarifai_tags, num_classes=len(list_of_clarifai_tags)):
   zeros = np.zeros(num_classes)
   [tags, scores] = zip(*clarifai_tags)
-  indexes = le.transform(list(tags))
+  indexes = le.transform(list(tags)) # TODO(avadrevu): What if the tag doesn't exist? Handle ValueError here.
   zeros[indexes] = np.array(scores)
   return zeros
 

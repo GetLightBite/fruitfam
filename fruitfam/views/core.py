@@ -43,9 +43,18 @@ def login():
   fb_token = request.json['fbToken']
   user = login_user(fb_token)
   g.user = user
+  # Get the first mission!
+  user_mission = UserMission.query.filter(
+    UserMission.user_id == g.user.id
+  ).filter(
+    UserMission.is_over == False
+  ).one()
+  rules = user_mission.get_rules()
+  mission = rules.get_mission_json()
   return jsonify(
     playerId=user.id,
-    token=user.token
+    token=user.token,
+    mission=mission
   )
 
 @app.route("/upload/apns_token", methods=['POST'])
