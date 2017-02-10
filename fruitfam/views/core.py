@@ -240,7 +240,7 @@ def delete_user():
 @app.route('/block/player', methods=['POST'])
 @auth.login_required
 def block_user():
-  user_id = request.json['userId']
+  user_id = request.json['playerId']
   block = BlockedUser(g.user.id, user_id)
   db.session.add(block)
   db.session.commit()
