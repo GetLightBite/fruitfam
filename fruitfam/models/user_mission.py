@@ -20,6 +20,7 @@ class UserMission(db.Model):
   def __init__(self, user, mission_id, created=None):
     
     self.user = user
+    self.user_id = user.id
     self.mission_id = mission_id
     if created is None:
       created = datetime.utcnow()
