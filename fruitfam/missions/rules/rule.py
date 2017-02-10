@@ -88,6 +88,10 @@ class Rule(object):
       new_rules = new_mission.get_rules()
       new_mission_json = new_rules.get_mission_json()
       levelup_animation_json = new_rules.get_levelup_animation_json(food_item, animation_json)
+      for key in animation_json:
+        if key not in levelup_animation_json:
+          levelup_animation_json[key] = animation_json[key]
+      print levelup_animation_json
       response_json['newMission'] = new_mission_json
       response_json['animation'] = levelup_animation_json
     return response_json
@@ -131,6 +135,7 @@ class Rule(object):
   
   def get_animation_json(self, food_item):
     """What is the animation that logging this food item should have?"""
+    print 'rule animation code'
     current_booty = self.get_booty()
     target_booty = self.target_booty()
     booty_earned = self.booty_earned(food_item)

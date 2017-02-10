@@ -21,3 +21,4 @@ from fruitfam.models.like import Like
 from fruitfam.models.recipe import Recipe
 from fruitfam.models.recipe_unlock import RecipeUnlock
 from fruitfam.models.user import User
+from fruitfam.models.blocked_user import BlockedUser

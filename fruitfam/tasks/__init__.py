@@ -1,8 +1,11 @@
-from celery.task.control import discard_all
+from fruitfam.tasks.level1_reminders import twenty_min_reminder, eight_pm_reminder
+from fruitfam.tasks.notifications import *
+from fruitfam.tasks.update_food_item import *
 
-# Clear the redis queue
-print 'Clearing queue'
-discard_all()
+from celery.task.control import discard_all
+# # Clear the redis queue
+# print 'Clearing queue'
+# discard_all()
 
 # Reschedule notifs for all current missions
 def reschedule_notifs():
@@ -16,6 +19,4 @@ def reschedule_notifs():
 
 reschedule_notifs()
 
-from fb_login import fb_login
-from level1_reminders import twenty_min_reminder, eight_pm_reminder
 from fruitfam import celery

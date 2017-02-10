@@ -13,8 +13,8 @@ def twenty_min_reminder(user_id):
   num_logs = db.session.query(func.count(FoodItem.id)).filter_by(user_id=user_id).all()[0][0]
   if num_logs == 0:
     # Remind that there's an extension!
-    title="We've given you an extension " + Emoji.stopwatch()
-    message = "Reminder: It's not all over! You've got till the end of the day to log a fruit. Beat level 1 and treat your body to a fruit! " + Emoji.tangerine()
+    title="You've got an extension! " + Emoji.stopwatch()
+    message = "Reminder: It's not all over! You've got till the end of the day to beat level 1 and log a fruit! " + Emoji.tangerine()
     send_notification(message, user_id, badge_increment=0, params={}, title=title)
 
 @celery.task(base=FruitFamTask)

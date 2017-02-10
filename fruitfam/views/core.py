@@ -4,6 +4,7 @@ from fruitfam.me.feed import get_feed_cards, get_single_food
 from fruitfam.me.actions import like_food_item, unlike_food_item, add_comment
 from fruitfam.me.diary import get_diary
 from fruitfam.me.login import login_user
+from fruitfam.models.blocked_user import BlockedUser
 from fruitfam.models.user import User
 from fruitfam.models.user_mission import UserMission
 from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
@@ -153,6 +154,8 @@ def timout_mission():
     UserMission.is_over == False
   ).one()
   user_mission.increment_timeouts_reached()
+  rules = user_mission.get_rules()
+  rules.schedule_notifs() # Schedule a notif to go off at 8pm
   return ('', 204)
 
 @app.route('/get_streak', methods=['GET'])
@@ -178,6 +181,7 @@ def load_diary():
     UserMission.is_over == False
   ).one()
   rules = user_mission.get_rules()
+  mission = rules.get_mission_json()
   diary = get_diary(diary_user, requesting_user)
   return jsonify(
     playerName=diary_user.name(),
@@ -189,7 +193,8 @@ def load_diary():
     missionDescription=rules.mission_description(),
     maxStreak=diary_user.get_max_streak(),
     totalPhotos=len(diary),
-    photos=diary
+    photos=diary,
+    mission=mission
   )
 
 @app.route('/load/feed', methods=['GET'])
@@ -224,9 +229,20 @@ def load_food():
 
 @app.route('/delete/user', methods=['GET'])
 def delete_user():
-  user_id = request.args['foodItemId']
+  user_id = request.args['userId']
   u = User.query.filter_by(id=user_id).one()
   db.session.delete(u)
+  db.session.commit()
+  return jsonify(
+    ok='cool'
+  )
+
+@app.route('/block/player', methods=['POST'])
+@auth.login_required
+def block_user():
+  user_id = request.args['userId']
+  block = BlockedUser(g.user.id, user_id)
+  db.session.add(block)
   db.session.commit()
   return jsonify(
     ok='cool'

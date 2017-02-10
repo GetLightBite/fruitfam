@@ -38,7 +38,7 @@ def deserialize_image(image):
 
 def send_notification(message, user_id, badge_increment=0, params={}, title=None):
   from fruitfam.tasks.notifications import send_notification as send_notification_celery
-  send_notification_celery.delay(message, user_id, badge_increment, params, title)
+  send_notification_celery.delay(message.decode('utf-8'), user_id, badge_increment, params, title.decode('utf-8'))
 
 def date_to_datetime(date):
   return datetime.combine(date, datetime.min.time())

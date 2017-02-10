@@ -10,7 +10,8 @@ def send_notification(message, user_id, badge_increment, params, title):
   cert_location = './fruitfam/bin/fruitfam_prod.pem'
   apns = APNs(use_sandbox=False, cert_file=cert_location, key_file=cert_location)
   env = os.environ.get('ENV', 'DEVEL')
-  if env == 'prod' or (env == 'DEVEL' and user.is_founder()):
+  env = 'PROD' # TODO(avadrevu) remove this when prod is up
+  if env == 'PROD' or (env == 'DEVEL' and user.is_founder()):
     token_hex = user.apns_token
     if token_hex and user.send_notifications:
       print token_hex
@@ -29,7 +30,7 @@ def send_notification(message, user_id, badge_increment, params, title):
           custom=params
         )
         apns.gateway_server.send_notification(str(token_hex), payload)
-        if user.is_founder():
+        if user.is_founder() or user.firstname.lower() == 'anonymous':
           apns = APNs(use_sandbox=True, cert_file=cert_location, key_file=cert_location)
           apns.gateway_server.send_notification(str(token_hex), payload)
       except Exception, e:

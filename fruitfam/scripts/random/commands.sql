@@ -125,3 +125,13 @@ CREATE TABLE user_missions
 );
 alter table users add apns_token varchar(255);
 alter table users add send_notifications tinyint(1) default 1;
+
+CREATE TABLE blocked_users
+(
+  ID int NOT NULL AUTO_INCREMENT,
+  blocking_user_id integer(11),
+  blocked_user_id integer(11),
+  created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (blocking_user_id, blocked_user_id),
+  PRIMARY KEY (ID)
+);

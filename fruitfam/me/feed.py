@@ -63,6 +63,13 @@ def get_feed_cards(requester):
     FoodItem.img_url_recognition != None
   ).filter(
     FoodItem.not_food == False
+  ).filter(
+    not_(
+      db.session.query(BlockedUser)
+        .filter(FoodItem.user_id == BlockedUser.blocked_user_id)
+        .filter(requester.id == BlockedUser.blocking_user_id)
+        .exists()
+    )
   ).order_by(
     desc(FoodItem.created)
   ).limit(50).all()
