@@ -1,5 +1,6 @@
 from datetime import timedelta
 from fruitfam import app, auth, db
+from fruitfam.models.blocked_user import BlockedUser
 from fruitfam.models.comment import Comment
 from fruitfam.models.like import Like
 from fruitfam.models.user import User
