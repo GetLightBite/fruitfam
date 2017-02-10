@@ -33,5 +33,5 @@ if __name__ == '__main__':
     print 'Env is DEVEL'
     os.environ["ENV"] = "DEVEL"
     os.environ["APP_CONFIG_FILE"] = "../config/devel.py"
-  run('celery -A fruitfam.tasks purge')
+  run('celery -f -A fruitfam.tasks purge')
   run('celery -A fruitfam.tasks worker --loglevel=DEBUG -P gevent')
