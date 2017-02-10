@@ -31,7 +31,9 @@ class PokedexMission(Rule):
     pass
   
   def get_progress(self):
-    # TODO(avadrevu): returns a list of images - either pokedex card images or food item images if they exist. Also returns number of pokedex which match
+    """
+    Returns images to display in pokedex, with the number of matches
+    """
     user_mission = self.get_user_mission()
     food_items = FoodItem.query.filter(
       FoodItem.user_id == user_mission.user_id
@@ -40,11 +42,18 @@ class PokedexMission(Rule):
     ).order_by(
       FoodItem.created
     ).all()
+    
+    image_urls = self.pokedex_card_images()
+    num_matches = 0
     for i in range(self.pokedex_conditions()):
+      condition = self.pokedex_conditions[i]
       for j in range(len(food_items)):
         food_item = food_items[j]
-        condition = self.pokedex_conditions[i]
-        default_image = self.pokedex_card_images()[i]
+        if condition(food_items): # food item should go in the deck!
+          image_urls[i] = food_item.diary_image()
+          num_matches += 1
+          break
+    return image_urls, num_matches, len(image_urls)
         
   
   def is_match(self, food_item):
