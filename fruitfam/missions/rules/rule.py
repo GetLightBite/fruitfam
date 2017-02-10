@@ -1,3 +1,5 @@
+from fruitfam.utils.emoji import Emoji
+
 class Rule(object):
   """
   The rules of all single player missions are defined with the Rule object.
@@ -109,7 +111,7 @@ class Rule(object):
     return cur_booty
   
   def mission_description(self):
-    return ' '.join(self.rules_text())
+    return ' '.join(self.rules_text()) + ' (+%d%s)' % (self.target_booty(), Emoji.peach())
   
   def get_mission_json(self):
     return {
