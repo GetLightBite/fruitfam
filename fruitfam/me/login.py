@@ -10,8 +10,12 @@ def login_user(fb_token):
   # Get fb ID:
   graph = facebook.GraphAPI(fb_token)
   args = {'fields' : 'id' }
+  user_fb_id = None
+  try:
   profile_data = graph.get_object('me', **args)
   user_fb_id = profile_data.get('id', None)
+  except Exception as e:
+    pass
   if user_fb_id != None:
     existing_user = User.query.filter_by(fb_id=user_fb_id).first()
     if existing_user != None:
