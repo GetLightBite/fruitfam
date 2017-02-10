@@ -4,7 +4,7 @@ from fruitfam.models.comment import Comment
 from fruitfam.models.like import Like
 from fruitfam.models.user import User
 from fruitfam.models.food_item import FoodItem
-from sqlalchemy import desc, and_
+from sqlalchemy import desc, and_, not_
 from sqlalchemy.orm import joinedload, load_only, Load
 
 def construct_comment_card(comment, user):
