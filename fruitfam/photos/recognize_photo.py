@@ -41,7 +41,9 @@ clf = joblib.load('fruitfam/bin/svm.pkl')
 def tags_to_vector(clarifai_tags, num_classes=len(list_of_clarifai_tags)):
   zeros = np.zeros(num_classes)
   [tags, scores] = zip(*clarifai_tags)
-  indexes = le.transform(list(tags)) # TODO(avadrevu): What if the tag doesn't exist? Handle ValueError here.
+  known_tags = set(le.classes_)
+  filtered_tags = set(tags).intersection(known_tags)
+  indexes = le.transform(list(filtered_tags))
   zeros[indexes] = np.array(scores)
   return zeros
 
@@ -61,11 +63,25 @@ def clarifai_tags_to_components_list(clarifai_tags):
   components_in_order = filter(lambda x: x.id not in [45, 49], components_in_order)
   return components_in_order
 
-def img_data_to_img_object(image_data):
-  stream_data = image_data.stream.read()
-  img_data = cStringIO.StringIO(stream_data)
-  img = Image.open(img_data)
-  return img
+def request_to_img_object(request):
+  image_data = request.files.get('docfile', None)
+  # form_data = ''.join(request.form.keys())
+  # print image_data, file_data
+  # print dir(request)
+  if image_data != None:
+    # It's from a phone!
+    stream_data = image_data.stream.read()
+    img_data = cStringIO.StringIO(stream_data)
+    img = Image.open(img_data)
+    return img
+  # if form_data not in ['', None]:
+  #   # It's from Postman!
+  #   # stream_data = file_data.stream.read()
+  #   # img_data = cStringIO.StringIO(stream_data)
+  #   file = cStringIO.StringIO(form_data)
+  #   img = Image.open(file)
+  #   return img
+  
 
 def guess_components(img):
   global food_model
@@ -85,10 +101,10 @@ def guess_components(img):
 
 def infer_image_type(general_clarifai_tags):
   human_tags = ['person', 'man', 'woman', 'face', 'nose', 'ear', 'glasses', 'pretty', 'smile', 'sexy', 'girl', 'boy', 'child', 'baby', 'human', 'people', 'men', 'women', 'children', 'faces']
-  fruit_tags = ['fruit', 'food', 'banana']
+  fruit_tags = ['fruit', 'food', 'apple', 'apricot', 'avocado', 'banana', 'blackberry', 'blackcurrant', 'blood orange', 'blueberry', 'cantaloupe', 'cherimoya', 'cherry', 'clementine', 'coconut', 'cranberry', 'cucumber', 'currant', 'date', 'dragonfruit', 'durian', 'fig', 'grape', 'grapefruit', 'guava', 'honeydew', 'jackfruit', 'kiwi', 'kumquat', 'lemon', 'lime', 'lychee', 'mandarine', 'mango', 'mangosteen', 'melon', 'nectarine', 'olive', 'orange', 'papaya', 'passionfruit', 'peach', 'pear', 'persimmon', 'pineapple', 'plantain', 'plum', 'pluot', 'pomegranate', 'prune', 'raisin', 'rambutan', 'raspberry', 'star fruit', 'strawberry', 'tamarind', 'tangerine', 'watermelon']
   has_human_tag, has_fruit_tag = False, False
   for classification, prob in general_clarifai_tags:
-    if prob > 0.90:
+    if prob > 0.95:
       if classification in human_tags:
         has_human_tag = True
       if classification in fruit_tags:
@@ -97,7 +113,7 @@ def infer_image_type(general_clarifai_tags):
     return 'food'
   if has_human_tag:
     return 'person'
-  return 'food'
+  return 'not food'
 
 def get_clarifai_guess_from_bytes(img_bytes, model):
   resp = model.predict_by_bytes(img_bytes)

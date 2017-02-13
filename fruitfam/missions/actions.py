@@ -1,6 +1,7 @@
 from fruitfam.missions.rules import level1
 from fruitfam.missions.rules import level2
 from fruitfam.missions.rules import level3
+from fruitfam.missions.rules import simple_pokedex
 
 def get_users_rules(user_mission):
   cur_rules = get_rules(user_mission.mission_id)
@@ -14,6 +15,7 @@ def get_rules(mission_id):
 def level_progression():
   return [
     level1.Level1,
+    simple_pokedex.SimplePokedex,
     level2.Level2,
     level3.Level3
   ]*20

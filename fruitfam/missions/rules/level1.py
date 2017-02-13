@@ -61,7 +61,6 @@ class Level1(TimeoutMission):
     
     # Schedule notif about 4 hours before timeout if possible
     seconds_to_timeout = self.timeout()
-    print seconds_to_timeout
     if seconds_to_timeout > 4*60*60+40:
       seconds_to_eight_pm = seconds_to_timeout - 4*60*60
       eight_pm_local = now + timedelta(seconds=seconds_to_eight_pm)

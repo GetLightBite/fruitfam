@@ -6,44 +6,54 @@ from fruitfam.utils.common import date_to_datetime
 class SimplePokedex(PokedexMission):
   """Log all the fruits in the pokedex!"""
   def __init__(self, user_mission):
-    super(Level1, self).__init__(user_mission)
+    super(PokedexMission, self).__init__(user_mission)
   
   def mission_name(self):
     return 'Collect all the fruits!' + Emoji.lightning()
   
   def rules_text(self):
     return [
-      'Eat each of these fruits to complete the mission!' + Emoji.hourglass()
+      'Log an Apple, and Orange and a Banana to complete this mission!' + Emoji.hourglass()
     ]
   
   def mission_id(self):
-    return 4
+    return 2
   
+  def on_food_log(self, food_item):
+    booty_earned = self.booty_earned(food_item)
+    self.increment_booty(booty_earned)
   
+  def booty_earned(self, food_item):
+    if self.is_match(food_item):
+      return 100
+    return 0
+  
+  def target_booty(self):
+    return 300
+  
+  def pokedex_card_images(self):
+    return [
+      'https://s3.amazonaws.com/fruitfam/bananaCell.png',
+      'https://s3.amazonaws.com/fruitfam/orangeCell.png',
+      'https://s3.amazonaws.com/fruitfam/redAppleCell.png'
+    ]
+  
+  def pokedex_conditions(self):
+    return [
+      lambda x: x.id == 4,
+      lambda x: x.id in [35, 37, 38, 39],
+      lambda x: x.id ==1
+    ]
+  
+  def pokedex_criteria(self):
+    return [
+      'Log a Banana',
+      'Log an Orange',
+      'Log an Apple'
+    ]
   
   def booty_call(self):
-    return 1
+    return 12
   
   def schedule_notifs(self):
-    from fruitfam.tasks.level1_reminders import twenty_min_reminder, eight_pm_reminder
-    user_mission = self.get_user_mission()
-    user_id = user_mission.user_id
-    mission_start = user_mission.created
-    now = datetime.utcnow()
-    
-    # First notif is 20 mins after log to remind user there's an extension
-    twenty_mins_after_mission = mission_start + timedelta(minutes=20)
-    if twenty_mins_after_mission > now:
-      twenty_min_reminder.apply_async(args=[user_id], eta=twenty_mins_after_mission)
-    
-    # Schedule notif about 4 hours before timeout if possible
-    seconds_to_timeout = self.timeout()
-    print seconds_to_timeout
-    if seconds_to_timeout > 4*60*60+40:
-      seconds_to_eight_pm = seconds_to_timeout - 4*60*60
-      eight_pm_local = now + timedelta(seconds=seconds_to_eight_pm)
-      eight_pm_reminder.apply_async(args=[user_id], eta=eight_pm_local)
-    elif seconds_to_timeout > 2*60*60:
-      seconds_to_ten_pm = seconds_to_timeout - 2*60*60
-      ten_pm_local = now + timedelta(seconds=seconds_to_ten_pm)
-      eight_pm_reminder.apply_async(args=[user_id], eta=ten_pm_local)
+    pass

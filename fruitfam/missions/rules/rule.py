@@ -27,8 +27,7 @@ class Rule(object):
   
   def on_food_log(self, food_item):
     """
-    Increments booty, sends notifications, any other work. Calls
-    self.on_mission_end() if the target booty is reached.
+    Increments booty, sends notifications, any other work.
     """
     pass
   
@@ -93,7 +92,6 @@ class Rule(object):
       for key in animation_json:
         if key not in levelup_animation_json:
           levelup_animation_json[key] = animation_json[key]
-      print levelup_animation_json
       response_json['newMission'] = new_mission_json
       response_json['animation'] = levelup_animation_json
     return response_json
@@ -137,7 +135,6 @@ class Rule(object):
   
   def get_animation_json(self, food_item):
     """What is the animation that logging this food item should have?"""
-    print 'rule animation code'
     current_booty = self.get_booty()
     target_booty = self.target_booty()
     booty_earned = self.booty_earned(food_item)

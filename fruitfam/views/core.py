@@ -7,7 +7,7 @@ from fruitfam.me.login import login_user
 from fruitfam.models.blocked_user import BlockedUser
 from fruitfam.models.user import User
 from fruitfam.models.user_mission import UserMission
-from fruitfam.photos.recognize_photo import guess_components, img_data_to_img_object
+from fruitfam.photos.recognize_photo import guess_components, request_to_img_object
 from fruitfam.photos.upload_food_item import upload_food_item_image, upload_recognition_image, upload_food_item, upload_food_item2
 from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
 from fruitfam.tasks.fb_login import fb_login
@@ -117,10 +117,10 @@ def analyze_photo_2():
   client_timestamp = data.get('created', -1)
   client_timestamp = int(client_timestamp)
   client_meal_id = data.get('randomizedId', None)
-  image_data = request.files.get('docfile', None)
+  # image_data = request.files.get('docfile', None)
   
   # Create image
-  img = img_data_to_img_object(image_data)
+  img = request_to_img_object(request)
   # Guess components
   image_type, comps, clarifai_tags = guess_components(img)
   # Create food
@@ -129,6 +129,8 @@ def analyze_photo_2():
   food_item_id = json_resp['recognition']['foodItemId']
   db.session.commit()
   upload_recognition_image(img, food_item_id)
+  print 'resp'
+  print json_resp
   return jsonify(**json_resp)
 
 @app.route('/upload/shareable_photo', methods=['POST'])

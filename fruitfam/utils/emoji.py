@@ -53,5 +53,8 @@ class EmojiEscaper(object):
   
   def peach(self):
     return '\xf0\x9f\x8d\x91'
+  
+  def sad(self):
+    return '\xf0\x9f\x99\x81'
 
 Emoji = EmojiEscaper()
