@@ -56,7 +56,8 @@ def login():
     playerId=user.id,
     token=user.token,
     mission=mission,
-    isNewUser=is_new_user
+    isNewUser=is_new_user,
+    tutorial=['Welcome to FruitFam, the mobile game that makes players healthy. \xf0\x9f\x8e\xae\xf0\x9f\x8d\x89\xf0\x9f\x9a\xb4\xf0\x9f\x8f\xbd', "You'll adopt healhty habits as you advance in levels \xf0\x9f\x8d\x93\xf0\x9f\x94\xa5", 'Earn booty by completing missions, and advance to harder levels. \xf0\x9f\x8d\x91\xf0\x9f\x8d\x91\xf0\x9f\x8f\x86', 'Your first mission: you have 2 minutes to take a picture of a fruit and eat it... go! \xf0\x9f\x8f\x81\xf0\x9f\x8d\x93\xf0\x9f\x8d\x90']
   )
 
 @app.route("/upload/apns_token", methods=['POST'])
