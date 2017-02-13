@@ -68,6 +68,8 @@ class PokedexMission(Rule):
       FoodItem.created > user_mission.created
     ).filter(
       FoodItem.created < food_item.created
+    ).filter(
+      FoodItem.not_food == False
     ).order_by(
       FoodItem.created
     ).all()

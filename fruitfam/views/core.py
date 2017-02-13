@@ -8,7 +8,7 @@ from fruitfam.models.blocked_user import BlockedUser
 from fruitfam.models.user import User
 from fruitfam.models.user_mission import UserMission
 from fruitfam.photos.recognize_photo import guess_components, request_to_img_object
-from fruitfam.photos.upload_food_item import upload_food_item_image, upload_recognition_image, upload_food_item, upload_food_item2
+from fruitfam.photos.upload_food_item import upload_food_item_image, upload_recognition_image, upload_food_item
 from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
 from fruitfam.tasks.fb_login import fb_login
 from fruitfam.utils.common import serialize_image
@@ -68,46 +68,6 @@ def upload_apns_token():
   db.session.commit()
   return '', 204
 
-@app.route('/analyze/photo', methods=['POST'])
-@auth.login_required
-def analyze_photo():
-  user = g.user
-  data = request.form
-  timezone = data.get('timezone', -8)
-  client_timestamp = data.get('created', -1)
-  client_timestamp = int(client_timestamp)
-  client_meal_id = data.get('randomizedId', None)
-  image_data = request.files.get('docfile', None)
-  
-  # Create image
-  print 'creating image...'
-  img = img_data_to_img_object(image_data)
-  # Guess components
-  print 'guessing components...'
-  comps, clarifai_tags = guess_components(img)
-  # Create food
-  print 'uploading food item...'
-  streak, food_item_id = upload_food_item(g.user, img, clarifai_tags, timezone)
-  
-  print 'serializing image...'
-  serialized_image = serialize_image(img)
-  set_shareable_photo.delay(food_item_id, serialized_image)
-  
-  # Get comp
-  component = comps[0]
-  message = component.get_message()
-  
-  db.session.commit()
-  return jsonify(
-    foodItemId=food_item_id,
-    isFruit=1,
-    title=component.name,
-    healthInfo="\xe2\x98\x9d\xf0\x9f\x8f\xbe Potasium, Vitamin A, C \n \xf0\x9f\x98\x81 34cal per cup",
-    message=message,
-    streak=streak,
-    token=g.user.token
-  )
-
 @app.route('/2/analyze/photo', methods=['POST'])
 @auth.login_required
 def analyze_photo_2():
@@ -124,7 +84,7 @@ def analyze_photo_2():
   # Guess components
   image_type, comps, clarifai_tags = guess_components(img)
   # Create food
-  json_resp = upload_food_item2(g.user, img, clarifai_tags, comps, timezone, image_type)
+  json_resp = upload_food_item(g.user, img, clarifai_tags, comps, timezone, image_type)
   
   food_item_id = json_resp['recognition']['foodItemId']
   db.session.commit()

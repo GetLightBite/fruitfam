@@ -21,7 +21,6 @@ class SimplePokedex(PokedexMission):
   
   def on_food_log(self, food_item):
     booty_earned = self.booty_earned(food_item)
-    print 'booty_earned', booty_earned
     self.increment_booty(booty_earned)
   
   def booty_earned(self, food_item):
