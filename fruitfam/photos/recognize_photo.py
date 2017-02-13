@@ -22,7 +22,7 @@ try:
   print 'starting clarifai app...'
   clarifai_app = ClarifaiApp()
   food_model = clarifai_app.models.get('food-items-v1.0')
-  time.sleep(1)
+  time.sleep(1) # Clarifai rate limit is 10rps. With 4 parallel instances + celery, we're hitting this :(
   general_model = clarifai_app.models.get('general-v1.3')
   print 'clarifai set up complete!'
 except Exception as e:
