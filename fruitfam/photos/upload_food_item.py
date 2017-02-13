@@ -61,6 +61,7 @@ def upload_food_item2(user, img, clarifai_tags, components, timezone, image_type
   if image_type != 'food':
     food_item.not_food = True
   food_item.clarifai_tags = json.dumps(clarifai_tags)
+  food_item.component_id = components[0].id
   db.session.add(food_item)
   
   # Deal with non food images

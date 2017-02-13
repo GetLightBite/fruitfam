@@ -41,9 +41,9 @@ class SimplePokedex(PokedexMission):
   
   def pokedex_conditions(self):
     return [
-      lambda x: x.id == 4,
-      lambda x: x.id in [35, 37, 38, 39],
-      lambda x: x.id ==1
+      lambda x: x.component_id == 4,
+      lambda x: x.component_id in [35, 37, 38, 39],
+      lambda x: x.component_id ==1
     ]
   
   def pokedex_criteria(self):

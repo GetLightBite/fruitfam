@@ -135,3 +135,5 @@ CREATE TABLE blocked_users
   UNIQUE (blocking_user_id, blocked_user_id),
   PRIMARY KEY (ID)
 );
+
+alter table food_items add component_id integer(11);

@@ -10,6 +10,7 @@ class FoodItem(db.Model):
   num_likes = db.Column(db.Integer, default=0)
   not_food = db.Column(db.Boolean, default = False)
   created = db.Column(db.DateTime)
+  component_id = db.Column(db.Integer)
   
   # Generated data
   img_url_icon = db.Column(db.String(255), index = True) # 100x100
