@@ -100,7 +100,7 @@ def guess_components(img):
   return image_type, components_guesses, tags_to_return
 
 def infer_image_type(general_clarifai_tags):
-  human_tags = ['man', 'woman', 'face', 'nose', 'ear', 'glasses', 'pretty', 'smile', 'sexy', 'girl', 'boy', 'child', 'baby', 'human', 'people', 'men', 'women', 'children', 'faces']
+  human_tags = ['man', 'woman', 'adult', 'face', 'nose', 'ear', 'glasses', 'pretty', 'smile', 'sexy', 'girl', 'boy', 'child', 'baby', 'human', 'people', 'men', 'women', 'children', 'faces']
   fruit_tags = ['fruit', 'food', 'apple', 'apricot', 'avocado', 'banana', 'blackberry', 'blackcurrant', 'blood orange', 'blueberry', 'cantaloupe', 'cherimoya', 'cherry', 'clementine', 'coconut', 'cranberry', 'cucumber', 'currant', 'date', 'dragonfruit', 'durian', 'fig', 'grape', 'grapefruit', 'guava', 'honeydew', 'jackfruit', 'kiwi', 'kumquat', 'lemon', 'lime', 'lychee', 'mandarine', 'mango', 'mangosteen', 'melon', 'nectarine', 'olive', 'orange', 'papaya', 'passionfruit', 'peach', 'pear', 'persimmon', 'pineapple', 'plantain', 'plum', 'pluot', 'pomegranate', 'prune', 'raisin', 'rambutan', 'raspberry', 'star fruit', 'strawberry', 'tamarind', 'tangerine', 'watermelon']
   has_human_tag, has_fruit_tag = False, False
   for classification, prob in general_clarifai_tags:
