@@ -146,6 +146,7 @@ class Rule(object):
           'endBootyNumerator': current_booty + booty_earned,
           'bootyDenominator': target_booty,
           'missionDescription': self.mission_description()
+          'missionTitle': self.mission_name()
         }
       }
   

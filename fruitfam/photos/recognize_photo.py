@@ -25,6 +25,7 @@ try:
   print 'clarifai set up complete!'
 except Exception as e:
   print "Had an issue with launching Clarifai!!!"
+  print e
 
 k = open('fruitfam/bin/clarifai_tags.json', 'r')
 clarifai_tags_str = k.read()
