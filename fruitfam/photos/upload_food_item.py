@@ -80,7 +80,7 @@ def upload_food_item2(user, img, clarifai_tags, components, timezone, image_type
       json_response = {}
       recognition_json = {
         'title': 'Oh, %s!' % Emoji.poo(),
-        'message':"We couldn't figure out what that is from the picture %s. Try again from a different angle!" % Emoji.sad(),
+        'message':"We couldn't figure out what fruit that was %s. Try again from a different angle!" % Emoji.sad(),
         'foodItemId': food_item.id,
         'isFruit':0
       }

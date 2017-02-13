@@ -61,6 +61,7 @@ class PokedexMission(Rule):
   
   def is_match(self, food_item):
     # TODO(avadrevu): Return if a food item is a match. Check that no other food_items before it are matches - must be the first match for a given pokedex
+    user_mission = self.get_user_mission()
     food_items = FoodItem.query.filter(
       FoodItem.user_id == user_mission.user_id
     ).filter(
