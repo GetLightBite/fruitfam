@@ -52,7 +52,7 @@ class PokedexMission(Rule):
       for j in range(len(food_items)):
         food_item = food_items[j]
         if (not found_match[i]) and condition(food_item): # food item should go in the deck!
-          images_with_id[i] = (food_item.diary_image(), food_item.id)
+          images_with_id[i] = (food_item.diary_img(), food_item.id)
           num_matches += 1
           found_match[i] = True
           break
