@@ -142,7 +142,7 @@ def upload_shareable_photo():
   image_data = request.files.get('docfile', None)
   
   # Create image
-  img = img_data_to_img_object(image_data)
+  img = request_to_img_object(request)
   upload_food_item_image(img, food_item_id)
   
   return ('', 204)

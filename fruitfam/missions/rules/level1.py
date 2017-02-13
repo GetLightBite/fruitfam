@@ -35,7 +35,7 @@ class Level1(TimeoutMission):
       return 120
     if self.get_timeouts_reached() > 0:
       # Get the end of the day
-      user_local_time = self.get_user_mission().local_time()
+      user_local_time = self.get_user_mission().user.local_time()
       user_end_of_day = date_to_datetime(user_local_time.date()) + timedelta(days=1)
       user_time_to_eod = user_end_of_day - user_local_time
       seconds_to_eod = user_time_to_eod.seconds
