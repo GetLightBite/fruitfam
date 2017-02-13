@@ -92,6 +92,8 @@ def upload_food_item(user, img, clarifai_tags, components, timezone, image_type=
   return json_response
 
 def upload_recognition_image(img, food_item_id):
+  if True:
+    return
   upload_image_process = Process(
     target=upload_recognition_image_parallel,
     args=(

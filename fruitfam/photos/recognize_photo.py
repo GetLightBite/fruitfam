@@ -1,13 +1,14 @@
 from clarifai.rest import ClarifaiApp
 import cStringIO
-import json
+from fruitfam.models.component import Component
 import io
-import os
+import json
 import numpy as np
+import os
 from PIL import Image
+import time
 from sklearn import preprocessing
 from sklearn.externals import joblib
-from fruitfam.models.component import Component
 
 os.environ["CLARIFAI_APP_ID"] = "kjYQw3CwWsbSbQ_jz8hKQdKjQyEU-xp7-2l0Sf4H"
 os.environ["CLARIFAI_APP_SECRET"] = "w0tRU0zEat5rwuX91GRP4ugXIpxqvZB-q-guqgnL"
@@ -21,11 +22,14 @@ try:
   print 'starting clarifai app...'
   clarifai_app = ClarifaiApp()
   food_model = clarifai_app.models.get('food-items-v1.0')
+  # time.sleep(0.5)
   general_model = clarifai_app.models.get('general-v1.3')
   print 'clarifai set up complete!'
 except Exception as e:
   print "Had an issue with launching Clarifai!!!"
   print e
+  print food_model
+  print dir(food_model)
 
 k = open('fruitfam/bin/clarifai_tags.json', 'r')
 clarifai_tags_str = k.read()

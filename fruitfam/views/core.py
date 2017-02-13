@@ -152,7 +152,6 @@ def load_diary():
     recipeCount=0,
     bootyNumerator=user_mission.get_booty(),
     bootyDenominator=rules.target_booty(),
-    missionDescription=rules.mission_description(),
     maxStreak=diary_user.get_max_streak(),
     totalPhotos=len(diary),
     photos=diary,
