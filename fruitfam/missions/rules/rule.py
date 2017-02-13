@@ -143,7 +143,7 @@ class Rule(object):
         'diaryAnimation' : {
           'leveledUp': 0,
           'startBootyNumerator': current_booty,
-          'endBootyNumerator': booty_earned,
+          'endBootyNumerator': current_booty + booty_earned,
           'bootyDenominator': target_booty,
           'missionDescription': self.mission_description()
         }
@@ -155,6 +155,7 @@ class Rule(object):
     old_booty = diary_animation['startBootyNumerator']
     old_target_booty = diary_animation['endBootyNumerator']
     old_mission_description = diary_animation['missionDescription']
+    old_mission_title = diary_animation['missionTitle']
     
     target_booty = self.target_booty()
     user_level = self.get_user_mission().user.level
@@ -169,5 +170,7 @@ class Rule(object):
         'endMissionDescription': self.mission_description(),
         'startPlayerLevel' : user_level-1,
         'endPlayerLevel' : user_level,
+        'startMissionTitle' : old_mission_title,
+        'endMissionTitle' : self.mission_name()
       }
     }
