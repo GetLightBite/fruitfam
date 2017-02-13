@@ -75,6 +75,7 @@ class PokedexMission(Rule):
     ).order_by(
       FoodItem.created
     ).all()
+    print food_items
     conditions = self.pokedex_conditions()
     found_match = [False]*len(conditions)
     
@@ -85,6 +86,7 @@ class PokedexMission(Rule):
         if (not found_match[j]) and condition(cur_food_item):
           found_match[j] = True
           break
+    print found_match
     for j in range(len(conditions)):
       condition = conditions[j]
       if (not found_match[j]) and condition(food_item):

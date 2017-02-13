@@ -17,10 +17,11 @@ def upload_food_item(user, img, clarifai_tags, components, timezone, image_type=
   
   # Create an empty food_item
   food_item = FoodItem(user)
-  if image_type != 'food':
-    food_item.not_food = True
   food_item.clarifai_tags = json.dumps(clarifai_tags)
   food_item.component_id = components[0].id
+  if image_type != 'food':
+    food_item.not_food = True
+    food_item.component_id = None
   db.session.add(food_item)
   
   # Deal with non food images
