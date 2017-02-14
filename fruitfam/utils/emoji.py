@@ -56,5 +56,26 @@ class EmojiEscaper(object):
   
   def sad(self):
     return '\xf0\x9f\x99\x81'
+  
+  def controller(self):
+    return '\xf0\x9f\x8e\xae'
+  
+  def watermelon(self):
+    return '\xf0\x9f\x8d\x89'
+  
+  def cyclist(self):
+    return '\xf0\x9f\x9a\xb4\xf0\x9f\x8f\xbd'
+  
+  def strawberry(self):
+    return '\xf0\x9f\x8d\x93'
+  
+  def trophy(self):
+    return '\xf0\x9f\x8f\x86'
+  
+  def checkered_flag(self):
+    return '\xf0\x9f\x8f\x81'
+  
+  def pear(self):
+    return '\xf0\x9f\x8d\x90'
 
 Emoji = EmojiEscaper()

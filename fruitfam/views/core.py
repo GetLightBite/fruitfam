@@ -12,6 +12,7 @@ from fruitfam.photos.upload_food_item import upload_food_item_image, upload_reco
 from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
 from fruitfam.tasks.fb_login import fb_login
 from fruitfam.utils.common import serialize_image
+from fruitfam.utils.emoji import Emoji
 import os
 
 @auth.verify_password
@@ -52,12 +53,18 @@ def login():
   ).one()
   rules = user_mission.get_rules()
   mission = rules.get_mission_json()
+  tutorial = [
+    'Welcome to FruitFam, the mobile game that makes players healthy. ' + Emoji.running_woman(),
+    'You\'ll adopt healthy habits as you advance in levels ' + Emoji.trophy(),
+    'Earn booty %s by completing missions, and advance to harder levels %s' % (Emoji.peach(), Emoji.fire()),
+    'Your first mission: you have 2 minutes %s to take a picture of a fruit and eat it... go! %s' % (Emoji.hourglass(), Emoji.checkered_flag())
+  ]
   return jsonify(
     playerId=user.id,
     token=user.token,
     mission=mission,
     isNewUser=is_new_user,
-    tutorial=['Welcome to FruitFam, the mobile game that makes players healthy. \xf0\x9f\x8e\xae\xf0\x9f\x8d\x89\xf0\x9f\x9a\xb4\xf0\x9f\x8f\xbd', "You'll adopt healhty habits as you advance in levels \xf0\x9f\x8d\x93\xf0\x9f\x94\xa5", 'Earn booty by completing missions, and advance to harder levels. \xf0\x9f\x8d\x91\xf0\x9f\x8d\x91\xf0\x9f\x8f\x86', 'Your first mission: you have 2 minutes to take a picture of a fruit and eat it... go! \xf0\x9f\x8f\x81\xf0\x9f\x8d\x93\xf0\x9f\x8d\x90']
+    tutorial=tutorial
   )
 
 @app.route("/upload/apns_token", methods=['POST'])
