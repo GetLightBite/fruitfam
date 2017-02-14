@@ -122,6 +122,7 @@ def infer_image_type(general_clarifai_tags):
     if prob > 0.95:
       if classification in human_tags:
         has_human_tag = True
+    if prob > 0.90:
       if classification in fruit_tags:
         has_fruit_tag = True
   if has_fruit_tag:
