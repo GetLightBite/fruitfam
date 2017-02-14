@@ -57,6 +57,9 @@ def clarifai_tags_to_components_list(clarifai_tags):
   all_components.sort(key=lambda x: x.id)
   if clarifai_tags == None:
     return None
+  some_comp = find_top_component(clarifai_tags, all_components)
+  if len(some_comp) > 0:
+    return some_comp
   vector = tags_to_vector(clarifai_tags)
   probs = list(clf.predict_log_proba(vector)[0])
   lowest_score = min(probs)
@@ -67,6 +70,13 @@ def clarifai_tags_to_components_list(clarifai_tags):
   # Remove kumquat, plantain, pluot
   components_in_order = filter(lambda x: x.id not in [24, 45, 49], components_in_order)
   return components_in_order
+
+def find_top_component(clarifai_tags, all_components):
+  top_tag = clarifai_tags[0][0]
+  for component in all_components:
+    if component.name.lower() == top_tag.lower():
+      return [component]
+  return []
 
 def request_to_img_object(request):
   image_data = request.files.get('docfile', None)
