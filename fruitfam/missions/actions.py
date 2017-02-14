@@ -1,4 +1,5 @@
 from fruitfam.missions.rules import fiber_fanatic
+from fruitfam.missions.rules import hard_pokedex
 from fruitfam.missions.rules import level1
 from fruitfam.missions.rules import level2
 from fruitfam.missions.rules import level3
@@ -18,5 +19,6 @@ def level_progression():
     level1.Level1,
     simple_pokedex.SimplePokedex,
     fiber_fanatic.FiberFanatic,
+    hard_pokedex.HardPokedex,
     level3.Level3
   ]*20
