@@ -53,12 +53,16 @@ def login():
   ).one()
   rules = user_mission.get_rules()
   mission = rules.get_mission_json()
-  tutorial = [
+  instructions = [
     'Welcome to FruitFam, the mobile game that makes players healthy. ' + Emoji.running_woman(),
     'You\'ll adopt healthy habits as you advance in levels ' + Emoji.trophy(),
     'Earn booty %s by completing missions, and advance to harder levels %s' % (Emoji.peach(), Emoji.fire()),
     'Your first mission: you have 2 minutes %s to take a picture of a fruit and eat it... go! %s' % (Emoji.hourglass(), Emoji.checkered_flag())
   ]
+  tutorial = {
+    'title': 'Mission 1 %s' % Emoji.fire(),
+    'messages' : ['asdf']
+  }
   return jsonify(
     playerId=user.id,
     token=user.token,
@@ -134,6 +138,7 @@ def get_streak():
   user = g.user
   streak = user.get_streak()
   max_streak = user.get_max_streak()
+  print streak, max_streak
   return jsonify(
     current = streak,
     max = max_streak

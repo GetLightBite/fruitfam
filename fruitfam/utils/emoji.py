@@ -77,5 +77,11 @@ class EmojiEscaper(object):
   
   def pear(self):
     return '\xf0\x9f\x8d\x90'
+  
+  def right_arrow(self):
+    return '\xe2\x9e\xa1\xef\xb8\x8f'
+  
+  def six(self):
+    return '6\xef\xb8\x8f\xe2\x83\xa3'
 
 Emoji = EmojiEscaper()

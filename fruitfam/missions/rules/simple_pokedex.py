@@ -6,7 +6,7 @@ from fruitfam.utils.common import date_to_datetime
 class SimplePokedex(PokedexMission):
   """Log all the fruits in the pokedex!"""
   def __init__(self, user_mission):
-    super(PokedexMission, self).__init__(user_mission)
+    super(SimplePokedex, self).__init__(user_mission)
   
   def mission_name(self):
     return 'Collect all the fruits!' + Emoji.lightning()
