@@ -16,6 +16,9 @@ class HardPokedex(PokedexMission):
       'Tap here to find out the fruits to log!' + Emoji.right_arrow()
     ]
   
+  def explanation(self):
+    return 'Log each of the following fruits: Papaya, Mango, Kiwi, Apple, Orange, and Banana!'
+  
   def mission_id(self):
     return 4
   

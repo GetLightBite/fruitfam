@@ -92,5 +92,26 @@ class EmojiEscaper(object):
   
   def crown(self):
     return '\xf0\x9f\x91\x91'
+  
+  def family(self):
+    return '\xf0\x9f\x91\xa8\xe2\x80\x8d\xf0\x9f\x91\xa9\xe2\x80\x8d\xf0\x9f\x91\xa7\xe2\x80\x8d\xf0\x9f\x91\xa6'
+  
+  def bread(self):
+    return '\xf0\x9f\x8d\x9e'
+  
+  def sushi(self):
+    return '\xf0\x9f\x8d\xa3'
+  
+  def camera(self):
+    return '\xf0\x9f\x93\xb8'
+  
+  def apple(self):
+    return '\xf0\x9f\x8d\x8e'
+  
+  def orange(self):
+    return '\xf0\x9f\x8d\x8a'
+  
+  def banana(self):
+    return '\xf0\x9f\x8d\x8c'
 
 Emoji = EmojiEscaper()

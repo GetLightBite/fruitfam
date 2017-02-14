@@ -71,7 +71,7 @@ class FiberFanatic(PokedexMission):
   def introduction(self):
     return [
       "Congratulations! You're well on your way to becoming a fruit king " + Emoji.crown(),
-      "The next mission is about fiber. We'll show you what to eat to lower cholesterol, achieve a healthy weight, and of course, normalize bowel movements " + Emoji.poo()
+      "The next mission is about fiber. You'll learn what to eat to lower cholesterol, achieve a healthy weight, and of course, normalize bowel movements " + Emoji.poo()
     ]
   
   def schedule_notifs(self):
