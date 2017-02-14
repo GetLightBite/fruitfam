@@ -68,7 +68,7 @@ def clarifai_tags_to_components_list(clarifai_tags):
   probs_with_tags.sort(reverse=True)
   components_in_order = map(lambda x: x[1], probs_with_tags)
   # Remove kumquat, plantain, pluot
-  components_in_order = filter(lambda x: x.id not in [24, 45, 49], components_in_order)
+  components_in_order = filter(lambda x: x.id not in [24, 45, 49, 13], components_in_order)
   return components_in_order
 
 def find_top_component(clarifai_tags, all_components):
@@ -76,6 +76,12 @@ def find_top_component(clarifai_tags, all_components):
   for component in all_components:
     if component.name.lower() == top_tag.lower():
       return [component]
+  # second best tag?
+  if clarifai_tags[1][1] > 0.98:
+    top_tag = clarifai_tags[1][0]
+    for component in all_components:
+      if component.name.lower() == top_tag.lower():
+        return [component]
   return []
 
 def request_to_img_object(request):
