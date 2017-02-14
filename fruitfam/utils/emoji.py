@@ -83,5 +83,14 @@ class EmojiEscaper(object):
   
   def six(self):
     return '6\xef\xb8\x8f\xe2\x83\xa3'
+  
+  def plate(self):
+    return '\xf0\x9f\x8d\xbd'
+  
+  def fork_and_knife(self):
+    return '\xf0\x9f\x8d\xb4'
+  
+  def crown(self):
+    return '\xf0\x9f\x91\x91'
 
 Emoji = EmojiEscaper()

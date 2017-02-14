@@ -33,12 +33,12 @@ class HardPokedex(PokedexMission):
   
   def pokedex_card_images(self):
     return [
-      # Papaya,
-      # Mango,
-      # Kiwi,
-      # Apple,
-      # Orange,
-      # Banana
+      'https://s3.amazonaws.com/fruitfam/papayaCell.png',
+      'https://s3.amazonaws.com/fruitfam/mangoCell.png',
+      'https://s3.amazonaws.com/fruitfam/kiwiCell.png',
+      'https://s3.amazonaws.com/fruitfam/redAppleCell.png',
+      'https://s3.amazonaws.com/fruitfam/orangeCell.png',
+      'https://s3.amazonaws.com/fruitfam/bananaCell.png'
     ]
   
   def pokedex_conditions(self):

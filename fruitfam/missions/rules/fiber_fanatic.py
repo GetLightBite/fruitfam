@@ -13,9 +13,12 @@ class FiberFanatic(PokedexMission):
   
   def rules_text(self):
     return [
-      'Log 5 high fiber fruits to complete this mission!' + Emoji.trophy(),
-      'Tap here to see the list of allowed fruits ' + Emoji.right_arrow()
+      'Log 5 fibrous fruits!' + Emoji.trophy(),
+      'Tap here to see the allowed fruits'
     ]
+  
+  def explanation(self):
+    return 'Log 5 of the following 6 fruits: Passion fruit, Avacado, Raspberries, Kumquats, Guavas, Blackberries'
   
   def mission_id(self):
     return 3
@@ -34,12 +37,12 @@ class FiberFanatic(PokedexMission):
   
   def pokedex_card_images(self):
     return [
-      'https://s3.amazonaws.com/fruitfam/passionfruit.png',
-      'https://s3.amazonaws.com/fruitfam/avocado.png',
-      'https://s3.amazonaws.com/fruitfam/raspberry.png',
-      'https://s3.amazonaws.com/fruitfam/kumquat.png',
-      'https://s3.amazonaws.com/fruitfam/guava.png',
-      'https://s3.amazonaws.com/fruitfam/blackberry.png'
+      'https://s3.amazonaws.com/fruitfam/passionfruitCell.png',
+      'https://s3.amazonaws.com/fruitfam/avocadoCell.png',
+      'https://s3.amazonaws.com/fruitfam/raspberryCell.png',
+      'https://s3.amazonaws.com/fruitfam/kumquatCell.png',
+      'https://s3.amazonaws.com/fruitfam/guavaCell.png',
+      'https://s3.amazonaws.com/fruitfam/blackberryCell.png'
     ]
   
   def pokedex_conditions(self):
@@ -64,6 +67,12 @@ class FiberFanatic(PokedexMission):
   
   def booty_call(self):
     return 26
+  
+  def introduction(self):
+    return [
+      "Congratulations! You're well on your way to becoming a fruit king " + Emoji.crown(),
+      "The next mission is about fiber. We'll show you what to eat to lower cholesterol, achieve a healthy weight, and of course, normalize bowel movements " + Emoji.poo()
+    ]
   
   def schedule_notifs(self):
     pass

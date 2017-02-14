@@ -13,7 +13,7 @@ class SimplePokedex(PokedexMission):
   
   def rules_text(self):
     return [
-      'Log an Apple, and Orange and a Banana to complete this mission!' + Emoji.hourglass()
+      'Log an Apple, an Orange and a Banana to complete this mission!' + Emoji.hourglass()
     ]
   
   def mission_id(self):
@@ -55,6 +55,13 @@ class SimplePokedex(PokedexMission):
   
   def booty_call(self):
     return 12
+  
+  def introduction(self):
+    return [
+      "Well done padawan, you're now ahead of 70% of other players " + Emoji.fork_and_knife() + Emoji.trophy(),
+      "For this next mission we'll crank up the heat in this kitchen " + Emoji.fire(),
+      "This time, you must eat each of the following fruits: one apple, one orange, and one banana"
+    ]
   
   def schedule_notifs(self):
     pass

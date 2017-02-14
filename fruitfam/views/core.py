@@ -57,11 +57,11 @@ def login():
     'Welcome to FruitFam, the mobile game that makes players healthy. ' + Emoji.running_woman(),
     'You\'ll adopt healthy habits as you advance in levels ' + Emoji.trophy(),
     'Earn booty %s by completing missions, and advance to harder levels %s' % (Emoji.peach(), Emoji.fire()),
-    'Your first mission: you have 2 minutes %s to take a picture of a fruit and eat it... go! %s' % (Emoji.hourglass(), Emoji.checkered_flag())
+    'You have 120 seconds to find a fruit and take a picture of it...  and then eat it!! %s' % (Emoji.grinning())
   ]
   tutorial = {
     'title': 'Mission 1 %s' % Emoji.fire(),
-    'messages' : ['asdf']
+    'messages' : instructions
   }
   return jsonify(
     playerId=user.id,
@@ -157,6 +157,7 @@ def load_diary():
   ).one()
   rules = user_mission.get_rules()
   mission = rules.get_mission_json()
+  print mission
   diary = get_diary(diary_user, requesting_user)
   return jsonify(
     playerName=diary_user.name(),

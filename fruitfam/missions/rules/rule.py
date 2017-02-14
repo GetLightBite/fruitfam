@@ -61,6 +61,12 @@ class Rule(object):
     """
     pass
   
+  def introduction(self):
+    """
+    Returns a list of screens which will be shown as an intro to this mission.
+    """
+    return []
+  
   def schedule_notifs(self):
     """
     Gets called when the mission is created or when celery starts
@@ -112,12 +118,18 @@ class Rule(object):
     return ' '.join(self.rules_text()) + ' (+%d%s)' % (self.target_booty(), Emoji.peach())
   
   def get_mission_json(self):
+    introduction_title = self.mission_name()
+    introduction_messages = self.introduction()
     return {
       'missionTitle' : self.mission_name(),
       'missionDescription' : self.mission_description(),
       # 'currentBooty' : self.get_booty(),
       # 'targetBooty': self.target_booty(),
-      'missionType' : self.mission_type()
+      'missionType' : self.mission_type(),
+      'introduction' : {
+        'title' : introduction_title,
+        'messages' : introduction_messages
+      }
     }
   
   def booty_prize_json(self, food_item):

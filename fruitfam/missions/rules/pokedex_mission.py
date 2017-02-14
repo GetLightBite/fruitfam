@@ -1,6 +1,7 @@
 from datetime import timedelta
 from fruitfam.missions.rules.rule import Rule
 from fruitfam.models.food_item import FoodItem
+from fruitfam.utils.emoji import Emoji
 
 class PokedexMission(Rule):
   """
@@ -29,6 +30,10 @@ class PokedexMission(Rule):
     item.
     """
     pass
+  
+  def explanation(self):
+    """ Long form explanation of the mission """
+    return self.mission_description()
   
   def get_progress(self):
     """
@@ -108,8 +113,9 @@ class PokedexMission(Rule):
         album_item['foodItemId'] = food_item_id
       album.append(album_item)
     pokedex_mission = {
-      'progressDescription': '%d/%d' % (num_matches, total_items),
+      'progressDescription': '%d/%d devoured %s' % (num_matches, total_items, Emoji.plate()),
       'progressPercentage' : int(100*num_matches / float(total_items)),
+      'explanation' : self.explanation(),
       'timeRemaining': '',
       'album': album
     }
