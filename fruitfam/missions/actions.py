@@ -1,6 +1,7 @@
+from fruitfam.missions.rules import fiber_fanatic
 from fruitfam.missions.rules import level1
 from fruitfam.missions.rules import level2
-from fruitfam.missions.rules import fiber_fanatic
+from fruitfam.missions.rules import level3
 from fruitfam.missions.rules import simple_pokedex
 
 def get_users_rules(user_mission):
