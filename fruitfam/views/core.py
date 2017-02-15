@@ -55,7 +55,7 @@ def login():
   mission = rules.get_mission_json()
   instructions = [
     'Get fit by completing each mission in this game ' + Emoji.running_woman(),
-    'Level up by collecting booty points. Earn these by completing missions %s%s%s = %s' % (Emoji.peach(), Emoji.peach(), Emoji.peach(), Emoji.trophy()),
+    'Level up by collecting booty points. Earn these by completing missions\n%s%s%s = %s' % (Emoji.peach(), Emoji.peach(), Emoji.peach(), Emoji.trophy()),
     'Beat the first few missions by eating more fruit %s%s. Advanced levels will focus on other parts of your diet %s%s' % (Emoji.watermelon(), Emoji.strawberry(), Emoji.bread(), Emoji.sushi()),
     'Your first mission: You have 120 seconds to find a fruit and take a picture of it...  and then eat it!! %s%s%s' % (Emoji.camera(), Emoji.watermelon(), Emoji.plate())
   ]
