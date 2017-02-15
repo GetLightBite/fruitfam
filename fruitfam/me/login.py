@@ -8,18 +8,12 @@ from sqlalchemy import func
 
 def login_user(fb_token):
   # Get fb ID:
-  print '1.1'
   graph = facebook.GraphAPI(fb_token)
-  print '1.2'
   args = {'fields' : 'id' }
   user_fb_id = None
-  print '1.3'
   try:
-    print '1.4'
     profile_data = graph.get_object('me', **args)
-    print '1.5'
     user_fb_id = profile_data.get('id', None)
-    print '1.6'
   except Exception as e:
     pass
   if user_fb_id != None:
