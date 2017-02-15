@@ -42,25 +42,30 @@ def favicon():
 
 @app.route('/login/fb', methods=['POST'])
 def login():
-  print 'token'
   fb_token = request.json['fbToken']
-  print fb_token
+  print '1'
   user, is_new_user = login_user(fb_token)
+  print '2'
   g.user = user
   # Get the first mission!
+  print '3'
   user_mission = UserMission.query.filter(
     UserMission.user_id == g.user.id
   ).filter(
     UserMission.is_over == False
   ).one()
+  print '4'
   rules = user_mission.get_rules()
+  print '5'
   mission = rules.get_mission_json()
+  print '6'
   instructions = [
     'Get fit by completing each mission in this game ' + Emoji.running_woman(),
     'Level up by collecting booty points. Earn these by completing missions\n%s%s%s = %s' % (Emoji.peach(), Emoji.peach(), Emoji.peach(), Emoji.trophy()),
     'Beat the first few missions by eating more fruit %s%s. Advanced levels will focus on other parts of your diet %s%s' % (Emoji.watermelon(), Emoji.strawberry(), Emoji.bread(), Emoji.sushi()),
     'Your first mission: You have 120 seconds to find a fruit and take a picture of it...  and then eat it!! %s%s%s' % (Emoji.camera(), Emoji.watermelon(), Emoji.plate())
   ]
+  print '7'
   tutorial = {
     'title': 'Welcome to FruitFam %s%s' % (Emoji.peach(), Emoji.family()),
     'messages' : instructions
