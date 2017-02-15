@@ -54,13 +54,13 @@ if parsed_args.prod:
       print 'Didn\'t quite get that. Try typing \'y\' or \'n\''
 
 if parsed_args.prod:
-  run('heroku config:set ENV=prod --app fruitfam-prod')
+  run('heroku config:set ENV=PROD --app fruitfam-prod')
   run('heroku config:set APP_CONFIG_FILE=../config/prod.py --app fruitfam-prod')
   run('git push prod master')
   run('heroku ps:scale celery=0 --app fruitfam-prod')
   run('heroku ps:scale celery=1 --app fruitfam-prod')
 else:
-  run('heroku config:set ENV=devel --app fruitfam-devel')
+  run('heroku config:set ENV=DEVEL --app fruitfam-devel')
   run('heroku config:set APP_CONFIG_FILE=../config/devel.py --app fruitfam-devel')
   run('git push -f devel HEAD:master')
   run('heroku ps:scale celery=0 --app fruitfam-devel')

@@ -10,8 +10,11 @@ import time
 import traceback
 import os
 import random
+import sys
 
 os.environ["APP_CONFIG_FILE"] = "../config/devel.py"
+if len(sys.argv) > 0 and sys.argv[1] == 'prod':
+  os.environ["APP_CONFIG_FILE"] = "../config/prod.py"
 
 from fruitfam import app, auth, db
 from fruitfam.models.blocked_user import BlockedUser
@@ -23,3 +26,6 @@ from fruitfam.models.recipe import Recipe
 from fruitfam.models.recipe_unlock import RecipeUnlock
 from fruitfam.models.user import User
 from fruitfam.models.user_mission import UserMission
+from fruitfam.utils.common import *
+from fruitfam.utils.emoji import *
+from fruitfam.utils.upload_image import *

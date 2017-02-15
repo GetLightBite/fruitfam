@@ -42,7 +42,7 @@ class Level1(TimeoutMission):
       return seconds_to_eod
   
   def on_timeout_popup(self):
-    return "Oh %s, looks like you ran out of time! But no worries, since it's your first mission we'll give you some extra time %s" % (Emoji.poo(), Emoji.wink())
+    return "Oh %s, looks like you ran out of time! But no worries, since it's your first mission we'll give you till the end of the day %s" % (Emoji.poo(), Emoji.wink())
   
   def booty_call(self):
     return 1
