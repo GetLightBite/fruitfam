@@ -6,7 +6,7 @@ class RequestLog(db.Model):
   id = db.Column(db.Integer, primary_key = True)
   
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-  user = db.relationship(kUUser,
+  user = db.relationship('User',
       backref=db.backref("request_logs"))
   
   url = db.Column(db.String(511))
