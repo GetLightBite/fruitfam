@@ -42,7 +42,9 @@ def favicon():
 
 @app.route('/login/fb', methods=['POST'])
 def login():
+  print 'token'
   fb_token = request.json['fbToken']
+  print fb_token
   user, is_new_user = login_user(fb_token)
   g.user = user
   # Get the first mission!
