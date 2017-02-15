@@ -137,3 +137,15 @@ CREATE TABLE blocked_users
 );
 
 alter table food_items add component_id integer(11);
+
+CREATE TABLE request_logs
+(
+ID int NOT NULL AUTO_INCREMENT,
+user_id int(11),
+url varchar(511) NOT NULL,
+ip varchar(255),
+env varchar(255),
+request_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+ms_taken float,
+PRIMARY KEY (ID)
+);

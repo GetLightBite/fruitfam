@@ -5,6 +5,7 @@ from fruitfam.me.actions import like_food_item, unlike_food_item, add_comment
 from fruitfam.me.diary import get_diary
 from fruitfam.me.login import login_user
 from fruitfam.models.blocked_user import BlockedUser
+from fruitfam.models.request_log import RequestLog
 from fruitfam.models.user import User
 from fruitfam.models.user_mission import UserMission
 from fruitfam.photos.recognize_photo import guess_components, request_to_img_object
@@ -21,7 +22,6 @@ def verify_password(token, password):
   user = User.verify_auth_token(token)
   g.user = user
   if not user:
-    # g.user, token = User.create_user('someuser', 'someuser', 'someemail')
     return False
   return True
 
@@ -35,6 +35,30 @@ def index():
 def favicon():
   return send_from_directory(os.path.join(app.root_path, 'bin'),
     'peach.ico', mimetype='image/vnd.microsoft.icon')
+
+# Measure request times
+@app.before_request
+def before_request():
+  g.last_request_start = datetime.utcnow()
+
+@app.after_request
+def log_request_stats(r):
+  ms_taken = (datetime.utcnow() - g.last_request_start).total_seconds() * 1000
+  url = request.url_rule
+  if url == None:
+    url = 'unknown'
+  try:
+    user = g.user
+  except AttributeError, e:
+    user = None
+  ip = request.remote_addr
+  env = os.environ.get('ENV', 'DEVEL')
+  utctime = datetime.utcnow()
+  log = RequestLog(url, user, ip, env, ms_taken)
+  db.session.add(log)
+  db.session.commit()
+  r.cache_control.max_age = 1209600
+  return r
 
 ##############
 # Core Views #
