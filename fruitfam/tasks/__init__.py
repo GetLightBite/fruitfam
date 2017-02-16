@@ -1,5 +1,6 @@
 from fruitfam.tasks.level1_reminders import twenty_min_reminder, eight_pm_reminder
 from fruitfam.tasks.simple_pokedex_reminders import simple_pokedex_reminder
+from fruitfam.tasks.likes import like_notification
 from fruitfam.tasks.notifications import *
 from fruitfam.tasks.update_food_item import *
 

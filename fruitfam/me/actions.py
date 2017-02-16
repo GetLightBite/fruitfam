@@ -4,15 +4,19 @@ from fruitfam.models.comment import Comment
 from fruitfam.models.like import Like
 from fruitfam.models.recipe import Recipe
 from fruitfam.models.recipe_unlock import RecipeUnlock
+from fruitfam.utils.common import send_notification
+from fruitfam.utils.emoji import Emoji
 # from fruitfam.models.user import User
 from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 
 def like_food_item(user_id, food_item_id):
+  from fruitfam.tasks.likes import like_notification
   try:
     l = Like(user_id, food_item_id)
     db.session.add(l)
     db.session.commit()
+    like_notification.delay(user_id, food_item_id)
   except IntegrityError as e:
     db.session.rollback()
     print 'Attempted to like twice!'

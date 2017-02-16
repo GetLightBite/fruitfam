@@ -116,5 +116,8 @@ class EmojiEscaper(object):
   
   def muscle(self):
     return '\xf0\x9f\x92\xaa\xf0\x9f\x8f\xbe'
+  
+  def love(self):
+    return '\xe2\x9d\xa4\xef\xb8\x8f'
 
 Emoji = EmojiEscaper()

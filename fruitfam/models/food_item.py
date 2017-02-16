@@ -10,6 +10,10 @@ class FoodItem(db.Model):
   num_likes = db.Column(db.Integer, default=0)
   not_food = db.Column(db.Boolean, default = False)
   created = db.Column(db.DateTime)
+  
+  # component_id = db.Column(db.Integer, db.ForeignKey('components.id'))
+  # component = db.relationship('Component')
+  
   component_id = db.Column(db.Integer)
   
   # Generated data
