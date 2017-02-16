@@ -147,14 +147,15 @@ def upload_shareable_photo():
 @app.route('/report/mission_timeout', methods=['POST'])
 @auth.login_required
 def timout_mission():
-  user_mission = UserMission.query.filter(
-    UserMission.user_id == g.user.id
-  ).filter(
-    UserMission.is_over == False
-  ).one()
-  user_mission.increment_timeouts_reached()
-  rules = user_mission.get_rules()
-  rules.schedule_notifs() # Schedule a notif to go off at 8pm
+  if g.user.level == 1:
+    user_mission = UserMission.query.filter(
+      UserMission.user_id == g.user.id
+    ).filter(
+      UserMission.is_over == False
+    ).one()
+    user_mission.increment_timeouts_reached()
+    rules = user_mission.get_rules()
+    rules.schedule_notifs() # Schedule a notif to go off at 8pm
   return ('', 204)
 
 @app.route('/get_streak', methods=['GET'])

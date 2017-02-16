@@ -75,6 +75,7 @@ class SimplePokedex(PokedexMission):
     notif_start_time = datetime(year, month, day, 13, 0, 0)
     if notif_start_time <= now:
       notif_start_time = notif_start_time + timedelta(days=1)
+    notif_start_time = notif_start_time + timedelta(hours=user_mission.user.utc_offset)
     
     # reminder at 1pm every day next seven days after mission creation
     for i in range(7):

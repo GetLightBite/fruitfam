@@ -39,7 +39,7 @@ def simple_pokedex_reminder(user_id):
           if friend.level == 2:
             gender = 'him' if friend.gender == 'male' else 'her'
             pass_reach = 'pass' if friend.level <= 2 else 'reach'
-            message = '%s is at also at level %d! Log now to %s %s! %s' % (friend.real_name(), friend.level, pass_reach, gender, Emoji.trophy().decode('utf-8'))
+            message = '%s is also at level %d! Log now to %s %s! %s' % (friend.real_name(), friend.level, pass_reach, gender, Emoji.trophy().decode('utf-8'))
             message = message.encode('utf-8')
             break
       

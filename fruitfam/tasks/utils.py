@@ -14,6 +14,12 @@ class FruitFamTask(Task):
   Reports issues and closes sessions. Does administrative work with tasks
   """
   abstract = True
+  
+  # def __init__(self, *args, **kwargs):
+  #   print 'args', args
+  #   print 'kwargs', kwargs
+  #   super(FruitFamTask, self).__init__(*args, **kwargs)
+  
   def on_failure(self, exc, task_id, args, kwargs, einfo):
     self.email_exception(exc, task_id, args, kwargs, einfo)
     db.session.remove()
@@ -39,7 +45,7 @@ class FruitFamTask(Task):
     <br /> Args were:
     <br /> <div style="font-family: Courier New">{4}</div>
     <br /> Best,
-    <br /> The KaleKam team
+    <br /> The FruitFam team
     '''.format(str(exception_str), 'Celery', 'Celery Dude', url, jargs)
     print 'Errors in devel not reported'
     from fruitfam.utils.common import send_email
@@ -47,6 +53,37 @@ class FruitFamTask(Task):
   
   def after_return(self, status, retval, task_id, args, kwargs, einfo):
     db.session.remove()
+  
+  # def run(self, *args, **kwargs):
+  #   print 'RUN methods'
+  #   print 'args:'
+  #   print args
+  #   print 'kwargs:'
+  #   print kwargs
+  #   super(FruitFamTask, self).run(*args, **kwargs)
+  
+  # def delay(self, *args, **kwargs):
+  #   print 'DELAY method'
+  #   print 'args:'
+  #   print args
+  #   print 'kwargs:'
+  #   print kwargs
+  #   super(FruitFamTask, self).delay(*args, **kwargs)
+  
+  # def apply(self, args=None, kwargs=None,
+  #             link=None, link_error=None,
+  #             task_id=None, retries=None, throw=None,
+  #             logfile=None, loglevel=None, headers=None, **options):
+  #   print 'args', args
+  #   print 'kwargs', kwargs
+  #   print 'link', link
+  #   print 'link_error', link_error
+  #   print 'task_id', task_id
+  #   print 'retries', retries
+  #   print 'throw', throw
+  #   print 'headers', headers
+  #   print 'options', options
+  #   super(FruitFamTask, self).apply(args, kwargs, link, link_error, task_id, retries, throw, logfile, loglevel, headers, **options)
 
 def get_session():
   engine = db.engine
