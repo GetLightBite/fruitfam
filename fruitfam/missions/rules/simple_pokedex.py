@@ -64,4 +64,19 @@ class SimplePokedex(PokedexMission):
     ]
   
   def schedule_notifs(self):
-    pass
+    from fruitfam.tasks.simple_pokedex_reminders import simple_pokedex_reminder
+    user_mission = self.get_user_mission()
+    user_id = user_mission.user_id
+    mission_start = user_mission.created
+    now = datetime.utcnow()
+    year = mission_start.year
+    month = mission_start.month
+    day = mission_start.day
+    notif_start_time = datetime(year, month, day, 13, 0, 0)
+    if notif_start_time <= now:
+      notif_start_time = notif_start_time + timedelta(days=1)
+    
+    # reminder at 1pm every day next seven days after mission creation
+    for i in range(7):
+      notif_time = notif_start_time + timedelta(days=i)
+      simple_pokedex_reminder.apply_async(args=[user_id], eta=notif_time)

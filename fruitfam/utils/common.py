@@ -1,4 +1,6 @@
 from datetime import datetime
+import facebook
+from fruitfam.models.user import User
 import os
 import sendgrid
 from PIL import Image
@@ -42,3 +44,20 @@ def send_notification(message, user_id, badge_increment=0, params={}, title=None
 
 def date_to_datetime(date):
   return datetime.combine(date, datetime.min.time())
+
+def get_user_friends(user):
+  try:
+    fb_token = user.fb_token
+    graph = facebook.GraphAPI(fb_token)
+    args = {'fields' : 'id,name,friends' }
+    profile_data = graph.get_object('me', **args)
+    friend_data = profile_data['friends']['data']
+    fb_ids = []
+    for data in friend_data:
+      fb_id = data['id']
+      fb_ids.append(fb_id)
+    users = User.query.filter(User.fb_id.in_(fb_ids)).all()
+    return users
+  except Exception as e:
+    print e
+    return []

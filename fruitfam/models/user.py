@@ -130,7 +130,7 @@ class User(db.Model):
   def real_name(self):
     if self.firstname == None or self.lastname == None:
       return ''
-    return self.firstname + " " + self.lastname
+    return (self.firstname + " " + self.lastname)
   
   def initials(self):
     if self.firstname in [None, ''] or self.lastname in [None, '']:

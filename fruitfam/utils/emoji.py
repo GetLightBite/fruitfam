@@ -113,5 +113,8 @@ class EmojiEscaper(object):
   
   def banana(self):
     return '\xf0\x9f\x8d\x8c'
+  
+  def muscle(self):
+    return '\xf0\x9f\x92\xaa\xf0\x9f\x8f\xbe'
 
 Emoji = EmojiEscaper()
