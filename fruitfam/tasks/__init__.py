@@ -5,12 +5,12 @@ from fruitfam.tasks.notifications import *
 from fruitfam.tasks.update_food_item import *
 
 from celery.task.control import discard_all
+discard_all()
 # # Clear the redis queue
 # print 'Clearing queue'
 
 # Reschedule notifs for all current missions
 def reschedule_notifs():
-  discard_all()
   from fruitfam.models.user_mission import UserMission
   current_user_missions = UserMission.query.filter_by(
     is_over=False
@@ -19,6 +19,6 @@ def reschedule_notifs():
     rules = mission.get_rules()
     rules.schedule_notifs()
 
-reschedule_notifs()
+# reschedule_notifs()
 
 from fruitfam import celery
