@@ -92,5 +92,3 @@ def food_item_upload_email(food_item, session):
   
   msg_html += '<br /><br />User ID is %d, food item ID is %d' % (user.id, food_item.id)
   send_email('abhinav@kalekam.com', subject, msg_html, fullname = 'Founders')
-
-food_item_upload_email(f, db.session)
