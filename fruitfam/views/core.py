@@ -240,6 +240,7 @@ def delete_user():
   )
 
 @app.route('/delete/food_item', methods=['POST'])
+@auth.login_required
 def delete_food_item():
   food_item_id = request.json['foodItemId']
   f = FoodItem.query.filter_by(id=food_item_id).one()
