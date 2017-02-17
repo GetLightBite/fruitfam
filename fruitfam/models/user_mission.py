@@ -60,4 +60,4 @@ class UserMission(db.Model):
     return new_mission
   
   def __repr__(self):
-    return 'something with the rules...'
+    return '<UserMission %s : user_id %d>' % (self.get_rules().mission_name(), self.user_id)

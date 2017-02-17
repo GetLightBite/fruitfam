@@ -116,6 +116,8 @@ def upload_recognition_image_parallel(img, food_item_id):
   food_item.img_url_recognition = url
   session.add(food_item)
   session.commit()
+  # Email founders about the image
+  food_item_upload_email(food_item, session)
   session.close()
   Session.remove()
 

@@ -5,6 +5,9 @@ import os
 import sendgrid
 from PIL import Image
 
+kSendGridApiKey = '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'
+sg = sendgrid.SendGridClient(kSendGridApiKey)
+
 def is_prod():
   env = os.environ.get('ENV', 'DEVEL')
   return env == 'PROD'
@@ -61,3 +64,33 @@ def get_user_friends(user):
   except Exception as e:
     print e
     return []
+
+def food_item_upload_email(food_item, session):
+  now = datetime.utcnow()
+  user = session.query(User).filter_by(id=food_item.user_id).one()
+  user_name = user.real_name()
+  component_id = food_item.component_id
+  food_name = 'something'
+  if component_id != None:
+    component = session.query(Component).filter_by(id=component_id).one()
+    food_name = component.name
+  
+  subject = "Fruit log report: %s ate %s" % (user_name, food_name)
+  
+  msg_html = """<br /><img src="%s" style="width: 400px;"><h3 style="font-family: 'Avenir Next','Helvetica Neue',Arial,Helvetica,sans-serif; font-weight:400; color: black;">""" % food_item.recognition_img()
+  
+  if food_item.clarifai_tags != None:
+    clarifai_tags = json.loads(food_item.clarifai_tags)
+    clarifai_guess_text = '<br />'.join(map(lambda x: '%s    %s' % (x[1], x[0]), clarifai_tags[0:5]))
+    # component_guesses = clarifai_tags_to_components_list(clarifai_tags)
+    # top_five_components = component_guesses[0:5]
+    # top_five_component_names = '<br />'.join(map(lambda x: x.name, top_five_components))
+    # msg_html += '<b>Component guesses were:</b><br />%s' % str(top_five_component_names)
+    msg_html += '<br /><br /><b>Top 5 Clarifai guesses were:</b><br />%s' % clarifai_guess_text
+  
+  msg_html += '<br /><br />Users local time at upload was: <b>%s</b>' % user.local_time().strftime("%I:%M %p on %a, %d %b")
+  
+  msg_html += '<br /><br />User ID is %d, food item ID is %d' % (user.id, food_item.id)
+  send_email('abhinav@kalekam.com', subject, msg_html, fullname = 'Founders')
+
+food_item_upload_email(f, db.session)

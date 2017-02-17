@@ -1,4 +1,4 @@
-DEBUG = False
+DEBUG = True
 
 ### MYSQL CONFIGS
 endpoint = 'fruitfam.ctzo20w7hrck.us-east-1.rds.amazonaws.com'
