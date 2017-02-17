@@ -1,6 +1,7 @@
 from datetime import datetime
 import facebook
 from fruitfam.models.user import User
+from fruitfam.models.component import Component
 import os
 import sendgrid
 from PIL import Image
@@ -91,4 +92,4 @@ def food_item_upload_email(food_item, session):
   msg_html += '<br /><br />Users local time at upload was: <b>%s</b>' % user.local_time().strftime("%I:%M %p on %a, %d %b")
   
   msg_html += '<br /><br />User ID is %d, food item ID is %d' % (user.id, food_item.id)
-  send_email('abhinav@kalekam.com', subject, msg_html, fullname = 'Founders')
+  send_email('founders@kalekam.com', subject, msg_html, fullname = 'Founders')

@@ -238,6 +238,16 @@ def delete_user():
     ok='cool'
   )
 
+@app.route('/delete/food_item', methods=['POST'])
+def delete_user():
+  food_item_id = request.json['foodItemId']
+  f = FoodItem.query.filter_by(id=food_item_id).one()
+  db.session.delete(f)
+  db.session.commit()
+  return jsonify(
+    ok='cool'
+  )
+
 @app.route('/block/player', methods=['POST'])
 @auth.login_required
 def block_user():
