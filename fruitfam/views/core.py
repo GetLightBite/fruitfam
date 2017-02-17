@@ -14,9 +14,11 @@ from fruitfam.photos.recognize_photo import guess_components, request_to_img_obj
 from fruitfam.photos.upload_food_item import upload_food_item_image, upload_recognition_image, upload_food_item
 from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
 from fruitfam.tasks.fb_login import fb_login
-from fruitfam.utils.common import serialize_image
+from fruitfam.utils.common import is_prod, send_report_exception_email, serialize_image
 from fruitfam.utils.emoji import Emoji
 import os
+import sys
+import traceback
 
 @auth.verify_password
 def verify_password(token, password):
@@ -61,6 +63,26 @@ def log_request_stats(r):
   db.session.commit()
   r.cache_control.max_age = 1209600
   return r
+
+# Handle exceptions in prod
+if is_prod():
+  @app.errorhandler(Exception)
+  def all_exception_handler(error):
+    print 'Reporting an exception!'
+    args1 = dict(request.args) if request.args != None else {}
+    args2 = dict(request.json) if request.json != None else {}
+    args3 = dict(request.form) if request.form != None else {}
+    args = args1
+    args.update(args2)
+    args.update(args3)
+    etype, value, tb = sys.exc_info()
+    traceback_lst = traceback.format_exception(etype, value, tb)
+    traceback_str = '<br />'.join(map(lambda x: x.strip(), traceback_lst))
+    error_message = error.message
+    url = request.url_rule
+    exception_str = '<div style="font-family: Courier New"><h3>%s</h3><p>%s</p></div>' % (error_message, traceback_str)
+    send_report_exception_email(exception_str, g, url, args=args)
+    raise error
 
 ##############
 # Core Views #
@@ -259,6 +281,13 @@ def block_user():
   block = BlockedUser(g.user.id, user_id)
   db.session.add(block)
   db.session.commit()
+  return jsonify(
+    ok='cool'
+  )
+
+@app.route('/test_exception', methods=['GET'])
+def exception_throwing():
+  raise Exception('TEST EXCEPTION!')
   return jsonify(
     ok='cool'
   )

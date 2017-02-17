@@ -93,4 +93,32 @@ def food_item_upload_email(food_item, session):
   msg_html += '<br /><br />Users local time at upload was: <b>%s</b>' % user.local_time().strftime("%I:%M %p on %a, %d %b")
   
   msg_html += '<br /><br />User ID is %d, food item ID is %d' % (user.id, food_item.id)
-  send_email('founders@kalekam.com', subject, msg_html, fullname = 'Founders')
+  send_email('founders@kalekam.com', subject, msg_html, fullname='Founders')
+
+
+def send_report_exception_email(exception, g, url, args=None):
+  subject = "Exception detected in KaleKam prod app!"
+  try:
+    user_id, user_name = str(g.user.id), str(g.user.firstname)
+  except AttributeError, e:
+    user_id, user_name = 'Unknown', 'Unknown'
+  msg_html = '''There was an exception detected:
+  <br />
+  {0}
+  <br />
+  User ID causing the exception: {1}
+  <br />
+  User first name causing the exception: {2}
+  <br />
+  Url hit: {3}
+  <br />
+  Args were:
+  <br />
+  <div style="font-family: Courier New">{4}</div>
+  <br />
+  Best,
+  <br />
+  The KaleKam team
+  '''.format(str(exception), user_id, user_name, url, json.dumps(args))
+  print msg_html
+  send_email('founders@kalekam.com', subject, msg_html, fullname='Founders')
