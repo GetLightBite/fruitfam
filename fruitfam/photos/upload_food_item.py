@@ -3,7 +3,7 @@ from fruitfam import db
 from fruitfam.models.food_item import FoodItem
 from fruitfam.models.user_mission import UserMission
 from fruitfam.tasks.update_food_item import set_food_item_recognition_img
-from fruitfam.utils.common import serialize_image
+from fruitfam.utils.common import food_item_upload_email, serialize_image
 from fruitfam.utils.emoji import Emoji
 from fruitfam.utils.upload_image import compress_image, crop_img_to_square, crop_img_to_diary_dims, resize_image, upload_image_from_object
 import json
