@@ -97,7 +97,7 @@ def food_item_upload_email(food_item, session):
 
 
 def send_report_exception_email(exception, g, url, args=None):
-  subject = "Exception detected in KaleKam prod app!"
+  subject = "Exception detected in FruitFam prod app!"
   try:
     user_id, user_name = str(g.user.id), str(g.user.firstname)
   except AttributeError, e:
@@ -118,7 +118,7 @@ def send_report_exception_email(exception, g, url, args=None):
   <br />
   Best,
   <br />
-  The KaleKam team
+  The FruitFam team
   '''.format(str(exception), user_id, user_name, url, json.dumps(args))
   print msg_html
   send_email('founders@kalekam.com', subject, msg_html, fullname='Founders')
