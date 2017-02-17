@@ -2,6 +2,7 @@ from datetime import datetime
 import facebook
 from fruitfam.models.user import User
 from fruitfam.models.component import Component
+import json
 import os
 import sendgrid
 from PIL import Image
