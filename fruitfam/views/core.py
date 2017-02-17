@@ -243,11 +243,13 @@ def delete_user():
 def delete_food_item():
   food_item_id = request.json['foodItemId']
   f = FoodItem.query.filter_by(id=food_item_id).one()
-  db.session.delete(f)
-  db.session.commit()
-  return jsonify(
-    ok='cool'
-  )
+  if g.user.id == f.user_id:
+    db.session.delete(f)
+    db.session.commit()
+    return jsonify(
+      ok='cool'
+    )
+  return 'Permission Denied', 550
 
 @app.route('/block/player', methods=['POST'])
 @auth.login_required
