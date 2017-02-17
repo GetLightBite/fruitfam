@@ -6,6 +6,7 @@ from fruitfam.me.actions import like_food_item, unlike_food_item, add_comment
 from fruitfam.me.diary import get_diary
 from fruitfam.me.login import login_user
 from fruitfam.models.blocked_user import BlockedUser
+from fruitfam.models.food_item import FoodItem
 from fruitfam.models.request_log import RequestLog
 from fruitfam.models.user import User
 from fruitfam.models.user_mission import UserMission
