@@ -197,7 +197,7 @@ def get_streak():
 @auth.login_required
 def load_diary():
   requesting_user = g.user
-  diary_user_id = request.args.get('player_id', requesting_user.id)
+  diary_user_id = request.args.get('playerId', requesting_user.id)
   diary_user = User.query.filter_by(id=diary_user_id).one()
   user_mission = UserMission.query.filter(
     UserMission.user_id == diary_user_id
