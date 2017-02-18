@@ -61,7 +61,10 @@ def get_feed_cards(requester):
       Like.user
     )#.load_only('id', 'firstname', 'lastname')
   ).filter(
-    FoodItem.img_url_recognition != None
+    not_(and_(
+      FoodItem.img_url_recognition == None,
+      FoodItem.img_url_fullscreen == None
+    ))
   ).filter(
     FoodItem.not_food == False
   ).filter(

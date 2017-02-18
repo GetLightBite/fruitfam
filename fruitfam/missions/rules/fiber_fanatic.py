@@ -18,7 +18,7 @@ class FiberFanatic(PokedexMission):
     ]
   
   def explanation(self):
-    return 'Log 5 of the following 6 fruits: Passion fruit, Avacado, Raspberries, Kumquats, Guavas, Blackberries'
+    return 'Choose 5 of the following 6 fruits: Passion fruit, Avacado, Raspberries, Kumquats, Guavas, Blackberries'
   
   def mission_id(self):
     return 3
@@ -76,3 +76,24 @@ class FiberFanatic(PokedexMission):
   
   def schedule_notifs(self):
     pass
+  
+  def get_mission_json(self):
+    # Get normal json
+    normal = super(PokedexMission, self).get_mission_json()
+    # Get Pokededx json
+    progress, num_matches, total_items = self.get_progress()
+    album = []
+    for img_url, food_item_id in progress:
+      album_item = {'thumbnailUrl' : img_url}
+      if food_item_id != None:
+        album_item['foodItemId'] = food_item_id
+      album.append(album_item)
+    pokedex_mission = {
+      'progressDescription': '%d/5 devoured %s' % (num_matches, Emoji.plate()),
+      'progressPercentage' : int(100*num_matches / float(total_items)),
+      'explanation' : self.explanation(),
+      'timeRemaining': '',
+      'album': album
+    }
+    normal['missionDetails'] = pokedex_mission
+    return normal
