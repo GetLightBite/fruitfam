@@ -59,6 +59,7 @@ def upload_food_item(user, img, clarifai_tags, components, timezone, image_type=
   json_response = rules.log_food(food_item)
   
   # Update the streak
+  is_first_log = user.max_streak == None
   cur_streak = user.get_streak()
   last_upload = user.get_last_log_local()
   curtime = datetime.utcnow()
@@ -88,6 +89,17 @@ def upload_food_item(user, img, clarifai_tags, components, timezone, image_type=
     'foodItemId': food_item.id,
     'isFruit':1
   }
+  if not is_first_log:
+    recognition_json = {
+      'currentStreak': user.streak,
+      'maxStreak': user.max_streak,
+      'fruitName': components[0].name,
+      'healthInfo0':"%s Potasium, Message, A, C" % Emoji.point_up(),
+      'healthInfo1':"%s 34cal us if you!" % Emoji.grinning(),
+      'healthInfo2':"%s Great see this skin, silky hair" % Emoji.silhouette(),
+      'foodItemId': food_item.id,
+      'isFruit':1
+    }
   json_response['recognition'] = recognition_json
   
   return json_response
