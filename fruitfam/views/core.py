@@ -58,7 +58,7 @@ def log_request_stats(r):
     user = None
   ip = request.remote_addr
   env = os.environ.get('ENV', 'DEVEL')
-  log_request.delay(url, user, ip, env, ms_taken)
+  log_request.delay(url, user.id, ip, env, ms_taken)
   r.cache_control.max_age = 1209600
   return r
 
