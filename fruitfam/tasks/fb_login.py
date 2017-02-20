@@ -18,7 +18,7 @@ def fb_login(user_id):
     user_fb_id = profile_data['id']
     picture_data = graph.get_object('%s/picture?type=large' % user_fb_id)
   except GraphAPIError as e:
-    pass
+    return
   # Set user info
   firstname = profile_data['first_name']
   lastname = profile_data['last_name']
