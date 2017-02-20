@@ -1,4 +1,5 @@
 import facebook
+from facebook import GraphAPIError
 from fruitfam import celery, db
 from fruitfam.models.user import User
 from fruitfam.tasks.utils import FruitFamTask
@@ -11,9 +12,12 @@ def fb_login(user_id):
   # Get user info
   graph = facebook.GraphAPI(fb_token)
   args = {'fields' : 'id,name,email,gender,age_range,first_name,last_name,friends.limit(1000)' }
-  profile_data = graph.get_object('me', **args)
-  user_fb_id = profile_data['id']
-  picture_data = graph.get_object('%s/picture?type=large' % user_fb_id)
+  try:
+    profile_data = graph.get_object('me', **args)
+    user_fb_id = profile_data['id']
+    picture_data = graph.get_object('%s/picture?type=large' % user_fb_id)
+  except GraphAPIError as e:
+    pass
   # Set user info
   firstname = profile_data['first_name']
   lastname = profile_data['last_name']
