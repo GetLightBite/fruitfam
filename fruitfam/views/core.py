@@ -11,7 +11,7 @@ from fruitfam.models.request_log import RequestLog
 from fruitfam.models.user import User
 from fruitfam.models.user_mission import UserMission
 from fruitfam.photos.recognize_photo import guess_components, request_to_img_object
-from fruitfam.photos.upload_food_item import upload_food_item_image, upload_recognition_image, upload_food_item
+from fruitfam.photos.upload_food_item import upload_food_item_image, upload_food_item
 from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
 from fruitfam.tasks.fb_login import fb_login
 from fruitfam.utils.common import is_prod, send_report_exception_email, serialize_image
