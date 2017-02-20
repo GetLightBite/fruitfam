@@ -19,7 +19,8 @@ def upload_food_item(user, img, clarifai_tags, components, timezone, image_type=
   food_item = FoodItem(user)
   url = upload_image_from_object(img)
   food_item.img_url_recognition = url
-  food_item.clarifai_tags = json.dumps(clarifai_tags)
+  clarifai_tags = json.dumps(clarifai_tags) if clarifai_tags != None else None
+  food_item.clarifai_tags = clarifai_tags
   food_item.component_id = components[0].id
   if image_type != 'food':
     food_item.not_food = True

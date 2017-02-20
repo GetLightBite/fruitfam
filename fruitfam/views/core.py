@@ -136,19 +136,24 @@ def analyze_photo_2():
   client_timestamp = data.get('created', -1)
   client_timestamp = int(client_timestamp)
   client_meal_id = data.get('randomizedId', None)
+  is_peach = bool(data.get('isPeach', 0))
   
   # Create image
   img = request_to_img_object(request)
+  
   # Guess components
-  image_type, comps, clarifai_tags = guess_components(img)
+  image_type, comps, clarifai_tags = None, None, None
+  if is_peach:
+    peach = Component.query.filter_by(id=42).one()
+    image_type, comps, clarifai_tags = 'food', [peach], None
+  else:
+    image_type, comps, clarifai_tags = guess_components(img)
+  
   # Create food
   json_resp = upload_food_item(g.user, img, clarifai_tags, comps, timezone, image_type)
   
   food_item_id = json_resp['recognition']['foodItemId']
   db.session.commit()
-  # upload_recognition_image(img, food_item_id)
-  print 'resp'
-  print json_resp
   return jsonify(**json_resp)
 
 @app.route('/upload/shareable_photo', methods=['POST'])
