@@ -19,20 +19,6 @@ os.environ["CLARIFAI_APP_SECRET"] = "w0tRU0zEat5rwuX91GRP4ugXIpxqvZB-q-guqgnL"
 # Set up reusable data in global scope #
 ########################################
 
-# clarifai_app, food_model, general_model = None, None, None
-# try:
-#   print 'starting clarifai app...'
-#   clarifai_app = ClarifaiApp()
-#   food_model = clarifai_app.models.get('food-items-v1.0')
-#   time.sleep(1) # Clarifai rate limit is 10rps. With 4 parallel instances + celery, we're hitting this :(
-#   general_model = clarifai_app.models.get('general-v1.3')
-#   print 'clarifai set up complete!'
-# except Exception as e:
-#   print "Had an issue with launching Clarifai!!!"
-#   print e
-#   print food_model
-#   print dir(food_model)
-
 k = open('fruitfam/bin/clarifai_tags.json', 'r')
 clarifai_tags_str = k.read()
 k.close()
@@ -143,19 +129,6 @@ def infer_image_type(general_clarifai_tags):
   if has_human_tag:
     return 'person'
   return 'not food'
-
-# def get_clarifai_guess_from_bytes(img_bytes, model):
-#   resp = model.predict_by_bytes(img_bytes)
-#   out = []
-#   try:
-#     results = resp['outputs'][0]['data']['concepts']
-#     for result in results:
-#       prob = result['value']
-#       classification = result['name']
-#       out.append((classification, prob))
-#   except Exception as e:
-#     return None
-#   return out
 
 def get_clarifai_guesses_from_bytes(img_bytes):
   base64_bytes = base64.b64encode(img_bytes).decode('UTF-8')

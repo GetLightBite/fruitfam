@@ -3,6 +3,8 @@ from fruitfam.tasks.simple_pokedex_reminders import simple_pokedex_reminder
 from fruitfam.tasks.likes import like_notification
 from fruitfam.tasks.notifications import *
 from fruitfam.tasks.update_food_item import *
+from fruitfam.tasks.fb_login import fb_login
+from fruitfam.tasks.log_request import log_request
 
 from celery.task.control import discard_all
 discard_all()

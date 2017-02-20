@@ -14,6 +14,7 @@ from fruitfam.photos.recognize_photo import guess_components, request_to_img_obj
 from fruitfam.photos.upload_food_item import upload_food_item_image, upload_food_item
 from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
 from fruitfam.tasks.fb_login import fb_login
+from fruitfam.tasks.log_request import log_request
 from fruitfam.utils.common import is_prod, send_report_exception_email, serialize_image
 from fruitfam.utils.emoji import Emoji
 import os
@@ -57,10 +58,7 @@ def log_request_stats(r):
     user = None
   ip = request.remote_addr
   env = os.environ.get('ENV', 'DEVEL')
-  utctime = datetime.utcnow()
-  log = RequestLog(url, user, ip, env, ms_taken)
-  db.session.add(log)
-  db.session.commit()
+  log_request.delay(url, user, ip, env, ms_taken)
   r.cache_control.max_age = 1209600
   return r
 

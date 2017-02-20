@@ -106,35 +106,6 @@ def upload_food_item(user, img, clarifai_tags, components, timezone, image_type=
   
   return json_response
 
-# def upload_recognition_image(img, food_item_id):
-#   # if True:
-#   #   return
-#   upload_image_process = Process(
-#     target=upload_recognition_image_parallel,
-#     args=(
-#       img,
-#       food_item_id
-#     )
-#   )
-#   upload_image_process.start()
-
-# def upload_recognition_image_parallel(img, food_item_id):
-#   engine = db.engine
-#   session_factory = sessionmaker(bind=engine)
-#   # session = session_factory()
-#   Session = scoped_session(session_factory)
-#   session = Session()
-#   food_item = session.query(FoodItem).filter_by(id=food_item_id).one()
-#   # upload image to S3
-#   url = upload_image_from_object(img)
-#   food_item.img_url_recognition = url
-#   session.add(food_item)
-#   session.commit()
-#   # Email founders about the image
-#   food_item_upload_email(food_item, session)
-#   session.close()
-#   Session.remove()
-
 def upload_food_item_image(img, food_item_id):
   food_item = db.session.query(FoodItem).filter_by(id=food_item_id).one()
   # upload image to S3
