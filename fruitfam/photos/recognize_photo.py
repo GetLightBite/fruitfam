@@ -1,6 +1,8 @@
+import base64
 from clarifai.rest import ClarifaiApp
 import cStringIO
 from fruitfam.models.component import Component
+from fruitfam.utils.parallel_requester import ParallelRequester
 import io
 import json
 import numpy as np
@@ -115,8 +117,11 @@ def guess_components(img):
   img.save(img_byte_arr, format='JPEG')
   img_bytes = img_byte_arr.getvalue()
   
-  food_clarifai_tags = get_clarifai_guess_from_bytes(img_bytes, food_model)
-  general_clarifai_tags = get_clarifai_guess_from_bytes(img_bytes, general_model)
+  guesses = get_clarifai_guesses_from_bytes(img_bytes)
+  food_clarifai_tags = guesses['food']
+  general_clarifai_tags = guesses['general']
+  # food_clarifai_tags = get_clarifai_guess_from_bytes(img_bytes, food_model)
+  # general_clarifai_tags = get_clarifai_guess_from_bytes(img_bytes, general_model)
   image_type = infer_image_type(general_clarifai_tags)
   tags_to_return = food_clarifai_tags if image_type == 'food' else general_clarifai_tags
   components_guesses = clarifai_tags_to_components_list(food_clarifai_tags)
@@ -150,4 +155,67 @@ def get_clarifai_guess_from_bytes(img_bytes, model):
       out.append((classification, prob))
   except Exception as e:
     return None
+  return out
+
+def get_clarifai_guesses_from_bytes(img_bytes):
+  base64_bytes = base64.b64encode(img_bytes).decode('UTF-8')
+  data = {
+    'inputs': [
+      {
+        'data': {
+          'image': {
+            'base64': base64_bytes
+          }
+        }
+      }
+    ]
+  }
+  headers = {
+    'Content-Type': 'application/json',
+    'X-Clarifai-Client': 'python:2.0.14',
+    'Authorization': 'Bearer bZYQDHNgIEdSNlqdDByxFKBMQi4Mot'
+  }
+  food_url = 'https://api.clarifai.com/v2/models/bd367be194cf45149e75f01d59f77ba7/outputs'
+  general_url = 'https://api.clarifai.com/v2/models/aaa03c23b3724a16a56b629203edc62c/outputs'
+  request_params = [
+    { # Food API
+      'url' : food_url,
+      'method' : 'POST',
+      'data' : data,
+      'headers' : headers
+    },
+    { # General API
+      'url' : general_url,
+      'method' : 'POST',
+      'data' : data,
+      'headers' : headers
+    }
+  ]
+  pr = ParallelRequester(request_params, 2)
+  pr.run()
+  results_dict = pr.results
+  food_results = results_dict[food_url].json()
+  general_results = results_dict[general_url].json()
+  out = {}
+  parsed_food_results = []
+  try:
+    results = food_results['outputs'][0]['data']['concepts']
+    for result in results:
+      prob = result['value']
+      classification = result['name']
+      parsed_food_results.append((classification, prob))
+  except Exception as e:
+    pass
+  parsed_general_results = []
+  try:
+    results = general_results['outputs'][0]['data']['concepts']
+    for result in results:
+      prob = result['value']
+      classification = result['name']
+      parsed_general_results.append((classification, prob))
+  except Exception as e:
+    pass
+  
+  out['food'] = parsed_food_results
+  out['general'] = parsed_general_results
   return out
