@@ -43,6 +43,9 @@ le.fit(list_of_clarifai_tags)
 
 clf = joblib.load('fruitfam/bin/svm.pkl')
 
+all_components = Component.query.all()
+all_components.sort(key=lambda x: x.id)
+
 def tags_to_vector(clarifai_tags, num_classes=len(list_of_clarifai_tags)):
   zeros = np.zeros(num_classes)
   [tags, scores] = zip(*clarifai_tags)
@@ -53,8 +56,7 @@ def tags_to_vector(clarifai_tags, num_classes=len(list_of_clarifai_tags)):
   return zeros
 
 def clarifai_tags_to_components_list(clarifai_tags):
-  all_components = Component.query.all()
-  all_components.sort(key=lambda x: x.id)
+  global all_components
   if clarifai_tags == None:
     return None
   some_comp = find_top_component(clarifai_tags, all_components)

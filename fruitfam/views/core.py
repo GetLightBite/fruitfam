@@ -137,7 +137,6 @@ def analyze_photo_2():
   client_timestamp = data.get('created', -1)
   client_timestamp = int(client_timestamp)
   client_meal_id = data.get('randomizedId', None)
-  # image_data = request.files.get('docfile', None)
   
   # Create image
   img = request_to_img_object(request)
