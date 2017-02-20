@@ -49,7 +49,7 @@ class FruitFamTask(Task):
     '''.format(str(exception_str), 'Celery', 'Celery Dude', url, jargs)
     print 'Errors in devel not reported'
     from fruitfam.utils.common import send_email
-    send_email('abhinav@kalekam.com', subject, msg_html, fullname = None, bcc_email=None)
+    send_email('founders@kalekam.com', subject, msg_html, fullname = None, bcc_email=None)
   
   def after_return(self, status, retval, task_id, args, kwargs, einfo):
     db.session.remove()

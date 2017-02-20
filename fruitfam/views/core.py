@@ -147,7 +147,7 @@ def analyze_photo_2():
   
   food_item_id = json_resp['recognition']['foodItemId']
   db.session.commit()
-  upload_recognition_image(img, food_item_id)
+  # upload_recognition_image(img, food_item_id)
   print 'resp'
   print json_resp
   return jsonify(**json_resp)
