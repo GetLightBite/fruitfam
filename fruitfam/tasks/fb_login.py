@@ -12,6 +12,7 @@ def fb_login(user_id):
   # Get user info
   graph = facebook.GraphAPI(fb_token)
   args = {'fields' : 'id,name,email,gender,age_range,first_name,last_name,friends.limit(1000)' }
+  profile_data, picture_data = None, None
   try:
     profile_data = graph.get_object('me', **args)
     user_fb_id = profile_data['id']
