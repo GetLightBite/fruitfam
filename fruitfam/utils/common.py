@@ -5,6 +5,7 @@ from fruitfam.models.component import Component
 import json
 import os
 import sendgrid
+from sqlalchemy.exc import InvalidRequestError
 from PIL import Image
 
 kSendGridApiKey = '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'
@@ -102,6 +103,9 @@ def send_report_exception_email(exception, g, url, args=None):
     user_id, user_name = str(g.user.id), str(g.user.firstname)
   except AttributeError, e:
     user_id, user_name = 'Unknown', 'Unknown'
+  except InvalidRequestError, e:
+    db.session.rollback()
+    user_id, user_name = str(g.user.id), str(g.user.firstname)
   msg_html = '''There was an exception detected:
   <br />
   {0}
