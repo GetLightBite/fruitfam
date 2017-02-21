@@ -97,9 +97,9 @@ def upload_food_item(user, img, clarifai_tags, components, timezone, image_type=
       'currentStreak': user.streak,
       'maxStreak': user.max_streak,
       'fruitName': components[0].name,
-      'healthInfo0':"%s Potasium, Message, A, C" % Emoji.point_up(),
-      'healthInfo1':"%s 34cal us if you!" % Emoji.grinning(),
-      'healthInfo2':"%s Great see this skin, silky hair" % Emoji.silhouette(),
+      'healthInfo0':"%s Potasium. Message" % Emoji.point_up(),
+      'healthInfo1':"%s 34cal. us if you" % Emoji.grinning(),
+      'healthInfo2':"%s Great for skin, hair. see this" % Emoji.silhouette(),
       'foodItemId': food_item.id,
       'isFruit':1
     }
