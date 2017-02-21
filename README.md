@@ -1,4 +1,6 @@
-FruitFam is a game to help you get fitter by eating more.
+# FruitFam
+
+FruitFam is a game to help you get fitter by eating more. This is the server, which runs on python2.7. It's written using Flask. There are two parts - the main server, and a celery queue - which is used for offloading batch tasks like notifications.
 
 ## Running
 
