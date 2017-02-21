@@ -146,7 +146,7 @@ def get_clarifai_guesses_from_bytes(img_bytes):
   headers = {
     'Content-Type': 'application/json',
     'X-Clarifai-Client': 'python:2.0.14',
-    'Authorization': 'Bearer bZYQDHNgIEdSNlqdDByxFKBMQi4Mot'
+    'Authorization': 'Bearer H2b2cWeEGQkTmA0gadx1k2vFYvdVMc'
   }
   food_url = 'https://api.clarifai.com/v2/models/bd367be194cf45149e75f01d59f77ba7/outputs'
   general_url = 'https://api.clarifai.com/v2/models/aaa03c23b3724a16a56b629203edc62c/outputs'
