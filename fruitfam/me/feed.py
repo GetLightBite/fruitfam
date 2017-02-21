@@ -12,6 +12,7 @@ def construct_comment_card(comment, user):
   return {
     'message' : comment.get_message(),
     'playerName' : user.real_name(),
+    'playerId' : user.id,
     'profilePhotoUrl' : user.get_profile_photo()
   }
 
