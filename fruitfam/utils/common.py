@@ -1,5 +1,6 @@
 from datetime import datetime
 import facebook
+from fruitfam import db
 from fruitfam.models.user import User
 from fruitfam.models.component import Component
 import json
