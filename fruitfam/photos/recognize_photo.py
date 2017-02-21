@@ -8,9 +8,10 @@ import json
 import numpy as np
 import os
 from PIL import Image
-import time
+import requests
 from sklearn import preprocessing
 from sklearn.externals import joblib
+import time
 
 CLARIFAI_APP_ID = "kjYQw3CwWsbSbQ_jz8hKQdKjQyEU-xp7-2l0Sf4H"
 CLARIFAI_APP_SECRET = "w0tRU0zEat5rwuX91GRP4ugXIpxqvZB-q-guqgnL"
