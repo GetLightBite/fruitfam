@@ -32,6 +32,7 @@ def unlike_food_item(user_id, food_item_id):
     db.session.commit()
 
 def add_comment(user_id, food_item_id, message):
+  message = message.encode('utf8')
   c = Comment(user_id, food_item_id, message)
   db.session.add(c)
   # TODO: send notification(s)

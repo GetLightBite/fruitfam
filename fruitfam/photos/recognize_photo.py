@@ -12,8 +12,14 @@ import time
 from sklearn import preprocessing
 from sklearn.externals import joblib
 
-os.environ["CLARIFAI_APP_ID"] = "kjYQw3CwWsbSbQ_jz8hKQdKjQyEU-xp7-2l0Sf4H"
-os.environ["CLARIFAI_APP_SECRET"] = "w0tRU0zEat5rwuX91GRP4ugXIpxqvZB-q-guqgnL"
+CLARIFAI_APP_ID = "kjYQw3CwWsbSbQ_jz8hKQdKjQyEU-xp7-2l0Sf4H"
+CLARIFAI_APP_SECRET = "w0tRU0zEat5rwuX91GRP4ugXIpxqvZB-q-guqgnL"
+
+data = {'grant_type': 'client_credentials'}
+auth = (CLARIFAI_APP_ID, CLARIFAI_APP_SECRET)
+authurl = 'https://api.clarifai.com/v2/token'
+res = requests.post(authurl, auth=auth, data=data)
+CLARIFAI_AUTH_TOKEN = res.json()['access_token']
 
 ########################################
 # Set up reusable data in global scope #
@@ -146,7 +152,7 @@ def get_clarifai_guesses_from_bytes(img_bytes):
   headers = {
     'Content-Type': 'application/json',
     'X-Clarifai-Client': 'python:2.0.14',
-    'Authorization': 'Bearer H2b2cWeEGQkTmA0gadx1k2vFYvdVMc'
+    'Authorization': 'Bearer %s' % CLARIFAI_AUTH_TOKEN
   }
   food_url = 'https://api.clarifai.com/v2/models/bd367be194cf45149e75f01d59f77ba7/outputs'
   general_url = 'https://api.clarifai.com/v2/models/aaa03c23b3724a16a56b629203edc62c/outputs'
