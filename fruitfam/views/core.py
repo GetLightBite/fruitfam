@@ -138,8 +138,6 @@ def analyze_photo_2():
   client_timestamp = int(client_timestamp)
   client_meal_id = data.get('randomizedId', None)
   is_peach = bool(data.get('isPeach', 0))
-  print 'is_peach'
-  print is_peach
   
   # Create image
   img = request_to_img_object(request)

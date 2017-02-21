@@ -28,6 +28,7 @@ def construct_card(requester, food_item, user, comments, likers):
     comment_user = comment.user
     comment_card = construct_comment_card(comment, comment_user)
     comment_cards.append(comment_card)
+  comment_cards.reverse()
   card = {
     'foodItemId': food_item.id,
     'fullscreenUrl': food_item.fullscreen_img(),

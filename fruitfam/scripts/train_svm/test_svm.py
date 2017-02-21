@@ -11,7 +11,7 @@ cur_path = os.path.abspath('../../..')
 sys.path.insert(1, cur_path)
 from fruitfam.models.component import Component
 
-k = open('/users/avadrevu/workspace/fruitfam/fruitfam/bin/clarifai_tags.json', 'r')
+k = open('/users/avadrevu/workspace/fruitfam/fruitfam/bin/filtered_svm/clarifai_tags_filtered.json', 'r')
 clarifai_tags_str = k.read()
 k.close()
 
@@ -21,7 +21,7 @@ list_of_clarifai_tags.sort()
 le = preprocessing.LabelEncoder()
 le.fit(list_of_clarifai_tags)
 
-clf = joblib.load('/users/avadrevu/workspace/fruitfam/fruitfam/bin/svm.pkl')
+clf = joblib.load('/users/avadrevu/workspace/fruitfam/fruitfam/bin/filtered_svm/svm_filtered.pkl')
 
 def tags_to_vector(clarifai_tags, num_classes=len(list_of_clarifai_tags)):
   zeros = np.zeros(num_classes)

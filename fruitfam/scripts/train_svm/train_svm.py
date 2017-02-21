@@ -15,12 +15,22 @@ sys.path.insert(1, cur_path)
 from fruitfam.models.component import Component
 
 # get mapping of fruit_name => list of clarifai results
-uploaded_images_file = open('search_results.json', 'r')
+uploaded_images_file = open('fruitfam/scripts/train_svm/search_results.json', 'r')
 uploaded_images = json.loads(uploaded_images_file.read())
 uploaded_images_file.read()
-clarifai_tags_file = open('clarifai_results.json', 'r')
+clarifai_tags_file = open('fruitfam/scripts/train_svm/clarifai_results.json', 'r')
 clarifai_tags = json.loads(clarifai_tags_file.read())
 clarifai_tags_file.close()
+
+# Exclude images from images_to_filter_out.json
+images_to_filter_out_file = open('fruitfam/scripts/train_svm/images_to_filter_out.json', 'r')
+images_to_filter_out = json.loads(images_to_filter_out_file.read())
+images_to_filter_out_file.read()
+for fruit in uploaded_images:
+  cur_images = set(uploaded_images[fruit])
+  new_images = cur_images - set(images_to_filter_out)
+  print cur_images - new_images
+  uploaded_images[fruit] = list(new_images)
 
 # Get the mapping from fruit name to clarifai tag
 fruit_to_tags_mapping = {}
@@ -74,9 +84,9 @@ y = np.array(y)
 clf_weights = LogisticRegression()
 clf_weights.fit(X, y)
 
-joblib.dump(clf_weights, '/users/avadrevu/workspace/fruitfam/fruitfam/bin/svm.pkl')
+joblib.dump(clf_weights, '/users/avadrevu/workspace/fruitfam/fruitfam/bin/filtered_svm/svm_filtered.pkl')
 names_json = json.dumps(all_clarifai_tags)
-k = open('/users/avadrevu/workspace/fruitfam/fruitfam/bin/clarifai_tags.json', 'w')
+k = open('/users/avadrevu/workspace/fruitfam/fruitfam/bin/filtered_svm/clarifai_tags_filtered.json', 'w')
 k.write(names_json)
 k.close()
 

@@ -1,0 +1,1 @@
+To test a trained SVM on a set of test images run `python test_svm.py`

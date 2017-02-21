@@ -24,6 +24,7 @@ def grouper(n, iterable, fillvalue=None):
 search_results_file = open('search_results.json', 'r')
 search_results = json.loads(search_results_file.read())
 search_results_file.close()
+# TODO: filter out results from images_to_filter_out.json
 
 
 urls = reduce(operator.add, search_results.values())
