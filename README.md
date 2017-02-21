@@ -8,8 +8,8 @@ Run the server locally with `python run.py`
 
 ## Deploying
 
-Deploy the server in devel with `python deploy.py`
-Deploy the server in prod with `python deploy.py --prod`
+Deploy the server with celery in devel with `python deploy.py`
+Deploy the server with celery in prod with `python deploy.py --prod`
 
 ## Celery
 
