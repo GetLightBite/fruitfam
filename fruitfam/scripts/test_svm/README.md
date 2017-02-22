@@ -4,4 +4,4 @@ To remove a list of incorrect image urls from this list, run `python filter_imag
 
 To form a mapping from image to current fruitfam components, navigate to the top level of the repo and run `python fruitfam/scripts/test_svm/filtered_image_to_fruitfam_component.py`
 
-To test a trained SVM on a set of test images run `python test_svm.py`
+To test trained SVMs on a set of test images run `python fruitfam/scripts/test_svm/run_tests.py`
