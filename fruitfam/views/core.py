@@ -157,6 +157,22 @@ def analyze_photo_2():
   db.session.commit()
   return jsonify(**json_resp)
 
+@app.route('/upload/video', methods=['POST'])
+def upload_video():
+  data = request.form
+  
+  # Create video
+  binary_data = request_to_video_object(request)
+  
+  # Create food
+  video_url = upload_image_from_bytes(binary_data)
+  '''
+    WE SHOULD SAVE THE VIDEO URL SOMEWHERE
+  '''
+  
+  db.session.commit()
+  return video_url
+
 @app.route('/upload/shareable_photo', methods=['POST'])
 @auth.login_required
 def upload_shareable_photo():

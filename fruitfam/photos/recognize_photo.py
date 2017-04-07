@@ -101,6 +101,16 @@ def request_to_img_object(request):
   #   return img
   
 
+def request_to_video_object(request):
+  raw_video_data = request.files.get('docfile', None)
+  if raw_video_data != None:
+    # It's from a phone!
+    stream_data = raw_video_data.stream.read()
+    binary_data = cStringIO.StringIO(stream_data)
+    #img = Image.open(img_data)
+    return binary_data
+  
+
 def guess_components(img):
   global food_model
   global general_model
