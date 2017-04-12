@@ -18,6 +18,7 @@ from fruitfam.tasks.fb_login import fb_login
 from fruitfam.tasks.log_request import log_request
 from fruitfam.utils.common import is_prod, send_report_exception_email, serialize_image
 from fruitfam.utils.emoji import Emoji
+from fruitfam.utils.upload_image import upload_image_from_bytes
 import os
 import sys
 import traceback
@@ -60,7 +61,7 @@ def log_request_stats(r):
   ip = request.remote_addr
   env = os.environ.get('ENV', 'DEVEL')
   user_id = user.id if user != None else None
-  log_request.delay(url, user_id, ip, env, ms_taken)
+  #log_request.delay(url, user_id, ip, env, ms_taken)
   r.cache_control.max_age = 1209600
   return r
 
@@ -157,21 +158,25 @@ def analyze_photo_2():
   db.session.commit()
   return jsonify(**json_resp)
 
+
+def local_request_to_video_object(request):
+  raw_video_data = request.files.get('docfile', None)
+  if raw_video_data != None:
+    stream_data = raw_video_data.stream.read()
+    return stream_data
+
 @app.route('/upload/video', methods=['POST'])
 def upload_video():
   data = request.form
-  
   # Create video
-  binary_data = request_to_video_object(request)
-  
+  binary_data = local_request_to_video_object(request)
+
   # Create food
   video_url = upload_image_from_bytes(binary_data)
-  '''
-    WE SHOULD SAVE THE VIDEO URL SOMEWHERE
-  '''
-  
+  print "\n\n????? whoa we have a video url: " + str(video_url)
+  add_comment(888, 123123123, video_url)
   db.session.commit()
-  return video_url
+  return jsonify(url = video_url)
 
 @app.route('/upload/shareable_photo', methods=['POST'])
 @auth.login_required
