@@ -169,12 +169,13 @@ def local_request_to_video_object(request):
 def upload_video():
   data = request.form
   # Create video
+  userId = data.get('userId', -1)
   binary_data = local_request_to_video_object(request)
 
   # Create food
   video_url = upload_image_from_bytes(binary_data)
   print "\n\n????? whoa we have a video url: " + str(video_url)
-  add_comment(888, 123123123, video_url)
+  add_comment(userId, 333333, video_url)
   db.session.commit()
   return jsonify(url = video_url)
 
