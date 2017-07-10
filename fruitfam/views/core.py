@@ -16,7 +16,7 @@ from fruitfam.photos.upload_food_item import upload_food_item_image, upload_food
 from fruitfam.tasks.update_food_item import test_endpoint, set_shareable_photo
 from fruitfam.tasks.fb_login import fb_login
 from fruitfam.tasks.log_request import log_request
-from fruitfam.utils.common import is_prod, send_report_exception_email, serialize_image
+from fruitfam.utils.common import is_prod, send_report_exception_email, serialize_image, send_email
 from fruitfam.utils.emoji import Emoji
 from fruitfam.utils.upload_image import upload_image_from_bytes
 import os
@@ -51,6 +51,7 @@ def log_email():
   c = Comment(99, 99, str(email))
   db.session.add(c)
   db.session.commit()
+  send_email('founders@strivesdk.com', 'New interest in aviato', email+' is interested in  Aviato SDK')
   return 'Email logged'
 
 @app.route('/favicon.ico')
