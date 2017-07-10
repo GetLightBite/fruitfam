@@ -41,17 +41,21 @@ def index():
 
 @app.route('/email_log', methods=['GET', 'POST'])
 def log_email():
+  print 'here1'
   args1 = dict(request.args) if request.args != None else {}
   args2 = dict(request.json) if request.json != None else {}
   args3 = dict(request.form) if request.form != None else {}
+  print 'here2'
   args = args1
   args.update(args2)
   args.update(args3)
+  print 'here3'
   print args
   email = args['email']
   c = Comment(99, 99, str(email))
   db.session.add(c)
   db.session.commit()
+  print c
   send_email('founders@strivesdk.com', 'New interest in aviato', email+' is interested in  Aviato SDK')
   return 'Email logged'
 
