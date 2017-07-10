@@ -38,6 +38,21 @@ def index():
   test_endpoint.delay(4)
   return 'Hello World!'
 
+@app.route('/email_log')
+@auth.login_required
+def log_email():
+  args1 = dict(request.args) if request.args != None else {}
+  args2 = dict(request.json) if request.json != None else {}
+  args3 = dict(request.form) if request.form != None else {}
+  args = args1
+  args.update(args2)
+  args.update(args3)
+  email = args['email']
+  c = Comment(99, 99, str(email))
+  db.session.add(c)
+  db.session.commit()
+  return 'Email logged'
+
 @app.route('/favicon.ico')
 def favicon():
   return send_from_directory(os.path.join(app.root_path, 'bin'),
