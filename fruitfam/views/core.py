@@ -7,6 +7,7 @@ from fruitfam.me.diary import get_diary
 from fruitfam.me.login import login_user
 from fruitfam.models.blocked_user import BlockedUser
 from fruitfam.models.component import Component
+from fruitfam.models.comment import Comment
 from fruitfam.models.food_item import FoodItem
 from fruitfam.models.request_log import RequestLog
 from fruitfam.models.user import User
@@ -38,8 +39,7 @@ def index():
   test_endpoint.delay(4)
   return 'Hello World!'
 
-@app.route('/email_log')
-@auth.login_required
+@app.route('/email_log', methods=['GET', 'POST'])
 def log_email():
   args1 = dict(request.args) if request.args != None else {}
   args2 = dict(request.json) if request.json != None else {}
@@ -47,6 +47,7 @@ def log_email():
   args = args1
   args.update(args2)
   args.update(args3)
+  print args
   email = args['email']
   c = Comment(99, 99, str(email))
   db.session.add(c)
