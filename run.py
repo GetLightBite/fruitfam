@@ -15,5 +15,5 @@ if __name__ == '__main__':
     os.environ["ENV"] = "DEVEL"
     os.environ["APP_CONFIG_FILE"] = "../config/devel.py"
 
-from fruitfam import app
+from taco import app
 app.run(host='0.0.0.0', port=5000)
