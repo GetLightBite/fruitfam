@@ -1,5 +1,6 @@
 from datetime import datetime
 from taco import app, db
+from taco.utils.common import create_branch_link
 from sqlalchemy.orm import joinedload, subqueryload, joinedload_all, load_only
 from sqlalchemy import desc, or_, not_, and_
 
@@ -20,6 +21,9 @@ class Group(db.Model):
     if joined is None:
       joined = datetime.utcnow()
     self.joined = joined
-
+  
+  def get_invite_link(self):
+    return create_branch_link(self.id)
+  
   def __repr__(self):
     return '<Group %d>' % (self.id)

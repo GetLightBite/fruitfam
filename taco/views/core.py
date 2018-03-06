@@ -8,7 +8,7 @@ from taco.models.group import Group
 from taco.models.group_user import GroupUser
 from taco.models.memory import Memory
 from taco.media.upload_media import upload_image_memory_from_request, upload_video_memory_from_request
-from taco.utils.common import is_prod, send_report_exception_email, serialize_image, send_email
+from taco.utils.common import is_prod, send_report_exception_email, serialize_image, send_email, create_branch_link
 from taco.utils.emoji import Emoji
 from taco.utils.upload_image import upload_image_from_bytes
 import os
@@ -112,12 +112,17 @@ def check_phone_number():
 
   user = User.query.filter_by(phone_number=phone_number).first()
   token = ''
+  available_group_user = GroupUser.query.filter_by(user_id=user.id).first()
+  group_id = None
+  if available_group_user != None:
+    group_id = available_group_user.group_id
   if user != None:
     token = user.token
 
   return jsonify(
     hasAccount = user != None,
-    token = token
+    token = token,
+    groupId = group_id
   )
 
 @app.route('/create/account', methods=['POST'])
@@ -205,12 +210,27 @@ def create_group():
     'uid' : g.user.id,
     'is_taco_user': 1
   }
+  invite_url = group.get_invite_link()
   return jsonify(
     groupName = name, # lol i know
     groupId = group.id,
-    inviteMessage = "Join my Taco Group, link self-destructs in 24 hours: taco.branch.io/23s9fs0s",
+    inviteMessage = "Join my Taco Group, link self-destructs in 24 hours: %s" % invite_url,
     contacts = [contacts]
   )
+
+@app.route('/join/group', methods=['POST'])
+@auth.login_required
+def join_group():
+  invite_id = request.json['inviteId']
+  print invite_id
+  
+  group = Group.query.filter_by(id=invite_id).one()
+  
+  new_group_user = GroupUser(group, g.user)
+  db.session.add(new_group_user)
+  db.session.commit()
+  
+  return '', 200
 
 @app.route('/update/group', methods=['POST'])
 @auth.login_required

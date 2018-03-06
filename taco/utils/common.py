@@ -4,6 +4,7 @@ from taco import db
 from taco.models.user import User
 import json
 import os
+import requests
 import sendgrid
 from sqlalchemy.exc import InvalidRequestError
 from PIL import Image
@@ -14,6 +15,24 @@ sg = sendgrid.SendGridClient(kSendGridApiKey)
 def is_prod():
   env = os.environ.get('ENV', 'DEVEL')
   return env == 'PROD'
+
+def create_branch_link(groupId):
+  data_json = json.dumps({
+    'inviteId' : groupId,
+    # '$desktop_url' : 'https://itunes.apple.com/us/app/smiletv-watch-videos-get-paid/id1291013724'
+  })
+  resp = requests.post(
+    'https://api.branch.io/v1/url',
+    data={
+      'branch_key' : 'key_live_mhvzZBWhsfLn3lNmpaSNZpgfswhBrJmy',
+      'campaign' : 'user_referral',
+      'channel' : 'sms',
+      'tags' : '[]',
+      # 'identity' : str(user.id),
+      'data' : data_json
+    }
+  )
+  return resp.json()['url']
 
 def send_email(to_email, sbj, msg_html, fullname = None, bcc_email=None):
   if is_prod():
